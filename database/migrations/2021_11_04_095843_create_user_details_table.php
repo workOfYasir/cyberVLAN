@@ -17,8 +17,9 @@ class CreateUserDetailsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->foreignUuid('user_id');
-            $table->text('user_cover');
-            $table->text('user_profile');
+            $table->text('user_cover')->nullable(true);
+            $table->text('user_profile')->nullable(true);
+            $table->text('user_document')->nullable(true);
             $table->string('user_dob', 255)->nullable(true);
             $table->char('user_gender', 10)->nullable(true);
             $table->string('user_mobile', 255)->nullable(true);
