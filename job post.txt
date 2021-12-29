@@ -1,0 +1,8 @@
+job-detail.html
+job-listing.html
+job-grid.html
+
+job description
+job requirment
+job timeline(hourly, monthly)
+Skills
