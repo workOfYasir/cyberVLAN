@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\SocialiteLoginController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\Freelancer\FreelancerWorkController;
+use App\Http\Controllers\Freelancer\FreelancerProjectController;
 use App\Http\Controllers\AccessmentController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PostController;
@@ -54,6 +56,12 @@ Route::middleware(['auth', 'verified', 'two_factor','approveStatus'])->group(fun
     Route::prefix('freelancer')->name('freelancer.')->group(function () {
         Route::get('list', [UsersController::class, 'freelancerList'])->name('list');
     });
+    Route::prefix('freelancerWork')->name('freelancerWork.')->group(function () {
+        Route::get('delete/{id}', [FreelancerWorkController::class, 'remove'])->name('delete');
+    });
+    Route::prefix('freelancerProject')->name('freelancerProject.')->group(function () {
+        Route::get('delete/{id}', [FreelancerProjectController::class, 'remove'])->name('delete');
+    });
     Route::prefix('client')->name('client.')->group(function () {
         Route::get('list', [UsersController::class, 'clientList'])->name('list');
     });
@@ -86,6 +94,8 @@ Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
     Route::get('/dashboard', [UsersController::class, 'home'])->name('dashboard');
 
     Route::post('profile_update', [UsersController::class, 'profile_update'])->name('profile_update');
+    Route::post('image_update', [UsersController::class, 'image_update'])->name('image_update');
+
 
     Route::prefix('category')->name('category.')->group(function () {
         Route::get('show', [CategoryController::class, 'index'])->name('index');
