@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FreelancerSkill;
-use App\Models\FreelancerWork;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\freelancerProject;
-use App\Models\User;
-use App\Models\UserDetails;
-use App\Models\Service;
-use Spatie\Permission\Models\Role;
 use DB;
-use Hash;
+use App\Models\User;
+use App\Models\Service;
+use App\Models\UserDetails;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\FreelancerWork;
+use App\Models\FreelancerSkill;
+use App\Models\freelancerProject;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 
 class UsersController extends Controller
