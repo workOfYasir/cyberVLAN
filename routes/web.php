@@ -130,7 +130,9 @@ Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
     Route::prefix('accessments')->name('accessments.')->group(function () {
         Route::get('show', [AccessmentController::class, 'index'])->name('index');
         Route::get('store', [AccessmentController::class, 'store'])->name('store');
-    });
+        Route::get('fetch/{id}', [AccessmentController::class, 'fetchAssessment'])->name('fetch');
+        Route::post('answere-store', [AccessmentController::class, 'answereStore'])->name('answere.store');
+       });
 });
 // End Back End Routes
 
