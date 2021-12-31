@@ -150,13 +150,31 @@
     <!--begin::Header-->
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bolder fs-3 mb-1">Roles Module</span>
+            <span class="card-label fw-bolder fs-3 mb-1">Assessment Module</span>
         </h3>
 
     </div> 
       <!--begin::Body-->
       <div class="card-body py-3">
           <form action="{{ route('accessments.store') }}" >
+            <div class="col-12 d-flex">
+                <div class="col-6">
+                    <div class="input-group-text">
+                        <select class="form-control" name="service">
+                            @foreach ($service as $item )
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                            
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="input-group-text">
+                        <input class="form-control" type="text" name="name"/> 
+                    </div>
+                </div>
+            </div>
+            
         @for($i = 1; $i < 3; $i++)
         <div class="form-floating mt-5 mb-3">
             <textarea class="form-control" placeholder="Enter Question" name="question[]" id="floatingTextarea"></textarea>
@@ -165,7 +183,7 @@
         <label>Option No 1</label>
         <div class="input-group input-group-sm mt-3 mb-3">
             <div class="input-group-text">
-              <input class="form-check-input mt-0 answer-radio-{{ $i }}1" onclick="setAnswerVal({{ $i }},1)" type="radio"  name="answer_radio_1[]" aria-label="Radio button for following text input">
+              <input class="form-check-input mt-0 answer-radio-{{ $i }}1" onclick="setAnswerVal({{ $i }},1)" type="radio"  name="answer_radio_{{ $i }}[]" aria-label="Radio button for following text input">
             </div>
             <input type="hidden" class="answer-{{ $i }}-1" name="answer[]">
             <input type="text" class="form-control option-{{ $i }}-1" name="option_1[]" aria-label="Text input with radio button"  aria-describedby="inputGroup-sizing-sm">
@@ -173,7 +191,7 @@
         <label>Option No 2</label>
         <div class="input-group input-group-sm mt-3 mb-3">
             <div class="input-group-text">
-              <input class="form-check-input mt-0 answer-radio-{{ $i }}2" onclick="setAnswerVal({{ $i }},2)" type="radio"  name="answer_radio_2[]" aria-label="Radio button for following text input">
+              <input class="form-check-input mt-0 answer-radio-{{ $i }}2" onclick="setAnswerVal({{ $i }},2)" type="radio"  name="answer_radio_{{ $i }}[]" aria-label="Radio button for following text input">
             </div>
             <input type="hidden" class="answer-{{ $i }}-2" name="answer[]">
             <input type="text" class="form-control option-{{ $i }}-2" name="option_2[]" aria-label="Text input with radio button">
@@ -181,7 +199,7 @@
         <label>Option No 3</label>
         <div class="input-group input-group-sm mt-3 mb-3">
             <div class="input-group-text">
-              <input class="form-check-input mt-0 answer-radio-{{ $i }}-3" onclick="setAnswerVal({{ $i }},3)" type="radio" name="answer_radio_3[]"  aria-label="Radio button for following text input">
+              <input class="form-check-input mt-0 answer-radio-{{ $i }}-3" onclick="setAnswerVal({{ $i }},3)" type="radio" name="answer_radio_{{ $i }}[]"  aria-label="Radio button for following text input">
             </div>
             <input type="hidden" class="answer-{{ $i }}-3" name="answer[]">
             <input type="text" class="form-control option-{{ $i }}-3" name="option_3[]" aria-label="Text input with radio button">
@@ -189,7 +207,7 @@
         <label>Option No 4</label>
         <div class="input-group input-group-sm  mb-3 mt-2">
             <div class="input-group-text">
-              <input class="form-check-input mt-0 answer-radio-{{ $i }}-4" onclick="setAnswerVal({{ $i }},4)" type="radio" name="answer_radio_4[]"  aria-label="Radio button for following text input">
+              <input class="form-check-input mt-0 answer-radio-{{ $i }}-4" onclick="setAnswerVal({{ $i }},4)" type="radio" name="answer_radio_{{ $i }}[]"  aria-label="Radio button for following text input">
             </div>
             <input type="hidden" class="answer-{{ $i }}-4" name="answer[]">
             <input type="text" class="form-control option-{{ $i }}-4" name="option_4[]" aria-label="Text input with radio button">
@@ -207,6 +225,7 @@
 function setAnswerVal(QuestionNo,OptionNo) {
     console.log('QuestionNo',QuestionNo);
     console.log('OptionNo',OptionNo);
+    $("[class^=answer-"+QuestionNo+"]").val('');
     var optionVal = $('.option-'+QuestionNo+'-'+OptionNo).val();
     console.log('optionVal',optionVal);
     $('.answer-'+QuestionNo+'-'+OptionNo).val(optionVal);
@@ -214,6 +233,8 @@ function setAnswerVal(QuestionNo,OptionNo) {
     console.log('selectedOptionVal',selectedOptionVal);
     $('.option-'+QuestionNo+'-'+OptionNo).change(function () {
         var optionVal = $('.option-'+QuestionNo+'-'+OptionNo).val();
+        // $('.answer-'+QuestionNo+'-'+OptionNo).val('');
+        $("[class^=answer-"+QuestionNo+"]").val('');
         console.log('change optionVal',optionVal);
         $('.answer-'+QuestionNo+'-'+OptionNo).val(optionVal);
         var selectedOptionVal = $('.answer-'+QuestionNo+'-'+OptionNo).val() 

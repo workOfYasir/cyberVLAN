@@ -6,7 +6,6 @@ use App\Models\FreelancerSkill;
 use App\Models\FreelancerWork;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\freelancerProject;
 use App\Models\User;
 use App\Models\UserDetails;
 use App\Models\Service;
@@ -174,51 +173,26 @@ class UsersController extends Controller
         $user_uuid = Auth::user()->unni_id;
         if ($isUuid && $user_uuid == $uuid) {
             $user = User::where('unni_id', $uuid)->first();
-            $user_details = UserDetails::where('user_id', $uuid)->with('freelancerWork')->with('freelancerSkill')->first();
+            $user_details = UserDetails::where('user_id', $uuid)->first();
             $permissions = Permission::all();
             $user_permissions = $user->permissions->all();
             $services = Service::orderBy('name')->get();
-            $projects = FreelancerProject::where('user_details_id', $uuid)->get();
-     
-            return view('frontend.myprofile', compact('user', 'user_details', 'services','permissions','user_permissions','projects','uuid'));
+            return view('frontend.myprofile', compact('user', 'user_details', 'services','permissions','user_permissions','uuid'));
         } else {
             return redirect()->route('home')
                 ->with('error', 'Something went wrong. Try again...');
         }
     }
 
-    public function image_update(Request $request) {
-
-        $uuid = $request->input('qqxid');
-        $folderPath = public_path('images\profiles\\');
-        $image_parts = explode(";base64,", $request->profile);
-        $image_type_aux = explode("image/", $image_parts[0]);
-        $image_type = $image_type_aux[1];
-        $image_base64 = base64_decode($image_parts[1]);
- 
-        $imageName = uniqid() . '.png';
- 
-        $imageFullPath = $folderPath.$imageName;
- 
-        file_put_contents($imageFullPath, $image_base64);
-        $path = $imageFullPath.$image_base64;
-        $userInfo = UserDetails::where('user_id', $uuid);
-        $userInfo->update([
-            'user_profile'=>$imageName,
-        ]);
-        return ['imageName'=>$request->profile];
-    }
-
     public function profile_update(Request $request)
     {
-    
+// dd($request->work_starting[0]);
         $id = $request->input('xxzyzz');
         $uuid = $request->input('qqxid');
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
-            'document' => 'max:10240',
         ]);
         $user_data = [
             'first_name' => $request->input('first_name'),
@@ -250,10 +224,15 @@ class UsersController extends Controller
         
         $userInfo = UserDetails::where('user_id', $uuid);
         $userInfo->update($userDetails_data);
-        if($request->input('longitude') && $request->input('latitude')) {
+        if($request->hasFile('profile')) {
+             
+            $profile = $request->file('profile');
+            $ext = $profile->getClientOriginalExtension();
+            $filename = time().'.'.$ext;
+            $destinationPath = public_path('images\profiles');
+            $profile->move($destinationPath,$filename);
             $userInfo->update([
-                'longitude'=>$request->input('longitude'),
-                'latitude'=>$request->input('latitude'),
+                'user_profile'=>$filename,
             ]);
         }
         if($request->hasFile('document')) {
@@ -278,8 +257,6 @@ class UsersController extends Controller
         }
             
         if ($request->input('service') != null) {
-            $skill = FreelancerSkill::where('user_details_id',$uuid);
-            $skill->delete();
             foreach($request->service as $service)
             {
                 $skills_data = FreelancerSkill::create([
@@ -295,8 +272,6 @@ class UsersController extends Controller
    
         $index=0;
         if ($request->work_starting[$index]!= null) {
-            $work = FreelancerWork::where('user_details_id',$uuid);
-            $work->delete();
             $work_ending = array_values($request->work_ending);
             $work_starting = array_values($request->work_starting);
             $company_name = array_values($request->company_name);
@@ -305,7 +280,7 @@ class UsersController extends Controller
             
             foreach(array_filter($request->work_starting) as $array)
             {
-                FreelancerWork::create([
+                $work_data = FreelancerWork::create([
                     'user_details_id' => $uuid,
                     'starting_date' => $work_starting[$index],
                     'ending_date' => $work_ending[$index],
@@ -314,23 +289,6 @@ class UsersController extends Controller
                     'description' => $company_description[$index],
                 ]);
                 $index++;
-            }
-        }
-        $project_index=0;
-        if ($request->project_title[$project_index]!= null) {
-            $project = FreelancerProject::where('user_details_id',$uuid);
-            $project->delete();
-            $project_title = array_values($request->project_title);
-            $project_description = array_values($request->project_description);
-
-            foreach(array_filter($request->project_title) as $array)
-            {
-                FreelancerProject::create([
-                    'user_details_id' => $uuid,
-                    'title' => $project_title[$project_index],
-                    'description' => $project_description[$project_index],
-                ]);
-                $project_index++;
             }
         }
         return redirect()->route('profile', $uuid)
