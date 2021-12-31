@@ -82,7 +82,8 @@
     var bs_modal = $('#modal');
     var image = document.getElementById('image');
     var cropper,reader,file;
-   
+    
+
 
     $("body").on("change", ".profile", function(e) {
         var files = e.target.files;
