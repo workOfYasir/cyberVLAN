@@ -1,14 +1,16 @@
-<x-auth-layout>
+@extends('frontend.layouts.unapproved')
 
+@section('content')
+<div class="col-12 col-sm-6 offset-sm-3" >
     <!--begin::Reset Password Form-->
-    <form method="POST" action="{{ theme()->getPageUrl('password.update') }}" class="form w-100" novalidate="novalidate" id="kt_new_password_form">
+    <form method="POST" action="{{ route('password.update') }}" class="form w-100" novalidate="novalidate" id="kt_new_password_form">
         @csrf
 
         <!-- Password Reset Token -->
         <input type="hidden" name="token" value="{{ $token }}">
 
         <!--begin::Heading-->
-        <div class="text-center mb-10">
+        <div class="text-center mb-10 pt-5">
             <!--begin::Title-->
             <h1 class="text-dark mb-3">
                 {{ __('Update Your Password') }}
@@ -16,7 +18,7 @@
             <!--end::Title-->
 
             <!--begin::Link-->
-            <div class="text-gray-400 fw-bold fs-4">
+            <div class="text-gray-900 fw-light fs-4">
                 {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
             </div>
             <!--end::Link-->
@@ -24,14 +26,14 @@
         <!--begin::Heading-->
 
         <!--begin::Input group-->
-        <div class="fv-row mb-10">
-            <label class="form-label fw-bolder text-gray-900 fs-6">{{ __('Email') }}</label>
+        <div class="fv-row p-3 mb-10">
+            <label class="form-label fw-bolder text-dark fs-6 pt-5">{{ __('Email') }}</label>
             <input class="form-control form-control-solid" type="email" name="email" autocomplete="off" value="{{ old('email', $request->email) }}" required/>
         </div>
         <!--end::Input group-->
 
         <!--begin::Input group-->
-        <div class="mb-10 fv-row" data-kt-password-meter="true">
+        <div class="mb-10 fv-row p-3" data-kt-password-meter="true">
             <!--begin::Wrapper-->
             <div class="mb-1">
                 <!--begin::Label-->
@@ -71,26 +73,27 @@
         <!--end::Input group--->
 
         <!--begin::Input group-->
-        <div class="fv-row mb-10">
-            <label class="form-label fw-bolder text-gray-900 fs-6">{{ __('Confirm Password') }}</label>
+        <div class="fv-row p-3 mb-10">
+            <label class="form-label fw-bolder text-dark fs-6">{{ __('Confirm Password') }}</label>
             <input class="form-control form-control-solid" type="password" name="password_confirmation" autocomplete="off" required/>
         </div>
         <!--end::Input group-->
 
         <!--begin::Actions-->
-        <div class="d-flex flex-wrap justify-content-center pb-lg-0">
+        <div class="d-flex flex-wrap justify-content-center pb-lg-0 pt-5">
             <button type="submit" id="kt_new_password_submit" class="btn btn-lg btn-primary fw-bolder me-4">
-                @include('partials.general._button-indicator')
+               Submit
             </button>
 
-            <a href="{{ theme()->getPageUrl('login') }}" class="btn btn-lg btn-light-primary fw-bolder">{{ __('Cancel') }}</a>
+            <a href="{{ route('login') }}" class="btn btn-lg btn-light-primary fw-bolder">{{ __('Cancel') }}</a>
         </div>
         <!--end::Actions-->
     </form>
     <!--end::Reset Password Form-->
-
+</div>
     @section('scripts')
-        <script src="{{ asset('assets/js/custom/authentication/password-reset/new-password.js') }}" type="application/javascript"></script>
+        <script src="{{ asset('js/custom/authentication/password-reset/new-password.js') }}" type="application/javascript"></script>
     @endsection
 
-</x-auth-layout>
+
+@endsection

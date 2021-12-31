@@ -31,7 +31,9 @@
 <body>
     <div class="col-12">
         <div class="col-2 offset-9 mt-2 ">
-            @if (Route::has('login'))
+            @auth
+                
+        
             <div class="company-contact-inner widget-box" >
                 <a class="btn btn-primary btn-outline-primary d-grid" href="{{ route('logout') }}" onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
@@ -39,7 +41,7 @@
                 @csrf
             </form>
             </div>
-            @endif
+            @endauth
         </div>
     </div>
   

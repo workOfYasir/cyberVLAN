@@ -218,6 +218,7 @@ class UsersController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
+            'document' => 'max:10240',
         ]);
         $user_data = [
             'first_name' => $request->input('first_name'),
@@ -249,16 +250,12 @@ class UsersController extends Controller
         
         $userInfo = UserDetails::where('user_id', $uuid);
         $userInfo->update($userDetails_data);
-        // if($request->hasFile('profile')) {         
-        //     $profile = $request->file('profile');
-        //     $ext = $profile->getClientOriginalExtension();
-        //     $filename = time().'.'.$ext;
-        //     $destinationPath = public_path('images\profiles');
-        //     $profile->move($destinationPath,$filename);
-        //     $userInfo->update([
-        //         'user_profile'=>$filename,
-        //     ]);
-        // }
+        if($request->input('longitude') && $request->input('latitude')) {
+            $userInfo->update([
+                'longitude'=>$request->input('longitude'),
+                'latitude'=>$request->input('latitude'),
+            ]);
+        }
         if($request->hasFile('document')) {
              
             $document = $request->file('document') ;

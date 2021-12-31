@@ -187,26 +187,36 @@
                         </div>
                         @endrole
                         <div class="form-group mb-0 col-md-12">
-                            <label class="form-label">Description</label>
+                            <label class="form-label">Success Stories</label>
                             <textarea class="form-control" rows="5" id="description" name="description" placeholder="Description">{{$user_details->description}}</textarea>
                         </div>
                     </div>
                 </div>
-                <div class="user-dashboard-info-box">
-                    <div class="form-group mb-0">
+                <div class="user-dashboard-info-box mt-5">
+                    <div class="form-group mb-0 ">
+                        <div id="mapid" class="center-block" style="width: 100%; height: 400px;"></div>
+                    </div>
+                </div>
+               
+                <div class="user-dashboard-info-box mt-5">
+                    <div class="form-group mb-0 ">
                         <h4 class="mb-3">Address</h4>
+                        <input type="hidden" name="longitude" class="longitude" value="{{$user_details->longitude}}">
+                        <input type="hidden" name="latitude" class="latitude" value="{{$user_details->latitude}}">
+                        <div class="form-group mb-0 col-md-12">
+                            <label class="form-label">Available Addresses</label>
+                            <select class="form-control select" name="addresses" id="addresses">
+                                
+                            </select>
+                        </div>
                         <div class="row">
                             <div class="form-group mb-3 col-md-12">
                                 <label class="form-label">Location</label>
-                                <input type="text" class="form-control" id="user_address" name="user_address" placeholder="Location" value="{{$user_details->user_address}}">
+                                <input type="text" class="form-control" id="user_address" name="user_address" placeholder="Location" >
                             </div>
                             <div class="form-group mb-3 col-md-4">
                                 <label class="form-label">City</label>
-                                <input type="text" class="form-control" id="user_address_city" name="user_address_city" placeholder="City" value="{{$user_details->user_address_city}}">
-                            </div>
-                            <div class="form-group mb-3 col-md-4">
-                                <label class="form-label">Zip Code</label>
-                                <input type="text" class="form-control" id="user_address_zip" name="user_address_zip" placeholder="Zip Code" value="{{$user_details->user_address_zip}}">
+                                <input type="text" class="form-control" id="user_address_city" name="user_address_city" >
                             </div>
                             <div class="form-group mb-3 col-md-4">
                                 <label class="form-label">Country</label>
@@ -404,6 +414,7 @@
         navigator.clipboard.writeText(copyText.value);
     }
     var image_update = "{{ route('image_update') }}";
+
 </script>
 
 @endsection
