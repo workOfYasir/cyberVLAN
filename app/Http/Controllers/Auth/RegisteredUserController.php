@@ -44,6 +44,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+       
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name'  => 'required|string|max:255',
@@ -60,18 +61,24 @@ class RegisteredUserController extends Controller
             'email'      => $request->email,
             'password'   => Hash::make($request->password),
         ]);
-        $external_reference = $input['external_reference'];
-        if ($external_reference == 1) {
-            $request->validate([
-                'external_name'  => 'required|string|max:255',
-                'external_email'      => 'required|string|email|max:255',
-            ]);
-            $external_refer = UserReference::create([
-                'name' => $request->external_name,
-                'email'  => $request->external_email,
-                'user_id' => $user_id
-            ]);
+        $index = 0;
+        if($request->external_name[$index]!=null){
+            $external_name = array_values($request->external_name);
+            $external_email = array_values($request->external_email);         
+                $request->validate([
+                    'external_name'  => 'required|string|max:255',
+                    'external_email'      => 'required|string|email|max:255',
+                ]);
+                foreach (array_filter($request->external_name) as $value) {
+                    $external_refer = UserReference::create([
+                        'name' => $external_name[$index],
+                        'email'  => $external_email[$index],
+                        'user_id' => $user_id
+                    ]);
+                    $index++;
+                }
         }
+       
         $referral_user = $input['referral_user'];
         if ($referral_user != null || !empty($referral_user) || $referral_user != '') {
             $referral_user_store = $referral_user;

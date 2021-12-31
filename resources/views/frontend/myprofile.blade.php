@@ -10,7 +10,7 @@
                 <div class="candidates-user-info">
                     <div class="jobber-user-info">
                         <div class="profile-avatar">
-                            <img class="img-fluid " src="{{asset('/images/profiles/'.$user_details->user_profile)}}" alt="">
+                            <img class="img-fluid profile-image" src="{{asset('/images/profiles/'.$user_details->user_profile)}}" alt="">
                         </div>
                         <div class="profile-avatar-info ms-4">
                             <h3>{{ $user->first_name.' '.$user->last_name }}</h3>
@@ -78,7 +78,7 @@
                     <div class="cover-photo-contact d-flex ">
                         <div class="upload-file m-5">
                             <label for="formFile" class="form-label">Upload Profile Photo</label>
-                            <input type="file" class="form-control" id="user_profile" name="profile">
+                            <input type="file" class="form-control profile" id="user_profile" name="profile">
                         </div>
                    
                         <div class="upload-file m-5">
@@ -95,6 +95,7 @@
                         </div>
                   
                     </div>
+                    @include('frontend.image-cropper')
                     <div class="row">
                         <div class="form-group mb-3 col-md-6">
                             @role('superAdmin')
@@ -103,14 +104,20 @@
                             @role('client')
                             <label class="form-label">Company First Name</label>
                             @endrole
+                            @role('freelancer')
+                            <label class="form-label">First Name</label>
+                            @endrole
                             <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" value="{{$user->first_name}}">
                         </div>
                         <div class="form-group mb-3 col-md-6">
                             @role('superAdmin')
                             <label class="form-label">Company Last Name</label>
                             @endrole
-                            @role('freelancer')
+                            @role('client')
                             <label class="form-label">Company Last Name</label>
+                            @endrole
+                            @role('freelancer')
+                            <label class="form-label">Last Name</label>
                             @endrole
                             
                             <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" value="{{$user->last_name}}">
@@ -153,7 +160,7 @@
                             <input type="text" class="form-control" id="user_phone" name="user_phone" placeholder="Phone" value="{{$user_details->user_phone}}">
                         </div>
                         <div class="form-group mb-3 col-md-6">
-                            <label class="form-label">Mobile</label>{{ $user->freelancerSkills }}
+                            <label class="form-label">Mobile</label>
                             <input type="text" class="form-control" id="user_mobile" name="user_mobile" placeholder="Mobile" value="{{$user_details->user_mobile}}">
                         </div>
                         <div class="form-group mb-0 col-md-12">
@@ -161,86 +168,55 @@
                             <select class="form-control select2" name="service[]" id="service" multiple="multiple">
                                 @foreach($services as $service)
                                     <option value="{{$service->id}}"
-                                        @foreach($user->skills as $selectedSkill){{$selectedSkill->id == $service->id ? 'selected': ''}}   @endforeach
+                                        @foreach($user_details->freelancerSkill as $selectedSkill){{$selectedSkill->freelancer_skill_id == $service->id ? 'selected': ''}}   @endforeach
                                         >{{$service->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                         @role('freelancer')
                         <div class="form-group mb-0 col-md-12">
-                            <label class="form-label">Project Timeline</label>
+                            <label class="form-label">Project Timeline</label>{{ $user_permissions[0]->id }}
                             <select class="form-control select" name="permission" id="permission">
                                 <option disabled hidden selected> Select Premission </option>
                                 @foreach($permissions as $project_timeline)
-                                    <option value="{{$project_timeline->name}}">{{$project_timeline->name}}</option>
+                                    <option value="{{$project_timeline->name}}"
+                                        {{ $user_permissions[0]->id== $project_timeline->id ? 'selected' : ''}}
+                                        >{{$project_timeline->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                         @endrole
                         <div class="form-group mb-0 col-md-12">
-                            <label class="form-label">Description</label>
+                            <label class="form-label">Success Stories</label>
                             <textarea class="form-control" rows="5" id="description" name="description" placeholder="Description">{{$user_details->description}}</textarea>
                         </div>
                     </div>
                 </div>
-                @role('freelancer')
-                <div class="user-dashboard-info-box">
-                    <div class="form-group work-form-wrapper mb-0">
-                        <div class="col-md-12">
-                            <h4 class="mb-3">Work Detail</h4>
-                        </div>
-                        <div class="col-md-12 text-end">
-                            <button type="button" class="btn btn-md btn-primary" id="addWork">➕</button>
-                        </div>
-                       
-                        <div class="row">
-                            <div class="form-group mb-3 col-md-6">
-                                <label class="form-label">Starting Date</label>
-                                <div class="input-group date">
-                                    <input type="date" class="form-control" id="work_starting" name="work_starting[]" placeholder="Starting Date">
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 col-md-6">
-                                <label class="form-label">Ending Date</label>
-                                <div class="input-group date">
-                                    <input type="date" class="form-control" id="work_ending" name="work_ending[]" placeholder="Ending Date">
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 col-md-6">
-                                <label class="form-label">Company</label>
-                                <input type="text" class="form-control" id="company_name" name="company_name[]" placeholder="Company Name">
-                            </div>
-                            <div class="form-group mb-3 col-md-6">
-                                <label class="form-label">Designation</label>
-                                <input type="text" class="form-control" id="designation" name="designation[]" placeholder="Designation">
-                            </div>
-                            <div class="form-group mb-0 col-md-12">
-                                <label class="form-label">Description</label>
-                                <textarea class="form-control" rows="5" id="company_description" name="company_description[]" placeholder="Description"></textarea>
-                            </div>
-                        </div>
-                        <input type="hidden" name="row" id="row" value="1">
-                       
+                <div class="user-dashboard-info-box mt-5">
+                    <div class="form-group mb-0 ">
+                        <div id="mapid" class="center-block" style="width: 100%; height: 400px;"></div>
                     </div>
                 </div>
-                @endrole
-                       
-                <input type="hidden" class="form-control" id="work_starting" name="work_starting[]" placeholder="Starting Date">
-                <div class="user-dashboard-info-box">
-                    <div class="form-group mb-0">
+               
+                <div class="user-dashboard-info-box mt-5">
+                    <div class="form-group mb-0 ">
                         <h4 class="mb-3">Address</h4>
+                        <input type="hidden" name="longitude" class="longitude" value="{{$user_details->longitude}}">
+                        <input type="hidden" name="latitude" class="latitude" value="{{$user_details->latitude}}">
+                        <div class="form-group mb-0 col-md-12">
+                            <label class="form-label">Available Addresses</label>
+                            <select class="form-control select" name="addresses" id="addresses">
+                                
+                            </select>
+                        </div>
                         <div class="row">
                             <div class="form-group mb-3 col-md-12">
                                 <label class="form-label">Location</label>
-                                <input type="text" class="form-control" id="user_address" name="user_address" placeholder="Location" value="{{$user_details->user_address}}">
+                                <input type="text" class="form-control" id="user_address" name="user_address" placeholder="Location" >
                             </div>
                             <div class="form-group mb-3 col-md-4">
                                 <label class="form-label">City</label>
-                                <input type="text" class="form-control" id="user_address_city" name="user_address_city" placeholder="City" value="{{$user_details->user_address_city}}">
-                            </div>
-                            <div class="form-group mb-3 col-md-4">
-                                <label class="form-label">Zip Code</label>
-                                <input type="text" class="form-control" id="user_address_zip" name="user_address_zip" placeholder="Zip Code" value="{{$user_details->user_address_zip}}">
+                                <input type="text" class="form-control" id="user_address_city" name="user_address_city" >
                             </div>
                             <div class="form-group mb-3 col-md-4">
                                 <label class="form-label">Country</label>
@@ -276,7 +252,108 @@
                         </div>
                     </div>
                 </div>
-                
+                @role('freelancer')
+              
+                <div class="user-dashboard-info-box" id="works">
+                    <div class="form-group work-form-wrapper mb-0">
+                        <div class="col-md-12">
+                            <h4 class="mb-3">Jobs History</h4>
+                        </div>
+                        <div class="col-md-12 text-end">
+                            <a type="button" class="btn btn-md btn-primary" id="addWork">➕</a>
+                        </div>
+                        @php
+                            $index = 0;
+                        @endphp
+                        @foreach ($user_details->freelancerWork as $work)
+                        
+                        <br><hr><br>
+                        
+                        <div id="work_{{ $index }}">
+                            <input type="hidden" name="work" id="work_id_{{ $index }}" value={{ $work->id }}>
+                        <div class="row">
+                            <div class="col-md-12 text-end">
+                                <button type="button" class="btn btn-md" style="color: #ff8a00" onclick="deleteWork({{ $index }})"  title="Delete Work" id="destroyWork">❌</button>
+                            </div>
+                            <div class="form-group mb-3 col-md-6">
+                                <label class="form-label">Starting Date</label>
+                                <div class="input-group date">
+                                    <input type="date" class="form-control" id="work_starting_{{ $index }}" name="work_starting[]" value="{{ $work->starting_date }}"  placeholder="Starting Date">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 col-md-6">
+                                <label class="form-label">Ending Date</label>
+                                <div class="input-group date">
+                                    <input type="date" class="form-control" id="work_ending_{{ $index }}" name="work_ending[]" value="{{ $work->ending_date }}" placeholder="Ending Date">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 col-md-6">
+                                <label class="form-label">Company</label>
+                                <input type="text" class="form-control" id="company_name_{{ $index }}" name="company_name[]" value="{{ $work->company }}" placeholder="Company Name">
+                            </div>
+                            <div class="form-group mb-3 col-md-6">
+                                <label class="form-label">Designation</label>
+                                <input type="text" class="form-control" id="designation_{{ $index }}" name="designation[]" value={{ $work->designation }} placeholder="Designation">
+                            </div>
+                            <div class="form-group mb-0 col-md-12">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" rows="5" id="company_description_{{ $index }}" name="company_description[]" placeholder="Description">{{ $work->description }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                        @php
+                        $index++
+                    @endphp
+                        @endforeach
+
+                        <input type="hidden" name="row" id="row" value={{ $index }}>
+
+                    </div>
+                </div>
+               
+                @endrole
+                       
+                <input type="hidden" name="work_starting[]">
+                @role('freelancer')
+                <div class="user-dashboard-info-box" id="projects">
+                    <div class="form-group project-form-wrapper mb-0">
+                        <div class="col-md-12">
+                            <h4 class="mb-3">Projects</h4>
+                        </div>
+                        <div class="col-md-12 text-end">
+                            <a type="button" class="btn btn-md btn-primary" id="addProject">➕</a>
+                        </div>
+                        @php
+                        $index = 0;
+                        @endphp
+                        @foreach ($projects as $project)
+                        <div id="project_{{ $index }}">
+                            <input type="hidden" name="project" id="project_id_{{ $index }}" value={{ $project->id }}>
+                        <div class="row">
+                            <div class="col-md-12 text-end">
+                                <button type="button" class="btn btn-md" style="color: #ff8a00" onclick="deleteProject({{ $index }})"  title="Delete Work" id="destroyWork">❌</button>
+                            </div>
+                            <div class="form-group mb-3 col-md-12">
+                                <label class="form-label">Project Title</label>
+                                <div class="input-group date">
+                                    <input type="text" class="form-control" id="project_title_{{ $index }}" name="project_title[]"  value={{ $project->title }} placeholder="Project Title">
+                                </div>
+                            </div>
+                            <div class="form-group mb-0 col-md-12">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" rows="5" id="project_description_{{$index}}" name="project_description[]" value={{ $project->description }} placeholder="Project Details">{{$user_details->description}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                        @php
+                            $index++
+                        @endphp
+                        @endforeach
+                        <input type="hidden" name="row" id="project_row" value={{ $index }}>
+                    </div>
+                </div>
+                @endrole
+                <input type="hidden" name="project_title[]">
                 <div class="user-dashboard-info-box">
                     <div class="section-title-02 mb-3">
                         <h4>Bank Details</h4>
@@ -336,6 +413,8 @@
         copyText.setSelectionRange(0, 99999);
         navigator.clipboard.writeText(copyText.value);
     }
+    var image_update = "{{ route('image_update') }}";
+
 </script>
 
 @endsection

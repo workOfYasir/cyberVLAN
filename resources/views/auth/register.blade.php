@@ -90,14 +90,40 @@
                                     </div>
                                 </div>
                                 <div class="row" id="reference-details" style="display:none;">
+                                    
+                                   <div class="col-12 mb-3"><strong> Reference No 1</strong></div>
+                                    
                                     <div class="mb-3 col-6">
                                         <label class="form-label">Reference Name *</label>
-                                        <input class="form-control" type="text" placeholder="External Reference Name" id="external_name" name="external_name" autocomplete="off" />
+                                        <input class="form-control" type="text" placeholder="External Reference Name" id="external_name" name="external_name[]" autocomplete="off" />
                                     </div>
                                     <div class="mb-3 col-6">
                                         <label class="form-label">Reference Email *</label>
-                                        <input class="form-control" type="email" placeholder="External Reference Email" id="external_email" name="external_email" autocomplete="off" />
+                                        <input class="form-control" type="email" placeholder="External Reference Email" id="external_email" name="external_email[]" autocomplete="off" />
                                     </div>
+                                    <hr>
+                                   <div class="col-12 mb-3"><strong> Reference No 2</strong></div>
+                                    
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label">Reference Name *</label>
+                                        <input class="form-control" type="text" placeholder="External Reference Name" id="external_name" name="external_name[]" autocomplete="off" />
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label">Reference Email *</label>
+                                        <input class="form-control" type="email" placeholder="External Reference Email" id="external_email" name="external_email[]" autocomplete="off" />
+                                    </div>
+                                    <hr>
+                                   <div class="col-12 mb-3"><strong> Reference No 3</strong></div>
+                                    
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label">Reference Name *</label>
+                                        <input class="form-control" type="text" placeholder="External Reference Name" id="external_name" name="external_name[]" autocomplete="off" />
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label">Reference Email *</label>
+                                        <input class="form-control" type="email" placeholder="External Reference Email" id="external_email" name="external_email[]" autocomplete="off" />
+                                    </div>
+                                    <hr>
                                 </div>
                                 <div class="mb-3 col-12">
                                     <div class="form-check">
