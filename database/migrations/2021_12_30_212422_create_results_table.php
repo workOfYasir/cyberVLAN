@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFreelancerProjectsTable extends Migration
+class CreateResultsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateFreelancerProjectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('freelancer_projects', function (Blueprint $table) {
+        Schema::create('results', function (Blueprint $table) {
             $table->id();
-            $table->text('user_details_id');
-            $table->text('title');
-            $table->text('description');
-
+            $table->bigInteger('user_id');
+            $table->bigInteger('assessment_id');
+            $table->bigInteger('percentage');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateFreelancerProjectsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('freelancer_projects');
+        Schema::dropIfExists('results');
     }
 }
