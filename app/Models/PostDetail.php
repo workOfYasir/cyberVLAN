@@ -16,4 +16,9 @@ class PostDetail extends Model
     {
         return $this->belongsTo('Spatie\Permission\Models\Permission','job_timeline_id');
     }
+    public function post()
+    {
+        return $this->belongsTo('App\Models\Post','post_id')->with('user');
+    }
+    
 }

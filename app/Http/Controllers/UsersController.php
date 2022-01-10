@@ -51,7 +51,6 @@ class UsersController extends Controller
         ]);
 
         return response($id);
-       
     }
     /**
      * Store a newly created resource in storage.
@@ -132,8 +131,9 @@ class UsersController extends Controller
 
     public function varify()
     { 
-        Auth::logout();
-        return view('frontend.email');
+        // Auth::logout();
+        $user = Auth::user();       
+        return view('frontend.email',compact('user'));
     }
 
 
@@ -179,7 +179,7 @@ class UsersController extends Controller
             $user_permissions = $user->permissions->all();
             $services = Service::orderBy('name')->get();
             $projects = FreelancerProject::where('user_details_id', $uuid)->get();
-     
+    
             return view('frontend.myprofile', compact('user', 'user_details', 'services','permissions','user_permissions','projects','uuid'));
         } else {
             return redirect()->route('home')
@@ -188,6 +188,9 @@ class UsersController extends Controller
     }
 
     public function image_update(Request $request) {
+        $this->validate($request, [
+            'user_profile'=>'max:1024',
+        ]);
 
         $uuid = $request->input('qqxid');
         $folderPath = public_path('images\profiles\\');
@@ -211,14 +214,14 @@ class UsersController extends Controller
 
     public function profile_update(Request $request)
     {
-    
+        dd($request);
         $id = $request->input('xxzyzz');
         $uuid = $request->input('qqxid');
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
-            'document' => 'max:10240',
+            'document' => 'max:5120',
         ]);
         $user_data = [
             'first_name' => $request->input('first_name'),
@@ -234,7 +237,6 @@ class UsersController extends Controller
             'user_gender' => $request->input('user_gender'),
             'user_address_country' => $request->input('user_address_country'),
             'user_address_city' => $request->input('user_address_city'),
-            'user_address_zip' => $request->input('user_address_zip'),
             'user_address' => $request->input('user_address'),
             'user_website' => $request->input('user_website'),
             'user_github' => $request->input('user_github'),

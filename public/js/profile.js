@@ -11,6 +11,7 @@ $('#addProject').click(function() {
     $('#row').val(row_no);
     var project_form = '<div id="project_'+row_no+'" ><br><hr><br><div class="row"><div class="col-md-12 text-end"><button type="button" class="btn btn-md" style="color: #ff8a00" onclick="deleteProject('+row_no+')"  title="Delete Work" id="destroyWork">❌</button></div><div class="form-group mb-3 col-md-12"><label class="form-label">Project Title</label><div class="input-group date"><input type="text" class="form-control" id="project_title_'+row_no+'" name="project_title[]"  placeholder="Project Title"></div></div><div class="form-group mb-0 col-md-12"><label class="form-label">Description</label><textarea class="form-control" rows="5" id="project_description_'+row_no+'" name="project_description[]" placeholder="Project Details"></textarea></div></div>';
     $('.project-form-wrapper').append(project_form);
+
 });
 function deleteWork(index) {
     if($('#work_id_'+index).val()==undefined){

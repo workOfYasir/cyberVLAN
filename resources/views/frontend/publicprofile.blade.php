@@ -215,6 +215,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="mt-4 mt-sm-5">
                             <p>{{$user_details->description}}</p>
                         </div>
@@ -222,7 +223,7 @@
                   
                     <hr class="my-4 my-md-5" />
                     @if(!empty($user_role))
-@if(!empty($user_details->freelancerWork[0]->starting_date))
+                    @if(!empty($user_details->freelancerWork[0]->starting_date))
                     <div id="experience">
                         <h5 class="mb-3">Work & Experience</h5>
                         <div class="jobber-candidate-timeline">

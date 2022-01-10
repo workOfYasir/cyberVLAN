@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Result;
 use App\Models\Service;
 use App\Models\Accessment;
+use App\Models\UserDetails;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Models\AssessmentDetail;
 use App\Models\AssessmentSubmission;
 use Illuminate\Support\Facades\Auth;
@@ -15,12 +17,35 @@ class AccessmentController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $service= Service::all();
-       return view('backend.pages.accessment.index',['user'=>$user,'service'=>$service,]);
+        $all_service_ids= Service::pluck('id');
+        $existed = AssessmentDetail::whereIn('service_id',$all_service_ids)->pluck('service_id');
+        $pending = Service::whereNotIn('id',$existed)->get();
+        return view('backend.pages.accessment.index',['user'=>$user,'service'=>$pending]);
+    }
+    public function show()
+    {
+        $user = Auth::user();
+        $service_ids = [];
+        $isUuid = Str::isUuid($user->unni_id);
+        $user_details = UserDetails::where('user_id', $user->unni_id)->with('freelancerSkill')->first();
+      
+        foreach ($user_details->freelancerSkill as $key => $service) {      
+            array_push($service_ids,$service->freelancer_skill_id);
+        }
+        
+        $assessment_detail_query = AssessmentDetail::whereIn('service_id',$service_ids)->get();
+        $assessment_detail = $assessment_detail_query->unique('service_id');
+        $assessment_detail->values()->all();
+        
+        $assessment_ids = Result::where('user_id',$user->id)->pluck('assessment_id');
+        $results = Result::where('user_id',$user->id)->get();
+        $existed = AssessmentDetail::whereIn('service_id',$service_ids)->whereIn('id',$assessment_ids)->with('score')->with('freelancerSkill')->get();
+        $pending = AssessmentDetail::whereIn('service_id',$service_ids)->whereNotIn('id',$assessment_ids)->get();
+
+        return view('frontend.assessments-tab',compact('assessment_detail','user_details','user','existed','results','pending'));
     }
     public function store(Request $request)
     {
-        // dd($request->all());
         $user = Auth::user();
         $assessment_detail=new AssessmentDetail();
         $assessment_detail->service_id=$request->service;
@@ -29,7 +54,7 @@ class AccessmentController extends Controller
         $assessment_detail->save(); 
         $arrayFillter=array_filter($request->answer);
         $arrayIndexSortAnswere= array_values($arrayFillter);
-        //  dd($arrayIndexSortAnswere);
+      
         foreach($request->question as $key => $item){
             $assessment =new  Accessment();
             $assessment->assessment_id=$assessment_detail->id;
@@ -47,14 +72,13 @@ class AccessmentController extends Controller
     }
     //to fetch assessment from db for submisson pass the parmeter assessment id 
     public function fetchAssessment($id){
+
         $assessment =  Accessment::where('assessment_id', $id)->inRandomOrder()->limit(2)->get();
-        return view('frontend.posts.assessment-submit',['assessment'=>$assessment]);
+        $assessment_detail = AssessmentDetail::where('id',$id)->with('freelancerSkill')->first();
+        return view('frontend.posts.assessment-submit',['assessment'=>$assessment,'assessment_detail'=>$assessment_detail]);
     }
     public function answereStore(Request $request){
-    // dd($request);
 
-        // $result= AssessmentSubmission::where('user_id',1)->where('assessment_id',1)->get('submitted_answere');
-        // dd($result);
         $submittedAnswere=[];$correctAnswere=[];$score=0;
         foreach($request->id as $key=>$item){
             $var='answere'.$key;

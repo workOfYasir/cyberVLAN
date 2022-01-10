@@ -34,6 +34,9 @@ $home = false;
                                             @role('client')
                                             <li><a href="{{ route('post.create') }}">Post Job</a></li>
                                             @endrole
+                                            @role('superAdmin')
+                                            <li><a href="{{ route('post.create') }}">Post Job</a></li>
+                                            @endrole
                                             <li><a href="{{ route('post.list') }}">Show Job</a></li>                                            
                                         </ul>
                                     </div>                 
@@ -41,7 +44,7 @@ $home = false;
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="{{ route('freelancer.list') }}">Employeers</a>
+                        <a class="nav-link" href="{{ route('freelancer.list') }}">Employers</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="{{ route('client.list') }}">Companies</a>
@@ -57,7 +60,9 @@ $home = false;
                         {{ Auth::user()->first_name.' '.Auth::user()->last_name }} <i class="fas fa-chevron-down fa-xs"></i>
                     </a>
                     <ul class="dropdown-menu">
+                        @role('superAdmin')
                         <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
+                        @endrole
                         <li><a class="dropdown-item" href="{{ route('profile',Auth::user()->unni_id) }}">Profile</a></li>
                         {{-- <li><a class="dropdown-item" href="dashboard-candidates-change-password.html">Change Password </a></li>
                         <li><a class="dropdown-item" href="dashboard-candidates-my-resume.html">My Resume</a></li>
