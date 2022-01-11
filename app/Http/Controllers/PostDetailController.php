@@ -23,6 +23,7 @@ class PostDetailController extends Controller
             }else{
                 $services = Service::all();
                 $postDetail = Post::with('postDetail')->with('user')->get();
+              
                 $userDetail = User::role('client')->with('userDetails')->with('skills')->with('work')->get();
                 $freelancerDetail = User::role('freelancer')->with('userDetails')->with('skills')->with('work')->get();
                 return view('frontend.home',['postDetail'=>$postDetail,'services'=>$services,'userDetail'=>$userDetail,'freelancerDetail'=>$freelancerDetail]); 
@@ -30,6 +31,7 @@ class PostDetailController extends Controller
         }else{
             $services = Service::all();
             $postDetail = Post::with('postDetail')->with('user')->get();
+            
             $userDetail = User::role('client')->with('userDetails')->with('skills')->with('work')->get();
             $freelancerDetail = User::role('freelancer')->with('userDetails')->with('skills')->with('work')->get();
             return view('frontend.home',['postDetail'=>$postDetail,'services'=>$services,'userDetail'=>$userDetail,'freelancerDetail'=>$freelancerDetail]);

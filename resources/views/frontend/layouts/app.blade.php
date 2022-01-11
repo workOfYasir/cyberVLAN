@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{asset('css/flaticon/flaticon.css')}}" />
     <link rel="stylesheet" href="{{asset('css/bootstrap/bootstrap.min.css')}}" />
     <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
+    @livewireStyles
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
     integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
     crossorigin=""/>
@@ -50,6 +51,7 @@
     <script src="{{asset('js/bootstrap/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/profile.js')}}"></script>
 
+    @livewireScripts
     <!-- Page JS Implementing Plugins (Remove the plugin script here if site does not use that feature)-->
     <script src="{{asset('js/jquery.appear.js')}}"></script>
     <script src="{{asset('js/counter/jquery.countTo.js')}}"></script>
