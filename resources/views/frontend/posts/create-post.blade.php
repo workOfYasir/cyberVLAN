@@ -31,26 +31,27 @@
                             <form class="mt-4" method="POST" novalidate="novalidate" action="{{ route('post.store') }}">
                                 @csrf
                                 <div class="row">
-                                    <div class="mb-3 col-12">
+                                    <div class="mb-4 col-12">
                                         <label class="form-label" for="job-title">Job Title</label>
                                         <input class="form-control" type="text" name="job-title" autocomplete="off" />
                                     </div>
-                                    <div class="mb-3 col-12">
+                                    <div class="mb-4 col-12">
                                         <label class="form-label" for="job-description">Job Description</label>
                                         <textarea class="form-control " type="text" name="job-description" autocomplete="off" >
                                         </textarea>
                                        
                                     </div>
-                                    <div class="mb-3 col-12">
+                                    <div class="mb-4 col-12">
                                         <label class="form-label" for="job-requirment">Job Requirment </label>
                                         <textarea class="form-control" type="text" name="job-requirments" autocomplete="off" >
                                         </textarea>
                                     </div>
-                                    <div class="mb-3 col-12">
+
+                                    <div class="mb-4 col-12">
                                         <label class="form-label" for="job-budget">Job Budget</label>
                                         <input class="form-control" type="text" name="job-budget" autocomplete="off" />
                                     </div>
-                                    <div class="form-group mb-0 col-md-12">
+                                    <div class="form-group mb-4 col-md-12">
                                         <label class="form-label">Skills</label>
                                         <select class="form-control select2" name="service[]" id="service" multiple="multiple">
                                             @foreach($services as $service)
@@ -58,7 +59,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group mb-0 col-md-12">
+                                    <div class="form-group mb-4 col-md-12">
                                         <label class="form-label">Project Timeline</label>
                                         <select class="form-control select" name="job_timeline" id="job_timeline" >
                                             <option disabled hidden selected> Select Permission </option>
@@ -67,6 +68,12 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="budget_status" id="budget_status" value="checkedValue" checked>
+                                        Fixed Budget
+                                  </label>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">

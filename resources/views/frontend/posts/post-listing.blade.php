@@ -168,7 +168,7 @@ banner -->
                       <div class="row mb-4">
                          <div class="col-md-6">
                           <div class="section-title mb-3 mb-lg-4">
-                            <h6 class="mb-0">Showing <span class="text-primary">{{ $postDetail->count() }} Jobs</span></h6>
+                            <h6 class="mb-0">Showing <span class="text-primary">{{ $postTimeline->count() }} Jobs</span></h6>
                           </div>
                         </div>
                         <div class="col-md-6">
@@ -197,7 +197,7 @@ banner -->
                         </div>
                       </div>
                       <div class="row">
-                          @foreach ($postDetail as $post)
+                          @foreach ($postTimeline as $post)
                           <div class="col-12">
                             <div class="job-list ">
                               <div class="job-list-logo">

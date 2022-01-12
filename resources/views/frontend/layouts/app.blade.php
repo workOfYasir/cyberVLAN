@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{asset('css/flaticon/flaticon.css')}}" />
     <link rel="stylesheet" href="{{asset('css/bootstrap/bootstrap.min.css')}}" />
     <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
+    @livewireStyles
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
     integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
     crossorigin=""/>
@@ -50,6 +51,7 @@
     <script src="{{asset('js/bootstrap/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/profile.js')}}"></script>
 
+    @livewireScripts
     <!-- Page JS Implementing Plugins (Remove the plugin script here if site does not use that feature)-->
     <script src="{{asset('js/jquery.appear.js')}}"></script>
     <script src="{{asset('js/counter/jquery.countTo.js')}}"></script>
@@ -121,8 +123,8 @@
     $("#crop").click(function() {
       
         canvas = cropper.getCroppedCanvas({
-            width: 160,
-            height: 160,
+            width: 660,
+            height: 660,
         });
 
         canvas.toBlob(function(blob) {
@@ -152,32 +154,40 @@
         });
     });
     var mymap = L.map('mapid');
-    var longitude = $('.longitude').val();
-    var latitude = $('.latitude').val();
-
-    latitude = parseFloat(latitude)
-    longitude = parseFloat(longitude)
+    var longitude = 0;
+    var latitude = 0;
+    if(longitude == '' && latitude == ''){
+        longitude = 70.16970962757074;
+        latitude = 30.16332991435404;      
+        zoom = 3;
+    }else{
+        longitude = $('.longitude').val();
+        latitude = $('.latitude').val();
+        latitude = parseFloat(latitude);
+        longitude = parseFloat(longitude);
+        zoom = 13;
+    }
+   
     console.log(longitude);
     var marker = null;
     var icon = L.icon({iconUrl: "{{asset('/images/vendor/leaflet/dist/marker-icon.png') }}"}); 
         icon.options.shadowSize = [0,0];
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=sk.eyJ1Ijoid29yay1vZi15YXNpciIsImEiOiJja3h1MGs5MDcxNnJsMndvMGh2YmR3MGNoIn0.gQLKyWvfXm_OanVqhNb9Sw', {
             attribution: 'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 100,
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1,
         }).addTo(mymap);
-    mymap.setView(new L.LatLng(latitude,longitude), 13);
-    marker = L.marker([latitude,longitude ]).addTo(mymap)
-    $('.latitude').val(longitude);
-    $('.longitude').val(latitude);
-    mymap.on('click', function(e) {
-        $('#addresses option').remove();
-        $('#addresses').append('<option hidden disabled >Select Val</option>');
-        if (marker !== null) {
-        mymap.removeLayer(marker);
-    }
+        mymap.setView(new L.LatLng(latitude,longitude), zoom);
+        marker = L.marker([latitude,longitude ]).addTo(mymap)
+        $('.latitude').val(longitude);
+        $('.longitude').val(latitude);
+        mymap.on('click', function(e) {
+            $('#addresses option').remove();
+            $('#addresses').append('<option hidden disabled >Select Val</option>');
+            if (marker !== null) {
+            mymap.removeLayer(marker);
+        }
         longitude = e.latlng.lng;
         latitude = e.latlng.lat;
 
@@ -196,23 +206,15 @@
         };
 
         $.ajax(settings).done(function (response) {
-        
-            for (let indexes = 0; indexes < response.data.length; indexes++) {
-                $('#addresses').append('<option value="'+indexes+'" >'+response.data[indexes].label+'</option>')
-            }
-            $('#addresses').change(function () {
-                var selectedIndex = $('#addresses').val();
-            console.log(selectedIndex);
-            $('#user_address').val(response.data[selectedIndex].label)
-            $('#user_address_city').val(response.data[selectedIndex].county)
-            $('#user_address_country').val(response.data[selectedIndex].country)
-
-              })
-            var selectedIndex = $('#addresses').val();
-            console.log(selectedIndex);
-            $('#user_address').val(response.data[selectedIndex].label)
-            $('#user_address_city').val(response.data[selectedIndex].county)
-            $('#user_address_country').val(response.data[selectedIndex].country)
+        console.log(response.data[0]);
+            // for (let indexes = 0; indexes < response.data.length; indexes++) {
+            //     $('#addresses').append('<option value="'+indexes+'" >'+response.data[indexes].label+'</option>')
+            // }
+            // var selectedIndex = $('#addresses').val();
+            // console.log(selectedIndex);
+            $('#user_address').val(response.data[0].label)
+            $('#user_address_city').val(response.data[0].county)
+            $('#user_address_country').val(response.data[0].country)
 
         });
 
@@ -224,17 +226,15 @@
         "timeout": 0,
         };
     $.ajax(settings).done(function (response) {
-    // console.log(response.data[0]);
-        for (let index = 0; index < response.data.length; index++) {
-
-            $('#addresses').append('<option value="'+index+'" >'+response.data[index].label+'</option>')
-        
-        }
-        var selectedIndex = $('#addresses').val();
+    console.log(response.data[0]);
+        // for (let index = 0; index < response.data.length; index++) {
+        //     $('#addresses').append('<option value="'+index+'" >'+response.data[index].label+'</option>')      
+        // }
+        // var selectedIndex = $('#addresses').val();
         // console.log(response.data[selectedIndex]);
-        $('#user_address').val(response.data[selectedIndex].label)
-        $('#user_address_city').val(response.data[selectedIndex].county)
-        $('#user_address_country').val(response.data[selectedIndex].country)
+        $('#user_address').val(response.data[0].name+', '+response.data[0].street+', '+response.data[0].county+', '+response.data[0].region+', '+response.data[0].country)
+        $('#user_address_city').val(response.data[0].county)
+        $('#user_address_country').val(response.data[0].country)
 
     });
 });

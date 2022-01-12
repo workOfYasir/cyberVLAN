@@ -27,6 +27,7 @@ class PostController extends Controller
         $post->job_description=$request->get('job-description');
         $post->job_requirment=$request->get('job-requirments');
         $post->job_budget=$request->get('job-budget');
+        $post->budget_status=$request->get('budget_status');
         $post->save();
 
         if($post->save()) {   

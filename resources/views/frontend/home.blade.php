@@ -204,9 +204,11 @@
                             @endforeach
                         </li>
                         <li><i class="fas fa-funnel-dollar pe-1"></i>{{ $post->job_budget }}</li>
+                        @if($post->postDetail[0]->job_timeline_id!=0 || $post->postDetail[0]->job_timeline_id!=null)
                         <li><a class="freelance" href="#"><i class="fas fa-suitcase pe-1"></i>  
                                 {{ $post->postDetail[0]->jobTimeline->name }}
-                           </a></li>
+                        </a></li>
+                        @endif
                            
                     </ul>
                 </div>

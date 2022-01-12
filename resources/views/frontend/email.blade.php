@@ -25,7 +25,8 @@
                 <div class="section-title-02">
                     <h2>Approval Pending</h2>
                 </div>
-                <p> Your Account is Varified. Please wait for admin to approve it.</p>
+                <p> Your Account is Not Varified. Kindly Complete your profile and Please wait for admin to approve it.</p>
+                <a class="dropdown-item" href="{{ route('profile',Auth::user()->unni_id) }}">Profile</a>
             </div>
         </div>
     </div>

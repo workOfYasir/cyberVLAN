@@ -76,7 +76,14 @@ banner -->
                 <div class="d-flex">
                   <i class="font-xll text-primary align-self-center flaticon-debit-card"></i>
                   <div class="feature-info-content ps-3">
-                    <label class="mb-1">Offered Budget</label>
+                    <label class="mb-1">Offered Budget
+                      <br>
+                      @if($postDetail[0]->budget_status==1)
+                        (Fixed)
+                      @else
+                        (Negotiable)
+                      @endif
+                    </label>
                     <span class="mb-0 fw-bold d-block text-dark">{{ $postDetail[0]->job_budget }}</span>
                   </div>
                 </div>
@@ -112,7 +119,7 @@ banner -->
             {{ $postDetail[0]->job_requirment }}
           </div>
           <hr>
-          
+          @role('freelancer')
             <div class="my-4 my-lg-5">
                 <div class="login-register">
                     <div class="section-title">
@@ -148,21 +155,7 @@ banner -->
                     
                 </div>
             </div>
-    
-          {{-- <div class="mt-4 mt-lg-5">
-            <h5 class="mb-3 mb-md-4">Education + Experience</h5>
-            <ul class="list-unstyled list-style mb-4 mb-lg-0">
-              <li><i class="far fa-check-circle font-md text-primary me-2"></i>You will sail along until you collide with an immovable object, after which you will sink to the bottom</li>
-              <li><i class="far fa-check-circle font-md text-primary me-2"></i>Clarity – developing the Vision</li>
-              <li><i class="far fa-check-circle font-md text-primary me-2"></i>Focus – having a plan</li>
-              <li><i class="far fa-check-circle font-md text-primary me-2"></i>Give yourself the power of responsibility. Remind yourself the only thing stopping you is yourself.</li>
-              <li><i class="far fa-check-circle font-md text-primary me-2"></i>Do it today. Remind yourself of someone you know who died suddenly and the fact that there is no guarantee that tomorrow will come.</li>
-              <li><i class="far fa-check-circle font-md text-primary me-2"></i>Now go push your own limits and succeed!</li>
-              <li><i class="far fa-check-circle font-md text-primary me-2"></i>Let success motivate you. Find a picture of what epitomizes success to you and then pull it out when you are in need of motivation.</li>
-              <li><i class="far fa-check-circle font-md text-primary me-2"></i>Belief – believing in yourself and those around you</li>
-              <li class="mb-0"><i class="far fa-check-circle font-md text-primary me-2"></i>So, make the decision to move forward. Commit your decision to paper, just to bring it into focus. Then, go for it!</li>
-            </ul>
-          </div> --}}
+          @endrole
         </div>
         <!--================================= Signin -->
 
@@ -324,6 +317,7 @@ banner -->
   <section class="feature-info-section">
     <div class="container">
       <div class="row">
+        @role('freelancer')
         <div class="col-lg-6 mb-lg-0 mb-4">
           <div class="feature-info feature-info-02 p-4 p-lg-5 bg-primary">
             <div class="feature-info-icon mb-3 mb-sm-0 text-dark">
@@ -333,9 +327,11 @@ banner -->
               <p>Jobseeker</p>
               <h5 class="text-white">Looking For Job?</h5>
             </div>
-            <a class="ms-auto align-self-center" href="#">Apply now<i class="fas fa-long-arrow-alt-right"></i> </a>
+            <a class="ms-auto align-self-center" href="{{ route('post.list') }}">Apply now<i class="fas fa-long-arrow-alt-right"></i> </a>
           </div>
         </div>
+        @endrole
+        @role('client')
         <div class="col-lg-6">
           <div class="feature-info feature-info-02 p-4 p-lg-5 bg-dark">
             <div class="feature-info-icon mb-3 mb-sm-0 text-primary">
@@ -345,9 +341,24 @@ banner -->
               <p>Recruiter</p>
               <h5 class="text-white">Are You Recruiting?</h5>
             </div>
-            <a class="ms-auto align-self-center" href="#">Post a job<i class="fas fa-long-arrow-alt-right"></i> </a>
+            <a class="ms-auto align-self-center" href="{{ route('post.create') }}">Post a job<i class="fas fa-long-arrow-alt-right"></i> </a>
           </div>
         </div>
+        @endrole
+        @role('superAdmin')
+        <div class="col-lg-6">
+          <div class="feature-info feature-info-02 p-4 p-lg-5 bg-dark">
+            <div class="feature-info-icon mb-3 mb-sm-0 text-primary">
+              <i class="flaticon-job-3"></i>
+            </div>
+            <div class="feature-info-content text-white ps-sm-4 ps-0">
+              <p>Recruiter</p>
+              <h5 class="text-white">Are You Recruiting?</h5>
+            </div>
+            <a class="ms-auto align-self-center" href="{{ route('post.create') }}">Post a job<i class="fas fa-long-arrow-alt-right"></i> </a>
+          </div>
+        </div>
+        @endrole
       </div>
     </div>
   </section>

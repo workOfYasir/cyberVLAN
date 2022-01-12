@@ -32,11 +32,14 @@
                     <div class="secondary-menu">
                         <ul class="list-unstyled mb-0">
                             <li><a class="active" href="{{ route('profile',Auth::user()->unni_id) }}">Profile</a></li>
+                            @role('superAdmin')
                             <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                            @endrole
                             <li><a target="_blank" href="{{ route('public_profile',Auth::user()->unni_id) }}">Public Profile</a></li>
-                            <li><a href="dashboard-candidates-change-password.html">Change Password</a></li>
-                            <li><a href="dashboard-candidates-manage-jobs.html">Manage Jobs</a></li>
-                            <li><a href="dashboard-candidates-saved-jobs.html">Saved Jobs</a></li>
+                            <li><a href="{{ route('accessments.show')}}" class="{{ Request::routeIs('accessments.show') ? 'active' : '' }}" }}">Assessments</a></li> 
+                            {{-- <li><a href="dashboard-candidates-change-password.html">Change Password</a></li> --}}
+                            {{-- <li><a href="#">Manage Jobs</a></li>
+                            <li><a href="#">Saved Jobs</a></li> --}}
                         </ul>
                     </div>
                 </div>
@@ -67,6 +70,7 @@
                     {{ session()->get('success') }}
                 </div>
                 @endif
+                @include('frontend.image-cropper')
                 {!! Form::open(array('method' => 'POST','route' => ['profile_update'], 'enctype'=>'multipart/form-data')) !!}
                 @csrf
                 <input type="hidden" name="qqxid" value="{{$user->unni_id}}">
@@ -95,7 +99,7 @@
                         </div>
                   
                     </div>
-                    @include('frontend.image-cropper')
+                    
                     <div class="row">
                         <div class="form-group mb-3 col-md-6">
                             @role('superAdmin')
@@ -175,14 +179,20 @@
                         </div>
                         @role('freelancer')
                         <div class="form-group mb-0 col-md-12">
-                            <label class="form-label">Project Timeline</label>{{ $user_permissions[0]->id }}
+                            <label class="form-label">Project Timeline</label>
                             <select class="form-control select" name="permission" id="permission">
                                 <option disabled hidden selected> Select Premission </option>
-                                @foreach($permissions as $project_timeline)
-                                    <option value="{{$project_timeline->name}}"
-                                        {{ $user_permissions[0]->id== $project_timeline->id ? 'selected' : ''}}
-                                        >{{$project_timeline->name}}</option>
-                                @endforeach
+                                @if($user_permissions==null)
+                                    @foreach($permissions as $project_timeline)
+                                        <option value="{{$project_timeline->name}}">{{$project_timeline->name}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach($permissions as $key => $project_timeline)
+                                        <option value="{{$project_timeline->name}}"
+                                            {{ $user_permissions[$key]->id== $project_timeline->id ? 'selected' : ''}}
+                                            >{{$project_timeline->name}}</option>
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
                         @endrole
@@ -203,24 +213,24 @@
                         <h4 class="mb-3">Address</h4>
                         <input type="hidden" name="longitude" class="longitude" value="{{$user_details->longitude}}">
                         <input type="hidden" name="latitude" class="latitude" value="{{$user_details->latitude}}">
-                        <div class="form-group mb-0 col-md-12">
+                        {{-- <div class="form-group mb-0 col-md-12">
                             <label class="form-label">Available Addresses</label>
                             <select class="form-control select" name="addresses" id="addresses">
                                 
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="row">
                             <div class="form-group mb-3 col-md-12">
                                 <label class="form-label">Location</label>
-                                <input type="text" class="form-control" id="user_address" name="user_address" placeholder="Location" >
+                                <input type="text" class="form-control" id="user_address" name="user_address" value="{{ $user_details->user_address }}" placeholder="Location" >
                             </div>
                             <div class="form-group mb-3 col-md-4">
                                 <label class="form-label">City</label>
-                                <input type="text" class="form-control" id="user_address_city" name="user_address_city" >
+                                <input type="text" class="form-control" id="user_address_city" value="{{ $user_details->user_address_city }}" name="user_address_city" >
                             </div>
                             <div class="form-group mb-3 col-md-4">
                                 <label class="form-label">Country</label>
-                                <input type="text" class="form-control" id="user_address_country" name="user_address_country" placeholder="Country" value="{{$user_details->user_address_country}}">
+                                <input type="text" class="form-control" id="user_address_country" value="{{ $user_details->user_address_country }}" name="user_address_country" placeholder="Country" value="{{$user_details->user_address_country}}">
                             </div>
                         </div>
                     </div>
@@ -257,7 +267,7 @@
                 <div class="user-dashboard-info-box" id="works">
                     <div class="form-group work-form-wrapper mb-0">
                         <div class="col-md-12">
-                            <h4 class="mb-3">Jobs History</h4>
+                            <h4 class="mb-3">Employers History</h4>
                         </div>
                         <div class="col-md-12 text-end">
                             <a type="button" class="btn btn-md btn-primary" id="addWork">➕</a>

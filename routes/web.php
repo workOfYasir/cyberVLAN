@@ -45,12 +45,11 @@ Route::get('/referral', [UsersController::class, 'referral'])->name('referral');
 Route::get('/public_profile/{uuid}', [UsersController::class, 'public_profile'])->name('public_profile');
 
 
-Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
+// Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
     Route::get('/profile/{uuid}', [UsersController::class, 'profile'])->name('profile');
-}); 
+// }); 
 
-//
-Route::middleware(['auth', 'verified', 'two_factor','approveStatus'])->group(function () {
+// Route::middleware(['auth', 'verified', 'two_factor','approveStatus'])->group(function () {
     
  
     Route::prefix('freelancer')->name('freelancer.')->group(function () {
@@ -73,7 +72,7 @@ Route::middleware(['auth', 'verified', 'two_factor','approveStatus'])->group(fun
         Route::get('list',[PostDetailController::class,'list'])->name('list');
         Route::post('propsal',[PostProposalController::class,'propsal'])->name('propsal');
     });
-});
+// });
 
 
 
@@ -128,7 +127,8 @@ Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
     });
 
     Route::prefix('accessments')->name('accessments.')->group(function () {
-        Route::get('show', [AccessmentController::class, 'index'])->name('index');
+        Route::get('add', [AccessmentController::class, 'index'])->name('index');
+        Route::get('show', [AccessmentController::class, 'show'])->name('show');
         Route::get('store', [AccessmentController::class, 'store'])->name('store');
         Route::get('fetch/{id}', [AccessmentController::class, 'fetchAssessment'])->name('fetch');
         Route::post('answere-store', [AccessmentController::class, 'answereStore'])->name('answere.store');
