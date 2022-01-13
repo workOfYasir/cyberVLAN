@@ -45,11 +45,11 @@ Route::get('/referral', [UsersController::class, 'referral'])->name('referral');
 Route::get('/public_profile/{uuid}', [UsersController::class, 'public_profile'])->name('public_profile');
 
 
-// Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
+Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
     Route::get('/profile/{uuid}', [UsersController::class, 'profile'])->name('profile');
-// }); 
+}); 
 
-// Route::middleware(['auth', 'verified', 'two_factor','approveStatus'])->group(function () {
+Route::middleware(['auth', 'verified', 'two_factor','approveStatus'])->group(function () {
     
  
     Route::prefix('freelancer')->name('freelancer.')->group(function () {
@@ -71,8 +71,11 @@ Route::get('/public_profile/{uuid}', [UsersController::class, 'public_profile'])
         Route::get('detail/{id}', [PostDetailController::class, 'detail'])->name('detail');
         Route::get('list',[PostDetailController::class,'list'])->name('list');
         Route::post('propsal',[PostProposalController::class,'propsal'])->name('propsal');
+        Route::get('my/{uuid}',[PostController::class,'myPost'])->name('my');
+        Route::get('bid/{uuid}',[PostController::class,'bid'])->name('bids');
+        Route::get('bid_detail/{id}',[PostProposalController::class,'bidDetail'])->name('bid_detail');
     });
-// });
+});
 
 
 

@@ -75,7 +75,9 @@ body {
     color: #969696;
     overflow-x: hidden;
 }
-
+.text-muted{
+    color: #969696;
+}
 a {
     outline: medium none !important;
     color: #ff8a00;

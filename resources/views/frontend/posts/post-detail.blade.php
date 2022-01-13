@@ -127,7 +127,7 @@ banner -->
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane active" id="candidate" role="tabpanel">
-                          <form class="mt-4" method="POST" novalidate="novalidate" action="{{ route('post.propsal') }}">            
+                          <form class="mt-4" id="job_proposal" method="POST" novalidate="novalidate" action="{{ route('post.propsal') }}">            
                                 @csrf
                                 <input type="hidden" name="job-poster" value="{{ $postDetail[0]->user->unni_id }}" >
                                 <input type="hidden" name="job-post" value="{{ $postDetail[0]->id }}">
@@ -158,9 +158,6 @@ banner -->
           @endrole
         </div>
         <!--================================= Signin -->
-
-   
-      
   
         <!--=================================
         sidebar -->
@@ -364,4 +361,5 @@ banner -->
   </section>
   <!--=================================
   feature -->
+
   @endsection

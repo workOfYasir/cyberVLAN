@@ -47,7 +47,17 @@
                         @foreach($allmessages as $mgs)
                                 <div class="single-message @if($mgs->user_id == auth()->id()) sent @else received @endif">
                                     <p class="font-weight-bolder my-0">{{$mgs->user->name}}</p>
-                                {{ $mgs->message}}
+                                    @php
+                                        parse_str($mgs->message,$extracted);
+                                        if($extracted['link']==null)
+                                        {
+                                            echo $extracted['link'].$extracted['msg'];
+                                        }else{
+                                            echo '<a href="'.$extracted['link'].'">'.$extracted['link'].'</a><br/>'.$extracted['msg'];
+                                        }
+                                        
+                                    @endphp
+                                 
                                     <br><small class="text-muted w-100">Sent <em>{{$mgs->created_at}}</em></small>
                                 </div>
 
@@ -60,7 +70,7 @@
                         <form wire:submit.prevent="SendMessage">
                             <div class="row">
                                 <div class="col-md-8">
-                                    <input wire:model="message" class="form-control input shadow-none w-100 d-inline-block" placeholder="Type a message" required>
+                                    <input wire:model="message" class="form-control input shadow-none w-100 d-inline-block" id="message" placeholder="Type a message" required>
                                 </div>
 
                                 <div class="col-md-4">

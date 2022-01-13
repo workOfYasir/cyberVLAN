@@ -31,13 +31,13 @@
                 <div class="sticky-top secondary-menu-sticky-top">
                     <div class="secondary-menu">
                         <ul class="list-unstyled mb-0">
-                            <li><a class="active" href="{{ route('profile',Auth::user()->unni_id) }}">Profile</a></li>
+                            <li><a href="{{ route('profile',Auth::user()->unni_id) }}" class="{{ Request::routeIs('profile',Auth::user()->unni_id) ? 'active' : '' }}">Profile</a></li>
                             @role('superAdmin')
                             <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                             @endrole
                             <li><a target="_blank" href="{{ route('public_profile',Auth::user()->unni_id) }}">Public Profile</a></li>
-                            <li><a href="{{ route('accessments.show')}}" class="{{ Request::routeIs('accessments.show') ? 'active' : '' }}" }}">Assessments</a></li> 
-                            {{-- <li><a href="dashboard-candidates-change-password.html">Change Password</a></li> --}}
+                            <li><a href="{{ route('accessments.show')}}" class="{{ Request::routeIs('accessments.show') ? 'active' : '' }}">Assessments</a></li> 
+                            <li><a href="{{ route('post.my',Auth::user()->unni_id) }}" class="{{ Request::routeIs('post.my',Auth::user()->unni_id) ? 'active' : '' }}" >My Jobs</a></li>
                             {{-- <li><a href="#">Manage Jobs</a></li>
                             <li><a href="#">Saved Jobs</a></li> --}}
                         </ul>

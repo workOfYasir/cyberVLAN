@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Service;
 use App\Models\PostDetail;
+use App\Models\PostProposal;
+use App\Models\UserDetails;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
@@ -43,6 +47,60 @@ class PostController extends Controller
 
 
 
+    }
+    public function myPost($uuid)
+    {
+        $isUuid = Str::isUuid($uuid);
+        $user_uuid = Auth::user()->unni_id;
+        if ($isUuid && $user_uuid == $uuid) {
+            $user = User::where('unni_id', $uuid)->first();
+            $user_details = UserDetails::where('user_id', $uuid)->with('freelancerWork')->with('freelancerSkill')->first();
+            $permissions = $user->getAllPermissions();
+            $p_id = $permissions[0]->id;
+            $postDetail = Post::with('postDetail')->with('user')->get();
+            $post_id = Post::whereHas('postDetail', function($q) use($p_id){
+                    $q->where('job_timeline_id', '=', $p_id);
+            })->with('postDetail')->pluck('id')->toArray();
+            $postTimeline = Post::whereHas('postDetail', function($q) use($p_id){
+                $q->where('job_timeline_id', '=', $p_id);
+            })->where('user_id',Auth::user()->id)->with('postDetail')->get();
+            $services = Service::orderBy('name')->get();
+            $timelines = Permission::where('id',$permissions[0]->id)->get();
+            $bids = PostProposal::where('job_poster_id','=',$uuid)->whereIn('post_id',$post_id)->get();
+           
+            return view('frontend.posts.my-posts', compact('user', 'user_details', 'bids','services','postTimeline','postDetail','timelines','uuid'));
+        } else {
+            return redirect()->route('home')
+                ->with('error', 'Something went wrong. Try again...');
+        }
+     
+    }
+    public function bid($uuid)
+    {
+        $isUuid = Str::isUuid($uuid);
+        $user_uuid = Auth::user()->unni_id;
+        if ($isUuid && $user_uuid == $uuid) {
+            $user = User::where('unni_id', $uuid)->first();
+            $user_details = UserDetails::where('user_id', $uuid)->with('freelancerWork')->with('freelancerSkill')->first();
+            $permissions = $user->getAllPermissions();
+            $p_id = $permissions[0]->id;
+            $postDetail = Post::with('postDetail')->with('user')->get();
+            $post_id = Post::whereHas('postDetail', function($q) use($p_id){
+                    $q->where('job_timeline_id', '=', $p_id);
+            })->with('postDetail')->pluck('id')->toArray();
+            $postTimeline = Post::whereHas('postDetail', function($q) use($p_id){
+                $q->where('job_timeline_id', '=', $p_id);
+            })->where('user_id',Auth::user()->id)->with('postDetail')->get();
+            $services = Service::orderBy('name')->get();
+            $timelines = Permission::where('id',$permissions[0]->id)->get();
+            $bids = PostProposal::where('job_poster_id','=',$uuid)->whereIn('post_id',$post_id)->with('user')->with('post')->get();
+
+            return view('frontend.posts.all-bids', compact('user', 'user_details', 'bids','services','postTimeline','postDetail','timelines','uuid'));
+        } else {
+            return redirect()->route('home')
+                ->with('error', 'Something went wrong. Try again...');
+        }
+     
     }
 
   

@@ -68,18 +68,15 @@
     <!-- Template Scripts (Do not remove)-->
     <script src="{{asset('js/custom.js')}}"></script>
     <script>
-        $(document).ready(function() {
-            $('#external_reference').click(function() {
-                if ($(this).prop("checked") == true) {
-                    $("#reference-details").show();
-                } else if ($(this).prop("checked") == false) {
-                    $("#reference-details").hide();
-                }
-            });
-            $('.select2').select2();
-        
-     
-    
+$(document).ready(function() {
+    $('#external_reference').click(function() {
+        if ($(this).prop("checked") == true) {
+            $("#reference-details").show();
+        } else if ($(this).prop("checked") == false) {
+            $("#reference-details").hide();
+        }
+    });
+    $('.select2').select2();
     
     var bs_modal = $('#modal');
     var image = document.getElementById('image');

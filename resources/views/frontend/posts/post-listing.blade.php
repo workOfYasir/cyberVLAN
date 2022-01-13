@@ -227,7 +227,6 @@ banner -->
                             </div>
                           </div>
                           @endforeach
-              
                       </div>
                    
                     </div>

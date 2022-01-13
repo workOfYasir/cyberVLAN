@@ -214,7 +214,6 @@ class UsersController extends Controller
 
     public function profile_update(Request $request)
     {
-        dd($request);
         $id = $request->input('xxzyzz');
         $uuid = $request->input('qqxid');
         $this->validate($request, [

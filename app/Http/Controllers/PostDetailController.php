@@ -53,7 +53,7 @@ class PostDetailController extends Controller
         $p_id = $permissions[0]->id;
         $postDetail = Post::with('postDetail')->with('user')->get();
         $postTimeline = Post::whereHas('postDetail', function($q) use($p_id){
-                $q->where('job_timeline_id', '=', $p_id);
+                $q->where('job_timeline_id', $p_id);
         })->with('postDetail')->get();
         $services = Service::all();
         $timelines = Permission::where('id',$permissions[0]->id)->get();
