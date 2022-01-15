@@ -82,7 +82,7 @@ banner -->
                   <div class="widget-content">
                     @foreach ($services as $service)
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="specialism1">
+                        <input type="checkbox" class="form-check-input" name="speciallism" id="specialism1" value="{{$service->id  }}">
                         <label class="form-check-label" for="specialism1">{{ $service->name }}</label>
                       </div>
                     @endforeach
@@ -116,23 +116,23 @@ banner -->
                       <div class="collapse show" id="Offeredsalary">
                         <div class="widget-content">
                           <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="Offeredsalary1">
+                            <input type="radio" value="10000,20000" name="salery" class="form-check-input salery" id="Offeredsalary1">
                             <label class="form-check-label" for="Offeredsalary1">10k - 20k</label>
                           </div>
                           <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="Offeredsalary2">
+                            <input type="radio" value="20000,30000" name="salery" class="form-check-input salery" id="Offeredsalary2">
                             <label class="form-check-label" for="Offeredsalary2">20k - 30k</label>
                           </div>
                           <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="Offeredsalary3">
+                            <input type="radio" value="30000,40000" name="salery" class="form-check-input salery" id="Offeredsalary3">
                             <label class="form-check-label" for="Offeredsalary3">30k - 40k</label>
                           </div>
                           <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="Offeredsalary4">
+                            <input type="radio" value="40000,50000" name="salery" class="form-check-input salery" id="Offeredsalary4">
                             <label class="form-check-label" for="Offeredsalary4">40k - 50k</label>
                           </div>
                           <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="Offeredsalary5">
+                            <input type="radio" value="50000,60000" name="salery" class="form-check-input salery" value="{{ 50 }}" id="Offeredsalary5">
                             <label class="form-check-label" for="Offeredsalary5">50k - 60k</label>
                           </div>
                         </div>
@@ -162,6 +162,7 @@ banner -->
                         </div>
                       </div>
                     </div>
+<<<<<<< Updated upstream
                     <div class="col-lg-9">
                       <!--=================================
                       right-sidebar -->
@@ -231,6 +232,9 @@ banner -->
                       </div>
                    
                     </div>
+=======
+                    @livewire('job-search')
+>>>>>>> Stashed changes
                   </div>
                 </div>
   </section>
@@ -270,5 +274,7 @@ banner -->
     </div>
   </section>
   <!--=================================
-  feature -->
+  feature -->   
 @endsection  
+
+ 
