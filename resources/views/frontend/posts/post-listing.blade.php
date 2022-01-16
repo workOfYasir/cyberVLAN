@@ -44,7 +44,7 @@ banner -->
         <!--=================================
         left-sidebar -->
         <div class="sidebar">
-          <div class="widget">
+          {{-- <div class="widget">
             <div class="widget-title widget-collapse">
               <h6>Date Posted</h6>
               <a class="ms-auto" data-bs-toggle="collapse" href="#dateposted" role="button" aria-expanded="false" aria-controls="dateposted"> <i class="fas fa-chevron-down"></i> </a></div>
@@ -72,7 +72,7 @@ banner -->
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --}}
             <hr>
             <div class="widget">
               <div class="widget-title widget-collapse">
@@ -82,7 +82,7 @@ banner -->
                   <div class="widget-content">
                     @foreach ($services as $service)
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="specialism1">
+                        <input type="checkbox" class="form-check-input" name="speciallism" id="specialism1" value="{{$service->id  }}">
                         <label class="form-check-label" for="specialism1">{{ $service->name }}</label>
                       </div>
                     @endforeach
@@ -91,7 +91,7 @@ banner -->
                 </div>
               </div>
               <hr>
-              <div class="widget">
+              {{-- <div class="widget">
                 <div class="widget-title widget-collapse">
                   <h6>Job Type</h6>
                   <a class="ms-auto" data-bs-toggle="collapse" href="#jobtype" role="button" aria-expanded="false" aria-controls="jobtype"> <i class="fas fa-chevron-down"></i> </a> </div>
@@ -108,7 +108,7 @@ banner -->
                   </div>
                 </div>
                 
-                  <hr>
+                  <hr> --}}
                   <div class="widget">
                     <div class="widget-title widget-collapse">
                       <h6>Offered Salary</h6>
@@ -116,30 +116,30 @@ banner -->
                       <div class="collapse show" id="Offeredsalary">
                         <div class="widget-content">
                           <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="Offeredsalary1">
+                            <input type="radio" value="10000,20000" name="salery" class="form-check-input salery" id="Offeredsalary1">
                             <label class="form-check-label" for="Offeredsalary1">10k - 20k</label>
                           </div>
                           <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="Offeredsalary2">
+                            <input type="radio" value="20000,30000" name="salery" class="form-check-input salery" id="Offeredsalary2">
                             <label class="form-check-label" for="Offeredsalary2">20k - 30k</label>
                           </div>
                           <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="Offeredsalary3">
+                            <input type="radio" value="30000,40000" name="salery" class="form-check-input salery" id="Offeredsalary3">
                             <label class="form-check-label" for="Offeredsalary3">30k - 40k</label>
                           </div>
                           <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="Offeredsalary4">
+                            <input type="radio" value="40000,50000" name="salery" class="form-check-input salery" id="Offeredsalary4">
                             <label class="form-check-label" for="Offeredsalary4">40k - 50k</label>
                           </div>
                           <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="Offeredsalary5">
+                            <input type="radio" value="50000,60000" name="salery" class="form-check-input salery" value="{{ 50 }}" id="Offeredsalary5">
                             <label class="form-check-label" for="Offeredsalary5">50k - 60k</label>
                           </div>
                         </div>
                       </div>
                     </div>
                     <hr>
-                    <div class="widget">
+                    {{-- <div class="widget">
                       <div class="widget-title widget-collapse">
                         <h6>Gender</h6>
                         <a class="ms-auto" data-bs-toggle="collapse" href="#gender" role="button" aria-expanded="false" aria-controls="gender"><i class="fas fa-chevron-down"></i></a> </div>
@@ -155,81 +155,16 @@ banner -->
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> --}}
                      
                         <div class="widget">
                           <div class="widget-add"> <img class="img-fluid" src="images/add-banner.png" alt=""></div>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-9">
-                      <!--=================================
-                      right-sidebar -->
-                      <div class="row mb-4">
-                         <div class="col-md-6">
-                          <div class="section-title mb-3 mb-lg-4">
-                            <h6 class="mb-0">Showing <span class="text-primary">{{ $postTimeline->count() }} Jobs</span></h6>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="job-filter-tag">
-                          <ul class="list-unstyled">
-                            {{-- <li><a href="#">Freelance <i class="fas fa-times-circle"></i> </a></li> --}}
-                            <li><a class="filter-clear" href="#">Reset Search <i class="fas fa-redo-alt"></i> </a></li>
-                          </ul>
-                        </div>
-                        </div>
-                      </div>
-                      <div class="job-filter mb-4 d-sm-flex align-items-center">
-                        {{-- <div class="job-alert-bt"> <a class="btn btn-md btn-dark" href="#"><i class="fa fa-envelope"></i>Get job alert </a> </div> --}}
-                        <div class="job-shortby ms-sm-auto d-flex align-items-center">
-                          <form class="form-inline">
-                            <div class="d-sm-flex align-items-center mb-0">
-                              <label class="justify-content-start me-2 mb-2 mb-sm-0">sort by :</label>
-                              <div class="short-by">
-                                <select class="form-control basic-select">
-                                  <option>Newest</option>
-                                  <option>Oldest</option>
-                                </select>
-                              </div>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                      <div class="row">
-                          @foreach ($postTimeline as $post)
-                          <div class="col-12">
-                            <div class="job-list ">
-                              <div class="job-list-logo">
-                                <img class="img-fluid" src="{{asset('images/profiles/'.$post->user->userDetails[0]->user_profile)}}" alt="">
-                              </div>
-                              <div class="job-list-details">
-                                <div class="job-list-info">
-                                  <div class="job-list-title">
-  
-                                    <h5 class="mb-0"><a href="{{ route('post.detail',$post->id) }}">{{ $post->job_title  }}</a></h5>
-                                  </div>
-                                  <div class="job-list-option">
-                                    <ul class="list-unstyled">
-                                      <li> <span>via</span> <a href="{{ route('public_profile', $post->user->unni_id ) }}">{{ $post->user->first_name.' '.$post->user->last_name }}</a> </li>
-                                      <li><i class="fas fa-map-marker-alt pe-1"></i>{{ $post->user->userDetails[0]->user_address_country.', '.$post->user->userDetails[0]->user_address_city }}</li>
-                                      <li><i class="fas fa-filter pe-1"></i>
-                                        @foreach ($post->postDetail as $detail)
-                                            {{ $detail->service->name }},
-                                        @endforeach
-                                      </li>
-                                      <li><a class="freelance" href="#"><i class="fas fa-suitcase pe-1"></i>{{ $post->postDetail[0]->jobTimeline->name }}</a></li>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="job-list-favourite-time"> <a class="job-list-favourite order-2" href="#"><i class="far fa-heart"></i></a> <span class="job-list-time order-1"><i class="fas fa-funnel-dollar pe-1"></i>{{ $post->job_budget }}</span><span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>1M ago</span> </div>
-                            </div>
-                          </div>
-                          @endforeach
-                      </div>
-                   
-                    </div>
+
+                    @livewire('job-search')
+
                   </div>
                 </div>
   </section>
@@ -241,6 +176,7 @@ banner -->
   <section class="feature-info-section">
     <div class="container">
       <div class="row">
+        @role('freelancer')
         <div class="col-lg-6 mb-lg-0 mb-4">
           <div class="feature-info feature-info-02 p-4 p-lg-5 bg-primary">
             <div class="feature-info-icon mb-3 mb-sm-0 text-dark">
@@ -253,6 +189,8 @@ banner -->
             <a class="ms-auto align-self-center" href="#">Apply now<i class="fas fa-long-arrow-alt-right"></i> </a>
           </div>
         </div>
+        @endrole
+        @role('superAdmin')
         <div class="col-lg-6">
           <div class="feature-info feature-info-02 p-4 p-lg-5 bg-dark">
             <div class="feature-info-icon mb-3 mb-sm-0 text-primary">
@@ -265,9 +203,25 @@ banner -->
             <a class="ms-auto align-self-center" href="#">Post a job<i class="fas fa-long-arrow-alt-right"></i> </a>
           </div>
         </div>
+        @endrole
+        @role('client')
+        <div class="col-lg-6">
+          <div class="feature-info feature-info-02 p-4 p-lg-5 bg-dark">
+            <div class="feature-info-icon mb-3 mb-sm-0 text-primary">
+              <i class="flaticon-job-3"></i>
+            </div>
+            <div class="feature-info-content text-white ps-sm-4 ps-0">
+              <p>Recruiter</p>
+              <h5 class="text-white">Are You Recruiting?</h5>
+            </div>
+            <a class="ms-auto align-self-center" href="#">Post a job<i class="fas fa-long-arrow-alt-right"></i> </a>
+          </div>
+        </div>
+        @endrole
       </div>
     </div>
+  
   </section>
   <!--=================================
-  feature -->
+  feature -->   
 @endsection  

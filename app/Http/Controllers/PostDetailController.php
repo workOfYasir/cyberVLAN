@@ -58,7 +58,8 @@ class PostDetailController extends Controller
         $services = Service::all();
         $timelines = Permission::where('id',$permissions[0]->id)->get();
 
-        return view('frontend.posts.post-listing',['postDetail'=>$postDetail,'postTimeline'=>$postTimeline,'services'=>$services,'timelines'=>$timelines]);
+        // return view('frontend.posts.post-listing',['postDetail'=>$postDetail,'postTimeline'=>$postTimeline,'services'=>$services,'timelines'=>$timelines]);
+        return view('frontend.posts.post-listing',['services'=>$services,'timelines'=>$timelines,'postDetail'=>$postDetail]);
     }
 
 }

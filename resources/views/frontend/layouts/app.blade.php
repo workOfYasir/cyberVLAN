@@ -50,7 +50,7 @@
     <script src="{{asset('js/popper/popper.min.js')}}"></script>
     <script src="{{asset('js/bootstrap/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/profile.js')}}"></script>
-
+    <script src="{{ asset('js/jobs/job_search.js') }}"></script>
     @livewireScripts
     <!-- Page JS Implementing Plugins (Remove the plugin script here if site does not use that feature)-->
     <script src="{{asset('js/jquery.appear.js')}}"></script>
