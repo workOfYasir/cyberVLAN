@@ -243,7 +243,33 @@
 
             });
            
-
+            $('.project-assigned').click(function (e){
+                id = $('.proposal-id').text();
+                
+            
+                let assign='{{route("payment.assign", ":id") }}',
+                assignUrl = assign.replace(':id', id);     
+                let payment ='{{route("payment.make", ":payment_id") }}',
+                paymentUrl = payment.replace(':id', id); 
+            $.ajax({
+                type: 'GET',
+                url: assignUrl,
+                
+                success: function(status) {
+                    console.log('yes',status);
+                 
+                    if(status == 0) {
+                        console.log('status0:',status);
+                        $('.project-assigned').empty().append('<span class="badge badge-light-danger">Not Assigned</span>  ')
+                        
+                    }else{
+                        console.log('status1:',status);
+                        $('.project-assigned').empty().append('<span class="badge badge-light-success">Assigned</span> <a href="'+paymentUrl+'"><span class="badge badge-light-success">Payment</span></a>')
+                    }             
+                    
+                }
+            })
+            })
         })
     </script>
     <!--end::Page Custom Javascript-->

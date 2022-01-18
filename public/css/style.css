@@ -7540,9 +7540,6 @@ iframe {
     .header.header-transparent+.banner {
         padding: 80px 0px 80px 0px;
     }
-    .header .add-listing {
-        display: none;
-    }
     .agency-logo {
         display: none;
     }

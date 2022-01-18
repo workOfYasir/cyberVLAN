@@ -48,6 +48,9 @@ class PostController extends Controller
 
 
     }
+
+    
+
     public function myPost($uuid)
     {
         $isUuid = Str::isUuid($uuid);

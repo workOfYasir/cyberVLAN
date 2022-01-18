@@ -189,7 +189,7 @@
                                 @else
                                     @foreach($permissions as $key => $project_timeline)
                                         <option value="{{$project_timeline->name}}"
-                                            {{ $user_permissions[$key]->id== $project_timeline->id ? 'selected' : ''}}
+                                            {{ $user_permissions[0]->id== $project_timeline->id ? 'selected' : ''}}
                                             >{{$project_timeline->name}}</option>
                                     @endforeach
                                 @endif

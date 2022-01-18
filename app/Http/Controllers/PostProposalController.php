@@ -40,6 +40,24 @@ class PostProposalController extends Controller
         return redirect()->back();
 
     }
+
+    public function projectAssigned($id)
+    {
+        $status = PostProposal::where('id',$id)->pluck('status')->first();
+        if($status == 1){
+            $projectAssigned = PostProposal::where('id',$id)->update([
+                'status'=>0
+            ]);
+            return response(0);
+        }else{
+            $projectAssigned = PostProposal::where('id',$id)->update([
+                'status'=>1
+            ]);
+            return response(1);
+        }
+
+    }
+
     public function bidDetail($id)
     {
         $bidDetail = PostProposal::where('id',$id)->with('user')->with('post')->first();

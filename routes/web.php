@@ -1,23 +1,25 @@
 <?php
 
-use App\Http\Controllers\Auth\SocialiteLoginController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\ApproveStatus;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\Freelancer\FreelancerWorkController;
-use App\Http\Controllers\Freelancer\FreelancerProjectController;
+use App\Http\Middleware\TwoFactorVerify;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TwoFactorController;
 use App\Http\Controllers\AccessmentController;
 use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostDetailController;
 use App\Http\Controllers\PostProposalController;
-use App\Http\Controllers\Services\CategoryController;
+use App\Http\Controllers\PayPalPaymentController;
 use App\Http\Controllers\Services\ServiceController;
 use App\Http\Controllers\Socialite\GoogleController;
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\TwoFactorController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use App\Http\Middleware\TwoFactorVerify;
-use App\Http\Middleware\ApproveStatus;
+use App\Http\Controllers\Services\CategoryController;
+use App\Http\Controllers\Auth\SocialiteLoginController;
+use App\Http\Controllers\Freelancer\FreelancerWorkController;
+use App\Http\Controllers\Freelancer\FreelancerProjectController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,7 +30,6 @@ use App\Http\Middleware\ApproveStatus;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 
 
 
@@ -136,6 +137,14 @@ Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
         Route::get('fetch/{id}', [AccessmentController::class, 'fetchAssessment'])->name('fetch');
         Route::post('answere-store', [AccessmentController::class, 'answereStore'])->name('answere.store');
        });
+    Route::prefix('payment')->name('payment.')->group(function () {
+        Route::get('handle-payment/{id}', [PayPalPaymentController::class, 'handlePayment'])->name('make');
+        Route::get('cancel-payment', [PayPalPaymentController::class, 'paymentCancel'])->name('cancel');
+        Route::get('payment-success', [PayPalPaymentController::class, 'paymentSuccess'])->name('success');
+        Route::get('all',[PaymentController::class,'projectDetail'])->name('all');
+        Route::get('assign/{id}',[PostProposalController::class,'projectAssigned'])->name('assign');
+    });
+
 });
 // End Back End Routes
 
