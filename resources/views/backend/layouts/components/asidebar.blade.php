@@ -142,7 +142,7 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a class="menu-link {{ Request::routeIs('payment.all') ? 'active' : '' }}" href="{{ route('payment.all') }}">
+                    <a class="menu-link {{ Request::routeIs('all') ? 'active' : '' }}" href="{{ route('all') }}">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/art/art002.svg-->
                             <span class="svg-icon svg-icon-2">

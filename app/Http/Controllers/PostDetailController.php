@@ -41,24 +41,72 @@ class PostDetailController extends Controller
     public function detail($id)
     {
         $postDetail = Post::where('id',$id)->with('postDetail')->with('user')->get();
-        // dd($postDetail);
-        return view('frontend.posts.post-detail',['postDetail'=>$postDetail]);
+        $user = auth()->user();
+        $p_id = $user->getAllPermissions()->pluck('id');
+        $postDetailList = Post::whereHas('postDetail', function($q) use($p_id){
+                $q->whereIn('job_timeline_id', $p_id)->where('approve', 1);
+        })->with('postDetail')->with('user')->get();
+        // dd($postDetailList);
+        return view('frontend.posts.post-detail',['postDetail'=>$postDetail,'postDetailList'=>$postDetailList]);
     }
    
+    public function approve($id)
+    {
+      
+        $status = PostDetail::where('id',$id)->pluck('approve')->first();
+
+        if($status==1){
+            PostDetail::where('id',$id)->update([
+                'approve'=>0
+            ]);
+            return response($id,0);
+        }else if($status==0){
+            PostDetail::where('id',$id)->update([
+                'approve'=>1
+            ]);
+            return response($id,1);
+        }
+        
+    }
+
+    public function projectAssigned($id)
+    {
+        $status = PostDetail::where('id',$id)->pluck('approve')->first();
+        if($status == 1){
+            $projectAssigned = PostDetail::where('id',$id)->update([
+                'approve'=>0
+            ]);
+            return response(0);
+        }else{
+            $projectAssigned = PostDetail::where('id',$id)->update([
+                'approve'=>1
+            ]);
+            return response(1);
+        }
+
+    }
+    
+    public function posts()
+    {   
+        $user = auth()->user();
+       $postDetail = PostDetail::with('post')->get();
+       return view('backend.pages.posts.index',['postDetail'=>$postDetail,'user'=>$user]);
+    }
     public function list()
     {
         // get logged-in user
         $user = auth()->user();
-        $permissions = $user->getAllPermissions();
-        $p_id = $permissions[0]->id;
-        $postDetail = Post::with('postDetail')->with('user')->get();
+        $p_id = $user->getAllPermissions()->pluck('id');
+        // $p_id = $permissions[0->id;
+        $postDetail = Post::whereHas('postDetail', function($q) use($p_id){
+                $q->whereIn('job_timeline_id', $p_id)->where('approve', 1);
+        })->with('postDetail')->with('user')->get();
         $postTimeline = Post::whereHas('postDetail', function($q) use($p_id){
-                $q->where('job_timeline_id', $p_id);
+                $q->whereIn('job_timeline_id', $p_id)->where('approve',1);
         })->with('postDetail')->get();
         $services = Service::all();
         $timelines = Permission::where('id',$permissions[0]->id)->get();
 
-        // return view('frontend.posts.post-listing',['postDetail'=>$postDetail,'postTimeline'=>$postTimeline,'services'=>$services,'timelines'=>$timelines]);
         return view('frontend.posts.post-listing',['services'=>$services,'timelines'=>$timelines,'postDetail'=>$postDetail]);
     }
 

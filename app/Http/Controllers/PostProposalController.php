@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Message;
+use App\Models\PostDetail;
 use Illuminate\Support\Str;
 use App\Models\PostProposal;
 use Illuminate\Http\Request;
@@ -41,26 +42,11 @@ class PostProposalController extends Controller
 
     }
 
-    public function projectAssigned($id)
-    {
-        $status = PostProposal::where('id',$id)->pluck('status')->first();
-        if($status == 1){
-            $projectAssigned = PostProposal::where('id',$id)->update([
-                'status'=>0
-            ]);
-            return response(0);
-        }else{
-            $projectAssigned = PostProposal::where('id',$id)->update([
-                'status'=>1
-            ]);
-            return response(1);
-        }
 
-    }
 
     public function bidDetail($id)
     {
-        $bidDetail = PostProposal::where('id',$id)->with('user')->with('post')->first();
+        $bidDetail = PostProposal::where('post_id',$id)->with('user')->with('post')->first();
         return view('frontend.posts.bid-details',compact('bidDetail'));
     }
 }

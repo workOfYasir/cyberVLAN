@@ -181,7 +181,7 @@ class UsersController extends Controller
             $services = Service::orderBy('name')->get();
             $projects = FreelancerProject::where('user_details_id', $uuid)->get();
             
-            return view('frontend.myprofile', compact('user', 'user_details', 'services','permissions','user_permissions','projects','latitude','longitude','uuid'));
+            return view('frontend.myprofile', compact('user', 'user_details', 'services','permissions','user_permissions','projects','uuid'));
         } else {
             return redirect()->route('home')
                 ->with('error', 'Something went wrong. Try again...');
@@ -202,7 +202,7 @@ class UsersController extends Controller
  
         $imageName = uniqid() . '.png';
  
-        $imageFullPath = $folderPath.$imageName;
+        $imageFullPath = public_path().'/images/profiles/'.$imageName;
  
         file_put_contents($imageFullPath, $image_base64);
         $path = $imageFullPath.$image_base64;

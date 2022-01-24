@@ -73,6 +73,7 @@
 
     <!--begin::Javascript-->
     <!--begin::Global Javascript Bundle(used by all pages)-->
+    <script src="{{ asset('js/jquery-3.5.1.js')}}"></script>
     <script src="{{ asset('plugins/global/plugins.bundle.js')}}"></script>
     <script src="{{ asset('js/scripts.bundle.js')}}"></script>
     <!--end::Global Javascript Bundle-->
@@ -84,194 +85,15 @@
     <script src="{{ asset('js/custom/apps/chat/chat.js')}}"></script>
     <script src="{{ asset('js/custom/modals/create-app.js')}}"></script>
     <script src="{{ asset('js/custom/modals/upgrade-plan.js')}}"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script>
-        let user_table;
-        $(document).ready(function() {
+        var user_approve = "{{ route('users.approve') }}"; 
+        // var payment ='{{route("payment.make", ":payment_id") }}'; 
+        var assign='{{route("assign", ":id") }}';
+        var post_approve =  "{{ route('post.approve',':id') }}";</script>
+    <script src="{{ asset('js/custom/backend.js')}}"></script>
 
-            user_table = $('#user-table').DataTable();
-
-            $('.edit-service').on('click', function() {
-                var prop_id = $(this).data('id');
-                console.log(prop_id);
-
-                $.ajax({
-                    type: 'GET',
-                    url: "{{route('service.edit', '')}}" + "/" + prop_id,
-                    dataType:'json',
-                    success: function(data) {
-                        console.log(data[0])
-                        $('.service_title').val(data[0].name);
-                    }
-                })
-
-            })
-            $('.edit-category').on('click', function() {
-                var prop_id = $(this).data('id');
-                console.log(prop_id);
-
-                $.ajax({
-                    type: 'GET',
-                    url: "{{route('category.edit', '')}}" + "/" + prop_id,
-                    dataType:'json',
-                    success: function(data) {
-                        console.log('cat',data[0])
-                        $('.category_title').val(data[0].category_name);
-                        $('.category_id').val(data[0].id);
-                        $('.category_status').val(data[0].status);
-                        $('#parent_categoryy').val(data[0].parent_category).attr('select',true)
-                       
-                       
-                  
-                        if(data[0].status==null)
-                        {
-                            $(".category_status").prop("checked", false);
-                            
-                        }else if(data[0].status==1){
-                            $(".category_status").prop("checked", true);
-                        }
-                    }
-                })
-
-            })
-            $('.edit-role').on('click', function() {
-                var prop_id = $(this).data('id');
-                console.log(prop_id);
-
-                $.ajax({
-                    type: 'GET',
-                    url: "{{route('roles.edit', '')}}" + "/" + prop_id,
-
-                    success: function(data) {
-                        console.log(data[0])
-                        $('.role-name').val(data[0].name);
-                    }
-                })
-
-            })
-            var userCount = 0
-            $('.edit-user').on('click', function() {
-                var prop_id = $(this).data('id');
-                console.log(prop_id);
-
-                $.ajax({
-                    type: 'GET',
-                    url: "{{route('users.edit', '')}}" + "/" + prop_id,
-
-                    success: function(data) {
-
-                        console.log(data);
-                        console.log(data['roles']);
-                        console.log(data['permissions']);
-                        console.log(data['userRole']);
-                        $('.user_id').val(data['data']['id'])
-                        $('.user_name').val(data['data']['first_name']);
-                        $('.user_email').val(data['data']['email']);
-                        if (userCount == 0) {
-                            for (let i = 0; i < (data['roles'].length); i++) {
-
-                                $('.user_role').append('<option value="' + data['roles'][i] + '" ' + ((data['roles'][i] == data['userRole']) ? 'selected' : '') + '>' + data['roles'][i] + '</option>');
-                                userCount++;
-                            }
-                            for (let i = 0; i < (data['permissions'].length); i++) {
-
-                                $('.user_permission').append('<option value="' + data['permissions'][i] + '" ' + ((data['permissions'][i] == data['userPermission']) ? 'selected' : '') + '>' + data['permissions'][i] + '</option>');
-                                userCount++;
-                            }
-                        }
-                    }
-                })
-
-            })
-            $('.approve-btn').on('click', function() {
-                
-             
-              $('.approve-form').submit(function (e){
-                e.preventDefault();
-                approve_data = $('.approve-user-data').val();
-                
-                
-                approve=1;
-                $.ajax({
-                    type: 'POST',
-                    url: "{{route('users.approve')}}",
-                    data: {
-                        "_token":"{{ csrf_token() }}",
-                        "approve_id":approve_data,
-                        "approve":approve,
-                        },
-                    success: function(data) {
-                       console.log(data);
-                       for (let index = 0; index < data.length; index++) {
-                        
-                        $('.approve-badge-'+data[index]).html('<label class="badge badge-light-success status-badge"id="status-badge">Approve</label>')
-                       }
-                        
-                   
-                    }
-                })
-              })
-              
-            });
-
-            $('.unapprove-btn').on('click', function() {
-
-            $('.approve-form').submit(function (e){
-                e.preventDefault();
-            approve_data = $('.approve-user-data').val();
-            
-            approve=0;
-            $.ajax({
-                type: 'POST',
-                url: "{{route('users.approve')}}",
-                data: {
-                    "_token":"{{ csrf_token() }}",
-                    "approve_id":approve_data,
-                    "approve":approve,
-                    },
-                success: function(data) {
-                    
-                       for (let index = 0; index < data.length; index++) {
-                        
-                        $('.approve-badge-'+data[index]).empty().append('<label class="badge badge-light-danger status-badge"id="status-badge">Pending</label>')
-                      }              
-                    
-                }
-            })
-            })
-
-            });
-           
-            $('.project-assigned').click(function (e){
-                id = $('.proposal-id').text();
-                
-            
-                let assign='{{route("payment.assign", ":id") }}',
-                assignUrl = assign.replace(':id', id);     
-                let payment ='{{route("payment.make", ":payment_id") }}',
-                paymentUrl = payment.replace(':id', id); 
-            $.ajax({
-                type: 'GET',
-                url: assignUrl,
-                
-                success: function(status) {
-                    console.log('yes',status);
-                 
-                    if(status == 0) {
-                        console.log('status0:',status);
-                        $('.project-assigned').empty().append('<span class="badge badge-light-danger">Not Assigned</span>  ')
-                        
-                    }else{
-                        console.log('status1:',status);
-                        $('.project-assigned').empty().append('<span class="badge badge-light-success">Assigned</span> <a href="'+paymentUrl+'"><span class="badge badge-light-success">Payment</span></a>')
-                    }             
-                    
-                }
-            })
-            })
-        })
-    </script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+@stack('scripts')
     <!--end::Page Custom Javascript-->
     <!--end::Javascript-->
 </body>

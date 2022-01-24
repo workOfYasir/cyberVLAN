@@ -52,38 +52,38 @@ $home = false;
                  
                 </ul>
             </div>
-            @if (Route::has('login'))
-            <div class="add-listing">
-                @auth
-                <div class="nav-item dropdown">
-                    <a class="btn btn-white btn-md dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ Auth::user()->first_name.' '.Auth::user()->last_name }} <i class="fas fa-chevron-down fa-xs"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                        @role('superAdmin')
-                        <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
-                        @endrole
-                        <li><a class="dropdown-item" href="{{ route('profile',Auth::user()->unni_id) }}">Profile</a></li>
-                        {{-- <li><a class="dropdown-item" href="dashboard-candidates-change-password.html">Change Password </a></li>
-                        <li><a class="dropdown-item" href="dashboard-candidates-my-resume.html">My Resume</a></li>
-                        <li><a class="dropdown-item" href="dashboard-candidates-manage-jobs.html">Manage Jobs</a></li>
-                        <li><a class="dropdown-item" href="dashboard-candidates-saved-jobs.html">Saved Jobs</a></li> --}}
-                        <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </li>
-                    </ul>
+           
+                <div class="add-listing">
+                    @auth
+                    <div class="nav-item dropdown">
+                        <a class="btn btn-white btn-md dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ Auth::user()->first_name.' '.Auth::user()->last_name }} <i class="fas fa-chevron-down fa-xs"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            @role('superAdmin')
+                            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
+                            @endrole
+                            <li><a class="dropdown-item" href="{{ route('profile',Auth::user()->unni_id) }}">Profile</a></li>
+                            {{-- <li><a class="dropdown-item" href="dashboard-candidates-change-password.html">Change Password </a></li>
+                            <li><a class="dropdown-item" href="dashboard-candidates-my-resume.html">My Resume</a></li>
+                            <li><a class="dropdown-item" href="dashboard-candidates-manage-jobs.html">Manage Jobs</a></li>
+                            <li><a class="dropdown-item" href="dashboard-candidates-saved-jobs.html">Saved Jobs</a></li> --}}
+                            <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                    @else
+                    <a class="btn btn-white btn-md" href="{{ route('login') }}"><i class="far fa-user pe-2"></i>Sign In</a>
+                    @if (Route::has('register'))
+                    <a class="btn btn-white btn-md" href="{{ route('register') }}"><i class="far fa-user pe-2"></i>Register</a>
+                    @endif
+                    @endif
                 </div>
-                @else
-                <a class="btn btn-white btn-md" href="{{ route('login') }}"><i class="far fa-user pe-2"></i>Sign In</a>
-                @if (Route::has('register'))
-                <a class="btn btn-white btn-md" href="{{ route('register') }}"><i class="far fa-user pe-2"></i>Register</a>
-                @endif
-                @endif
-            </div>
-            @endif
+           
         </div>
     </nav>
 </header>

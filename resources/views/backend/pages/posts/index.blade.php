@@ -8,7 +8,7 @@
             <!--begin::Page title-->
             <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Payment</h1>
+                <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Posts</h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-200 border-start mx-4"></span>
@@ -27,7 +27,7 @@
                     <!--end::Item-->
 
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-dark">Payment</li>
+                    <li class="breadcrumb-item text-dark">Posts</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -147,7 +147,7 @@
                 <!--begin::Header-->
                 <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bolder fs-3 mb-1">Payment Module(All Proposals)</span>
+                        <span class="card-label fw-bolder fs-3 mb-1">Posts Module</span>
                     </h3>
 
                 </div>
@@ -176,7 +176,7 @@
                             <!--end::Table head-->
                             <!--begin::Table body-->
                             <tbody>
-                            @forelse($jobsDetail as $proposal)
+                            @forelse($postDetail as $detail)
                                 <tr>
                                     <td>
                                         <div class="form-check form-check-sm form-check-custom form-check-solid">
@@ -184,22 +184,22 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary fs-6 proposal-id">{{$proposal->id}}</a>
+                                        <a href="#" class="text-dark fw-bolder text-hover-primary fs-6 postDetail-id" >{{$detail->id}}</a>
                                     </td>
                                     <td>
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{$proposal->post->job_title}}</a>
+                                        <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{$detail->post->job_title}}</a>
                                     </td>
                                     <td>
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{$proposal->user->first_name}}</a>
+                                        <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{$detail->post->user->first_name}}</a>
                                     </td>
-                                    @if ($proposal->status==1)
+                                    @if ($detail->approve==1)
                                         <td>
-                                            <a href="#" class="project-assigned" id="{{$proposal->id}}">   <span class="badge badge-light-success">Assigned</span> </a>
-                                            <a href="{{ route('payment.make',$proposal->id) }}"><span class="badge badge-light-success">Payment</span></a>
+                                            <a href="#" class="post-status" id="{{$detail->id}}"> <span class="badge badge-light-success">Approved</span> </a>
+                                           
                                         </td>
                                     @else
                                         <td>
-                                           <a href="#" class="project-assigned"> <span class="badge badge-light-danger">Not Assigned</span></a> 
+                                           <a href="#" class="post-status"  id="{{$detail->id}}"> <span class="badge badge-light-danger">Not Approved</span></a> 
                                         </td>
                                     @endif
 
@@ -240,7 +240,7 @@
                                 </tr>
                             @empty
                                 <h4 class="card-title text-center flex-column">
-                                    <span class="card-label fw-bolder fs-3 mb-1">Payment Not Found</span>
+                                    <span class="card-label fw-bolder fs-3 mb-1">Posts Not Found</span>
                                 </h4>
                             @endforelse
                             </tbody>
@@ -265,40 +265,37 @@
     <!--end::Container-->
     </div>
     <!--end::Post-->
-  
+
 @endsection
 
 @push('scripts')
-
 <script>
-
-$('.project-assigned').click(function (e){
-        id = $(this).attr('id');
-
-        assignUrl = assign.replace(':id', id);     
-
+    // console.log('post-status');
+    $('.post-status').click(function (e){
+    id = $(this).attr('id');
+   
+    postApproveUrl = post_approve.replace(':id', id);     
+    console.log('post-postApproveUrl',postApproveUrl);
+    $.ajax({
+        type: 'GET',
+        url: postApproveUrl,
         
-        $.ajax({
-            type: 'GET',
-            url: assignUrl,
-            
-            success: function(status) {
-                console.log('yes',status);
-            
-                if(status == 0) {
-                    console.log('status0:',status);
-                    $('.project-assigned').empty().append('<span class="badge badge-light-danger">Not Assigned</span>  ')
-                    
-                }else{
-                    console.log('status1:',status);
-                    $('.project-assigned').empty().append('<span class="badge badge-light-success">Assigned</span>')
-                }             
+        success: function(status) {
+   
+            if(id==status[0] && status == 0) {
+
+                $('.post-status').empty().append('<span class="badge badge-light-danger">Not Approved</span>  ')
                 
-            }
-        })
-    })
+            }else if(id==status[0] && status == 1) {
 
+                $('.post-status').empty().append('<span class="badge badge-light-success">Approved</span>')
+            }             
+            
+        }
+    })
+})
 </script>
-        
+    
 @endpush
+
 

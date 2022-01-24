@@ -236,6 +236,7 @@ $(document).ready(function() {
     });
 });
 </script>
+@stack('frontscripts')
 </body>
 
 </html>

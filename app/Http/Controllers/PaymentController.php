@@ -12,8 +12,8 @@ class PaymentController extends Controller
     {
         $user= Auth::user();
         
-        $jobsDetail = PostProposal::where('job_poster_id',$user->unni_id)->with('user')->with('post')->get();
-       
+        $jobsDetail = PostProposal::with('user')->with('post')->get();
+    //    dd($jobsDetail);
         return view('backend.pages.payment.index',['jobsDetail'=>$jobsDetail,'user'=>$user],);
     }
 }

@@ -75,6 +75,8 @@ Route::middleware(['auth', 'verified', 'two_factor','approveStatus'])->group(fun
         Route::get('my/{uuid}',[PostController::class,'myPost'])->name('my');
         Route::get('bid/{uuid}',[PostController::class,'bid'])->name('bids');
         Route::get('bid_detail/{id}',[PostProposalController::class,'bidDetail'])->name('bid_detail');
+        Route::get('approve/{id}',[PostDetailController::class,'approve'])->name('approve');
+        Route::get('all',[PostDetailController::class,'posts'])->name('all');
     });
 });
 
@@ -127,7 +129,7 @@ Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
         Route::post('delete/{id}', [UsersController::class, 'destroy'])->name('destroy');
         Route::get('edit/{id}', [UsersController::class, 'change'])->name('edit');
         Route::post('update', [UsersController::class, 'update'])->name('update');
-        Route::post('approve',[UsersController::class,'approve'])->name('approve');
+        Route::get('approve',[UsersController::class,'approve'])->name('approve');
     });
 
     Route::prefix('accessments')->name('accessments.')->group(function () {
@@ -137,13 +139,19 @@ Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
         Route::get('fetch/{id}', [AccessmentController::class, 'fetchAssessment'])->name('fetch');
         Route::post('answere-store', [AccessmentController::class, 'answereStore'])->name('answere.store');
        });
-    Route::prefix('payment')->name('payment.')->group(function () {
-        Route::get('handle-payment/{id}', [PayPalPaymentController::class, 'handlePayment'])->name('make');
-        Route::get('cancel-payment', [PayPalPaymentController::class, 'paymentCancel'])->name('cancel');
-        Route::get('payment-success', [PayPalPaymentController::class, 'paymentSuccess'])->name('success');
+    // Route::prefix('payment')->name('payment.')->group(function () {
+        Route::get('create-transaction', [PayPalPaymentController::class, 'createTransaction'])->name('createTransaction');
+        Route::get('process-transaction/{amount}', [PayPalPaymentController::class, 'processTransaction'])->name('processTransaction');
+        Route::get('success-transaction', [PayPalPaymentController::class, 'successTransaction'])->name('successTransaction');
+        Route::get('cancel-transaction', [PayPalPaymentController::class, 'cancelTransaction'])->name('cancelTransaction');
+    // });
+    // Route::prefix('payment')->name('payment.')->group(function () {
+    //     Route::get('handle-payment/{id}', [PayPalPaymentController::class, 'handlePayment'])->name('make');
+    //     Route::get('cancel-payment', [PayPalPaymentController::class, 'paymentCancel'])->name('cancel');
+    //     Route::get('payment-success', [PayPalPaymentController::class, 'paymentSuccess'])->name('success');
         Route::get('all',[PaymentController::class,'projectDetail'])->name('all');
-        Route::get('assign/{id}',[PostProposalController::class,'projectAssigned'])->name('assign');
-    });
+         Route::get('assign/{id}',[PostDetailController::class,'projectAssigned'])->name('assign');
+    // });
 
 });
 // End Back End Routes

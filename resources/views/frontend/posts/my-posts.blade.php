@@ -76,10 +76,17 @@
                         </li>
                         <li><a class="freelance" href="#"><i class="fas fa-suitcase pe-1"></i>{{ $post->postDetail[0]->jobTimeline->name }}</a></li>
                       </ul>
+                      
                     </div>
+                   
                   </div>
-                  @if($bids[0]->id!=null)
-                        <a class="btn btn-primary text-right" href="{{ route('post.bids',Auth::user()->unni_id) }}">Bids</a>
+                  @if($post->postDetail[0]->approve==0)
+                  <span class="btn btn-warning btn-sm btn-disabled">Not Approved</span>
+                @else
+                  <span class="btn btn-warning btn-sm btn-disabled">Approved</span>
+                @endif
+                  @if(count($post->bid)!=null)
+                    <a class="btn btn-primary text-right btn-sm" href="{{ route('post.bids',Auth::user()->unni_id) }}">Bids</a>
                   @endif
                 </div>
                 <div class="job-list-favourite-time">

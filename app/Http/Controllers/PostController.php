@@ -32,6 +32,14 @@ class PostController extends Controller
         $post->job_requirment=$request->get('job-requirments');
         $post->job_budget=$request->get('job-budget');
         $post->budget_status=$request->get('budget_status');
+
+        $post->hour_max=$request->get('hours_max');
+        $post->day_max=$request->get('days_max');
+        
+        $post->day_min=$request->get('days_min');
+        $post->hour_min=$request->get('hours_min');
+        
+
         $post->save();
 
         if($post->save()) {   
@@ -58,20 +66,24 @@ class PostController extends Controller
         if ($isUuid && $user_uuid == $uuid) {
             $user = User::where('unni_id', $uuid)->first();
             $user_details = UserDetails::where('user_id', $uuid)->with('freelancerWork')->with('freelancerSkill')->first();
-            $permissions = $user->getAllPermissions();
-            $p_id = $permissions[0]->id;
+            $p_id = $user->getAllPermissions()->pluck('id');
+            // dd($p_id);
+            // $p_id = $permissions;
             $postDetail = Post::with('postDetail')->with('user')->get();
             $post_id = Post::whereHas('postDetail', function($q) use($p_id){
-                    $q->where('job_timeline_id', '=', $p_id);
-            })->with('postDetail')->pluck('id')->toArray();
+                    $q->whereIn('job_timeline_id',$p_id);
+            })->with('postDetail')->pluck('id');
+ 
+            // $post_id = PostDetail::whereIn('job_timeline_id',$p_id)->get();
             $postTimeline = Post::whereHas('postDetail', function($q) use($p_id){
-                $q->where('job_timeline_id', '=', $p_id);
-            })->where('user_id',Auth::user()->id)->with('postDetail')->get();
+                $q->whereIn('job_timeline_id', $p_id);
+            })->where('user_id',Auth::user()->id)->with('postDetail')->with('bid')->get();
+       
             $services = Service::orderBy('name')->get();
-            $timelines = Permission::where('id',$permissions[0]->id)->get();
-            $bids = PostProposal::where('job_poster_id','=',$uuid)->whereIn('post_id',$post_id)->get();
-           
-            return view('frontend.posts.my-posts', compact('user', 'user_details', 'bids','services','postTimeline','postDetail','timelines','uuid'));
+            $timelines = Permission::whereIn('id',$p_id)->get();
+            // $bids = PostProposal::where('job_poster_id',$uuid)->whereIn('post_id',$post_id)->pluck('post_id');
+
+            return view('frontend.posts.my-posts', compact('user', 'user_details','services','postTimeline','postDetail','timelines','uuid'));
         } else {
             return redirect()->route('home')
                 ->with('error', 'Something went wrong. Try again...');
@@ -105,6 +117,6 @@ class PostController extends Controller
         }
      
     }
-
+    
   
 }

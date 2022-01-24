@@ -77,11 +77,21 @@
                         </li>
                         <li><a class="freelance" href="#"><i class="fas fa-suitcase pe-1"></i>{{ $bid->post->postDetail[0]->jobTimeline->name }}</a></li>
                       </ul>
+                      <a class="btn btn-primary m-3" href="{{ route('processTransaction',$bid->job_budget) }}">Pay ${{ $bid->job_budget }}</a>
+                      @if(\Session::has('error'))
+                          <div class="alert alert-danger">{{ \Session::get('error') }}</div>
+                          {{ \Session::forget('error') }}
+                      @endif
+                      @if(\Session::has('success'))
+                          <div class="alert alert-success">{{ \Session::get('success') }}</div>
+                          {{ \Session::forget('success') }}
+                      @endif
                     </div>
                   </div>
                     
                 </div>
                 <div class="job-list-favourite-time">
+                    
                     <a class="job-list-favourite order-2" href="#"><i class="far fa-heart"></i></a> <span class="job-list-time order-1"><i class="fas fa-funnel-dollar pe-1"></i>{{ $bid->job_budget }}</span><span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>1M ago</span> </div>
               </div>
             </div>
@@ -92,3 +102,6 @@
 <!--================================= Body -->
 
 @endsection
+@push('frontscripts')
+<script src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_SANDBOX_CLIENT_ID') }}"></script>
+@endpush
