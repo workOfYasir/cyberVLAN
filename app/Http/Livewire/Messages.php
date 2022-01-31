@@ -14,6 +14,7 @@ class Messages extends Component
     	$users=User::all();
     	$sender=$this->sender;
     	$this->allmessages;
+        
         return view('livewire.messages',compact('users','sender'));
     }
     public function mountdata()
@@ -35,7 +36,9 @@ class Messages extends Component
     public function SendMessage()
     {
     	$data=new Message;
-    	$data->message=$this->message;
+    	$msg = 'link=&msg='.$this->message;
+        $data->message=$msg;
+
     	$data->user_id=auth()->id();
     	$data->receiver_id=$this->sender->id;
     	$data->save();

@@ -41,24 +41,24 @@ banner -->
   <section class="space-ptb">
     <div class="container">
       <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
           <div class="row">
             <div class="col-md-12">
               <div class="job-list border">
                 <div class=" job-list-logo">
-                  <img class="img-fluid" src="{{asset('images/profiles/'.$postDetail[0]->user->userDetails[0]->user_profile)}}" alt="">
+                  <img class="img-fluid" src="{{asset('images/profiles/'.$bidDetail->post->user->userDetails[0]->user_profile)}}" alt="">
                 </div>
               
                 <div class="job-list-details">
                   <div class="job-list-info">
                     <div class="job-list-title">
-                        <h5 class="mb-2">{{ $postDetail[0]->job_title }}</h5>
-                        <span class="mb-0">Via: {{ $postDetail[0]->user->first_name.' '.$postDetail[0]->user->last_name }}</span>
+                        <h5 class="mb-2">{{ $bidDetail->post->job_title }}</h5>
+                        <span class="mb-0">Via: {{ $bidDetail->post->user->first_name.' '.$bidDetail->post->user->last_name }}</span>
                     </div>
                     <div class="job-list-option">
                       <ul class="list-unstyled">
-                        <li><i class="fas fa-map-marker-alt pe-1"></i>  {{ $postDetail[0]->user->userDetails[0]->user_address_country.', '. $postDetail[0]->user->userDetails[0]->user_address_city }}</li>
-                        <li><i class="fas fa-phone fa-flip-horizontal fa-fw"></i><span class="ps-2">{{ $postDetail[0]->user->userDetails[0]->user_phone }}</span></li>
+                        <li><i class="fas fa-map-marker-alt pe-1"></i>  {{ $bidDetail->post->user->userDetails[0]->user_address_country.', '. $bidDetail->post->user->userDetails[0]->user_address_city }}</li>
+                        <li><i class="fas fa-phone fa-flip-horizontal fa-fw"></i><span class="ps-2">{{ $bidDetail->post->user->userDetails[0]->user_phone }}</span></li>
                       </ul>
                     </div>
                   </div>
@@ -78,13 +78,13 @@ banner -->
                   <div class="feature-info-content ps-3">
                     <label class="mb-1">Offered Budget
                       <br>
-                      @if($postDetail[0]->budget_status==1)
+                      @if($bidDetail->post->budget_status==1)
                         (Fixed)
                       @else
                         (Negotiable)
                       @endif
                     </label>
-                    <span class="mb-0 fw-bold d-block text-dark">{{ $postDetail[0]->job_budget }}</span>
+                    <span class="mb-0 fw-bold d-block text-dark">{{ $bidDetail->post->job_budget }}</span>
                   </div>
                 </div>
               </div>
@@ -93,7 +93,10 @@ banner -->
                   <i class="font-xll text-primary align-self-center flaticon-time"></i>
                   <div class="feature-info-content ps-3">
                     <label class="mb-1">Timeline</label>
-                    <span class="mb-0 fw-bold d-block text-dark">{{ $postDetail[0]->postDetail[0]->jobTimeline->name }}</span>
+                    <span class="mb-0 fw-bold d-block text-dark"> 
+                        @foreach ($bidDetail->post->postDetail as $timeline)
+                            {{ $timeline->jobTimeline->name.', ' }}
+                        @endforeach</span>
                   </div>
                 </div>
               </div>
@@ -101,128 +104,80 @@ banner -->
             </div>
           </div>
           <div class="my-4 my-lg-5">
-            <h5 class="mb-3 mb-md-4">Timespan</h5>
-            <div class="col-12 d-flex">
-              <div class="col-6"><strong>Hours</strong>
-                <ul class="list-unstyled list-style">
-                  <li>Maximum Hours: {{ $postDetail[0]->hour_max }}</li>
-                  <li>Minimum Hours: {{ $postDetail[0]->hour_min }}</li>
-                </ul></div>
-              <div class="col-6"> <strong>Days</strong>
-                <ul class="list-unstyled list-style">
-                  <li>Maximum Days:  {{ $postDetail[0]->day_max }}</li>
-                  <li>Minimum Days:  {{ $postDetail[0]->day_min }}</li>
-                </ul></div>
-            </div>
-            
-           
-          </div>
-          <div class="my-4 my-lg-5">
             <h5 class="mb-3 mb-md-4">Job Description</h5>
             <p>
-                {{ $postDetail[0]->job_description }}
+                {{ $bidDetail->post->job_description }}
             </p>
           </div>
           <hr>
           <div class="my-4 my-lg-5">
             <h5 class="mb-3 mb-md-4">Required Knowledge, Skills, and Abilities</h5>
             <ul class="list-unstyled list-style">
-                @foreach ($postDetail[0]->postDetail as $skills )
+                @foreach ($bidDetail->post->postDetail as $skills )
                 <li><i class="far fa-check-circle font-md text-primary me-2"></i>
                 {{ $skills->service->name }}
                 </li> 
                 @endforeach
             </ul>
-            {{ $postDetail[0]->job_requirment }}
+            {{ $bidDetail->post->job_requirment }}
           </div>
           <hr>
           @role('freelancer')
             <div class="my-4 my-lg-5">
                 <div class="login-register">
                     <div class="section-title">
-                        <h4 class="text-center">Send Proposal</h4>
+                        <h4 class="text-center">Bid Detail</h4>
                     </div>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="candidate" role="tabpanel">
-                          <form class="mt-4" id="job_proposal" method="POST" novalidate="novalidate" action="{{ route('post.propsal') }}">            
-                                @csrf
-                                <input type="hidden" name="job-poster" value="{{ $postDetail[0]->user->unni_id }}" >
-                                <input type="hidden" name="job-post" value="{{ $postDetail[0]->id }}">
-                                <div class="row">
-                                    <div class="mb-3 col-12">
-                                        <label class="form-label" for="job-proposal">Job Proposal</label>
-                                        <textarea class="form-control" type="text" name="job-proposal" cols="10" rows="20" autocomplete="off" ></textarea>
-                                    </div>
-                    
-                                    <div class="mb-3 col-12">
-                                        <label class="form-label" for="job-budget">Job Budget</label>
-                                        <input class="form-control" type="text" name="job-budget" autocomplete="off" />
-                                    </div>
-                                    
-                                </div>
-                                <div class="row">
-                                  <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary" ><i class="far fa-paper-plane"></i>Apply for job</button>
-                                  </div>
-                                </div>
-                           
-                            </form>
+                    <div class="job-list border">
+                        <div class=" job-list-logo">
+                          <img class="img-fluid" src="{{asset('images/profiles/'.$bidDetail->user->userDetails[0]->user_profile)}}" alt="">
+                        </div>
+                      
+                        <div class="job-list-details">
+                          <div class="job-list-info">
+                            <div class="job-list-title">
+                                <h5 class="mb-0"> {{ $bidDetail->user->first_name.' '.$bidDetail->user->last_name }}</h5>
+                            </div>
+                            <div class="job-list-option">
+                              <ul class="list-unstyled">
+                                <li><i class="fas fa-map-marker-alt pe-1"></i>  {{ $bidDetail->user->userDetails[0]->user_address_country.', '. $bidDetail->user->userDetails[0]->user_address_city }}</li>
+                                <li><i class="fas fa-phone fa-flip-horizontal fa-fw"></i><span class="ps-2">{{ $bidDetail->user->userDetails[0]->user_phone }}</span></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="job-list-favourite-time">
+                          <a  class="job-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
+                          <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>2W ago</span>
+                        </div>
+                      </div>
+                    <div class="job-list border d-block p-4 mt-4 mt-lg-5">
+                        <div class="job-list-details">
+                            <div class="job-list-info">
+                            <div class="job-list-title">
+                                <h4>Proposal</h4>
+                                {{ $bidDetail->job_proposal }}
+                            </div>
+                            </div>
+                        </div>
+                    <hr/>
+                        <div class="job-list-details mt-4">
+                            <div class="job-list-info">
+                            <div class="job-list-title">
+                                <h5>Employee Budget: <small class="text-muted">{{ $bidDetail->job_budget }}K</small></h5>
+                            </div>
+                            </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
           @endrole
         </div>
         <!--================================= Signin -->
-  
-        <!--=================================
-        sidebar -->
-        
-        <div class="col-lg-4">
-          <div class="sidebar mb-0">
-           
-            <div class="widget">
-              <div class="widget-title">
-                <h5>Similar Jobs</h5>
-              </div>
-              <div class="similar-jobs-item widget-box">
-                @foreach ($postDetailList as $list)
-                <div class="job-list">
-                  <div class="job-list-logo">
-                    <img class="img-fluid" src="{{asset('images/profiles/'.$list->user->userDetails[0]->user_profile)}}" alt="">
-                  </div>
-                  <div class="job-list-details">
-                    <div class="job-list-info">
-                      <div class="job-list-title">
-      
-                        <h5 class="mb-0"><a href="{{ route('post.detail',$list->id) }}">{{ $list->job_title  }}</a></h5>
-                      </div>
-                      <div class="job-list-option">
-                        <ul class="list-unstyled">
-                          <li> <span>via</span> <a href="{{ route('public_profile', $list->user->unni_id ) }}">{{ $list->user->first_name.' '.$list->user->last_name }}</a> </li>
-                          <li><i class="fas fa-map-marker-alt pe-1"></i>{{ $list->user->userDetails[0]->user_address_country.', '.$list->user->userDetails[0]->user_address_city }}</li>
-                          <li><i class="fas fa-filter pe-1"></i>
-                            @foreach ($list->postDetail as $detail)
-                                {{ $detail->service->name }},
-                            @endforeach
-                          </li>
-                          <li><a class="freelance" href="#"><i class="fas fa-suitcase pe-1"></i>{{ $list->postDetail[0]->jobTimeline->name }}</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>     
-                @endforeach
-                        
-                
-              </div>
-            </div> 
-          </div>
-        </div>
+
    
-        <!--=================================
-        sidebar -->
+      
+  
       </div>
     </div>
   </section>
@@ -281,5 +236,4 @@ banner -->
   </section>
   <!--=================================
   feature -->
-
   @endsection

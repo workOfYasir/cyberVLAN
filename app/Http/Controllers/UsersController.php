@@ -17,6 +17,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
+use Stevebauman\Location\Facades\Location;
 
 class UsersController extends Controller
 {
@@ -179,7 +180,7 @@ class UsersController extends Controller
             $user_permissions = $user->permissions->all();
             $services = Service::orderBy('name')->get();
             $projects = FreelancerProject::where('user_details_id', $uuid)->get();
-    
+            
             return view('frontend.myprofile', compact('user', 'user_details', 'services','permissions','user_permissions','projects','uuid'));
         } else {
             return redirect()->route('home')
@@ -201,7 +202,7 @@ class UsersController extends Controller
  
         $imageName = uniqid() . '.png';
  
-        $imageFullPath = $folderPath.$imageName;
+        $imageFullPath = public_path().'/images/profiles/'.$imageName;
  
         file_put_contents($imageFullPath, $image_base64);
         $path = $imageFullPath.$image_base64;
@@ -214,7 +215,6 @@ class UsersController extends Controller
 
     public function profile_update(Request $request)
     {
-        dd($request);
         $id = $request->input('xxzyzz');
         $uuid = $request->input('qqxid');
         $this->validate($request, [
@@ -252,12 +252,26 @@ class UsersController extends Controller
         
         $userInfo = UserDetails::where('user_id', $uuid);
         $userInfo->update($userDetails_data);
-        if($request->input('longitude') && $request->input('latitude')) {
+        $position = Location::get($request->ip());
+        $longitude = $position->longitude;
+        $latitude = $position->latitude;
+        if($longitude==$request->input('longitude') &&  $latitude == $request->input('latitude')){
             $userInfo->update([
-                'longitude'=>$request->input('longitude'),
-                'latitude'=>$request->input('latitude'),
+                'ip'=>$request->ip(),
+                'longitude'=>$longitude,
+                'latitude'=>$latitude,
             ]);
+        }else{
+            if($request->input('longitude') && $request->input('latitude')) {
+                $userInfo->update([
+                    'longitude'=>$request->input('longitude'),
+                    'latitude'=>$request->input('latitude'),
+                ]);
+            }
+            
         }
+        // $userInfo->update($userDetails_data);
+        
         if($request->hasFile('document')) {
              
             $document = $request->file('document') ;

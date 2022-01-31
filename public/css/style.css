@@ -75,7 +75,9 @@ body {
     color: #969696;
     overflow-x: hidden;
 }
-
+.text-muted{
+    color: #969696;
+}
 a {
     outline: medium none !important;
     color: #ff8a00;
@@ -7537,9 +7539,6 @@ iframe {
     }
     .header.header-transparent+.banner {
         padding: 80px 0px 80px 0px;
-    }
-    .header .add-listing {
-        display: none;
     }
     .agency-logo {
         display: none;

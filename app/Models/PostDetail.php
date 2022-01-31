@@ -21,4 +21,5 @@ class PostDetail extends Model
         return $this->belongsTo('App\Models\Post','post_id')->with('user');
     }
     
+    
 }

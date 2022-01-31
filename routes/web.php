@@ -1,23 +1,25 @@
 <?php
 
-use App\Http\Controllers\Auth\SocialiteLoginController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\ApproveStatus;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\Freelancer\FreelancerWorkController;
-use App\Http\Controllers\Freelancer\FreelancerProjectController;
+use App\Http\Middleware\TwoFactorVerify;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TwoFactorController;
 use App\Http\Controllers\AccessmentController;
 use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostDetailController;
 use App\Http\Controllers\PostProposalController;
-use App\Http\Controllers\Services\CategoryController;
+use App\Http\Controllers\PayPalPaymentController;
 use App\Http\Controllers\Services\ServiceController;
 use App\Http\Controllers\Socialite\GoogleController;
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\TwoFactorController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use App\Http\Middleware\TwoFactorVerify;
-use App\Http\Middleware\ApproveStatus;
+use App\Http\Controllers\Services\CategoryController;
+use App\Http\Controllers\Auth\SocialiteLoginController;
+use App\Http\Controllers\Freelancer\FreelancerWorkController;
+use App\Http\Controllers\Freelancer\FreelancerProjectController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,7 +30,6 @@ use App\Http\Middleware\ApproveStatus;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 
 
 
@@ -45,11 +46,11 @@ Route::get('/referral', [UsersController::class, 'referral'])->name('referral');
 Route::get('/public_profile/{uuid}', [UsersController::class, 'public_profile'])->name('public_profile');
 
 
-// Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
+Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
     Route::get('/profile/{uuid}', [UsersController::class, 'profile'])->name('profile');
-// }); 
+}); 
 
-// Route::middleware(['auth', 'verified', 'two_factor','approveStatus'])->group(function () {
+Route::middleware(['auth', 'verified', 'two_factor','approveStatus'])->group(function () {
     
  
     Route::prefix('freelancer')->name('freelancer.')->group(function () {
@@ -71,8 +72,13 @@ Route::get('/public_profile/{uuid}', [UsersController::class, 'public_profile'])
         Route::get('detail/{id}', [PostDetailController::class, 'detail'])->name('detail');
         Route::get('list',[PostDetailController::class,'list'])->name('list');
         Route::post('propsal',[PostProposalController::class,'propsal'])->name('propsal');
+        Route::get('my/{uuid}',[PostController::class,'myPost'])->name('my');
+        Route::get('bid/{uuid}',[PostController::class,'bid'])->name('bids');
+        Route::get('bid_detail/{id}',[PostProposalController::class,'bidDetail'])->name('bid_detail');
+        Route::get('approve/{id}',[PostDetailController::class,'approve'])->name('approve');
+        Route::get('all',[PostDetailController::class,'posts'])->name('all');
     });
-// });
+});
 
 
 
@@ -123,7 +129,7 @@ Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
         Route::post('delete/{id}', [UsersController::class, 'destroy'])->name('destroy');
         Route::get('edit/{id}', [UsersController::class, 'change'])->name('edit');
         Route::post('update', [UsersController::class, 'update'])->name('update');
-        Route::post('approve',[UsersController::class,'approve'])->name('approve');
+        Route::get('approve',[UsersController::class,'approve'])->name('approve');
     });
 
     Route::prefix('accessments')->name('accessments.')->group(function () {
@@ -133,6 +139,20 @@ Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
         Route::get('fetch/{id}', [AccessmentController::class, 'fetchAssessment'])->name('fetch');
         Route::post('answere-store', [AccessmentController::class, 'answereStore'])->name('answere.store');
        });
+    // Route::prefix('payment')->name('payment.')->group(function () {
+        Route::get('create-transaction', [PayPalPaymentController::class, 'createTransaction'])->name('createTransaction');
+        Route::get('process-transaction/{amount}', [PayPalPaymentController::class, 'processTransaction'])->name('processTransaction');
+        Route::get('success-transaction', [PayPalPaymentController::class, 'successTransaction'])->name('successTransaction');
+        Route::get('cancel-transaction', [PayPalPaymentController::class, 'cancelTransaction'])->name('cancelTransaction');
+    // });
+    // Route::prefix('payment')->name('payment.')->group(function () {
+    //     Route::get('handle-payment/{id}', [PayPalPaymentController::class, 'handlePayment'])->name('make');
+    //     Route::get('cancel-payment', [PayPalPaymentController::class, 'paymentCancel'])->name('cancel');
+    //     Route::get('payment-success', [PayPalPaymentController::class, 'paymentSuccess'])->name('success');
+        Route::get('all',[PaymentController::class,'projectDetail'])->name('all');
+         Route::get('assign/{id}',[PostDetailController::class,'projectAssigned'])->name('assign');
+    // });
+
 });
 // End Back End Routes
 

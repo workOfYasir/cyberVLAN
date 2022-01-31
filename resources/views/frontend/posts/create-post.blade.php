@@ -68,6 +68,10 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="form-group mb-4 col-md-12" id="hours">
+                                    </div>
+                                    <div class="form-group mb-4 col-md-12" id="days">
+                                    </div>
                                 </div>
                                 <div class="form-check">
                                   <label class="form-check-label">
@@ -92,3 +96,6 @@
 </section>
 
 @endsection
+@push('frontscripts')
+    <script src="{{ asset('js/custom/jobs-timeline.js') }}"></script>
+@endpush
