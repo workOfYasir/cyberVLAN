@@ -10,8 +10,8 @@
                 <p class="lead mb-4 mb-lg-5 fw-normal">Find Jobs, Employment & Career Opportunities</p>
                 <div class="job-search-field">
                     <div class="job-search-item">
-                        <form class="form row">
-                            <div class="col-lg-5">
+                        <form class="form row ">
+                            {{-- <div class="col-lg-5">
                                 <div class="form-group mb-3">
                                     <div class="d-flex">
                                         <label class="form-label">What</label>
@@ -22,8 +22,8 @@
                                         <i class="fas fa-search"></i>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-5">
+                            </div> --}}
+                            {{-- <div class="col-lg-5">
                                 <div class="form-group mb-3">
                                     <div class="d-flex">
                                         <label class="form-label">Where</label>
@@ -40,23 +40,25 @@
                                         </a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-2 col-sm-12">
+                            </div> --}}
+                            <div class="col-12 text-center">
+                               
                                 <div class="form-group mb-3 form-action">
                                     <button type="submit" class="btn btn-primary btn-lg"><i class="fas fa-search"></i> Find Jobs</button>
                                 </div>
+                               
                             </div>
                         </form>
                     </div>
                 </div>
-                <div class="job-tag mt-4">
+                {{-- <div class="job-tag mt-4">
                     <ul class="justify-content-center">
                         <li class="text-primary">Trending Keywords :</li>
                         <li><a href="#">Automotive,</a></li>
                         <li><a href="#">Education,</a></li>
                         <li><a href="#">Health and Care Engineering</a></li>
                     </ul>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -76,14 +78,20 @@
             </div>
             <div class="col-lg-9 mt-0 mt-md-3 mt-lg-0">
                 <div class="category-style text-center">
-                    <a href="#" class="category-item">
-                        <div class="category-icon mb-4">
-                            <i class="flaticon-account"></i>
-                        </div>
-                        <h6>Accountancy</h6>
-                        <span class="mb-0">301 Open Position </span>
-                    </a>
-                    <a href="#" class="category-item">
+                    @forelse ($services as $skill)
+                        <a href="#" class="category-item">
+                            {{-- <div class="category-icon mb-4">
+                                <i class="flaticon-account"></i>
+                            </div> --}}
+                            <h6>{{ $skill->category->category_name }}</h6>
+                            <h4>{{ $skill->name }}</h4>
+                            <span class="mb-0">{{ $open_jobs }} Open Position </span>
+                        </a>  
+                    @empty
+                        
+                    @endforelse
+                    
+                    {{-- <a href="#" class="category-item">
                         <div class="category-icon mb-4">
                             <i class="flaticon-conversation"></i>
                         </div>
@@ -131,7 +139,7 @@
                         </div>
                         <h6>Legal</h6>
                         <span class="mb-0">689 Open Position </span>
-                    </a>
+                    </a> --}}
                 </div>
             </div>
         </div>
@@ -148,6 +156,8 @@
     </div>
 </div>
 <!-- End Divider -->
+@if(auth()->check())
+    
 
 <!-- Start Jobs-listing -->
 <section class="space-ptb">
@@ -308,7 +318,7 @@
                                 </div>
                             </div>
                             <div class="employers-list-position">
-                                <a class="btn btn-sm btn-dark" href="#">17 Open position</a>
+                                <a class="btn btn-sm btn-dark" href="#">Open position</a>
                             </div>
                         </div>
                     </div>
@@ -321,7 +331,7 @@
     </div>
 </section>
 <!-- End Candidates & Companies -->
-
+@endif
 <!-- Start Easiest Way to Use -->
 <section class="space-pb">
     <div class="container">
@@ -529,56 +539,6 @@
 </section>
 <!-- End Why You Choose Job Among Other Job Site -->
 
-<!-- Start Clients Say About Us -->
-<section class="space-pb">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10">
-                <div class="section-title center">
-                    <h2 class="title">Clients Say About Us</h2>
-                    <p>Focus is having the unwavering attention to complete what you set out to do.</p>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="owl-carousel owl-nav-top-center" data-nav-arrow="true" data-items="1" data-md-items="1" data-sm-items="1" data-xs-items="1" data-xx-items="1" data-space="0">
-                    <div class="item">
-                        <div class="testimonial-item text-center">
-                            <div class="avatar">
-                                <img class="img-fluid rounded-circle" src="images/avatar/04.jpg" alt="">
-                            </div>
-                            <div class="testimonial-content">
-                                <p>Their turnaround time for fixing any issue is just a few minutes, and that is appreciable. Their Business Development Team is always there to help at any point in time. Thank you so much for all your effort.</p>
-                            </div>
-                            <div class="testimonial-name">
-                                <i class="fas fa-quote-left quotes"></i>
-                                <h6 class="mb-1">Felica Queen</h6>
-                                <span>Product Designer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="testimonial-item text-center">
-                            <div class="avatar">
-                                <img class="img-fluid rounded-circle" src="images/avatar/02.jpg" alt="">
-                            </div>
-                            <div class="testimonial-content">
-                                <p>Jobber is an excellent job portal. We value the resumes received through this channel. Magic Search and Power search are handy tools. We are delighted with their service.</p>
-                            </div>
-                            <div class="testimonial-name">
-                                <i class="fas fa-quote-left quotes"></i>
-                                <h6 class="mb-1">John Doe</h6>
-                                <span>Graphic Designer</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- End Clients Say About Us -->
 
 <!-- Start Browse Hundreds of Jobs -->
 <section class="">
@@ -593,22 +553,7 @@
                                     <h2 class="title">Browse Hundreds of Jobs</h2>
                                     <p class="lead">We are efficiently delivering tons of jobs straight to your pocket.</p>
                                 </div>
-                                <div class="d-block d-sm-flex mb-0 mb-lg-2">
-                                    <a class="btn btn-white btn-sm btn-app me-0 me-sm-2 mb-2 mb-sm-0 py-2" href="#">
-                                        <i class="fab fa-apple"></i>
-                                        <div class="btn-text text-start">
-                                            <small class="fw-normal">Download on the </small>
-                                            <span class="mb-0 d-block">App Store</span>
-                                        </div>
-                                    </a>
-                                    <a class="btn btn-white btn-sm btn-app mb-2 mb-sm-0 py-2" href="#">
-                                        <i class="fab fa-google-play"></i>
-                                        <div class="btn-text text-start">
-                                            <small class="fw-normal">Get it on </small>
-                                            <span class="mb-0 d-block">Google Play</span>
-                                        </div>
-                                    </a>
-                                </div>
+                            
                             </div>
                         </div>
                         <div class="col-lg-5 mt-4 mt-md-5 text-center">
@@ -641,15 +586,15 @@
                     </div>
                     <div class="blog-post-content">
                         <div class="blog-post-details pb-0">
-                            <div class="blog-post-time">
+                            {{-- <div class="blog-post-time">
                                 <a href="#">February 4, 2019</a>
-                            </div>
+                            </div> --}}
                             <div class="blog-post-title">
-                                <h5><a href="#">How to sell yourself in a job interview</a></h5>
+                                <h5><a href="#">Sell yourself in a job interview</a></h5>
                             </div>
-                            <div class="justify-content-center mt-2 d-flex">
+                            {{-- <div class="justify-content-center mt-2 d-flex">
                                 <a class="btn btn-link p-0" href="#">Read More <i class="fas fa-long-arrow-alt-right ps-2"></i></a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -661,15 +606,15 @@
                     </div>
                     <div class="blog-post-content">
                         <div class="blog-post-details pb-0">
-                            <div class="blog-post-time">
+                            {{-- <div class="blog-post-time">
                                 <a href="#">March 10, 2019</a>
-                            </div>
+                            </div> --}}
                             <div class="blog-post-title">
-                                <h5><a href="#">Hype or Helpful to the Jobs Market?</a></h5>
+                                <h5><a href="#">Hype or Helpful to the Jobs Market.</a></h5>
                             </div>
-                            <div class="justify-content-center mt-2 d-flex">
+                            {{-- <div class="justify-content-center mt-2 d-flex">
                                 <a class="btn btn-link p-0" href="#">Read More <i class="fas fa-long-arrow-alt-right ps-2"></i></a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -681,15 +626,15 @@
                     </div>
                     <div class="blog-post-content">
                         <div class="blog-post-details pb-0">
-                            <div class="blog-post-time">
+                            {{-- <div class="blog-post-time">
                                 <a href="#">May 15, 2020</a>
-                            </div>
+                            </div> --}}
                             <div class="blog-post-title">
                                 <h5><a href="#">How to become an Account Manager</a></h5>
                             </div>
-                            <div class="justify-content-center mt-2 d-flex">
+                            {{-- <div class="justify-content-center mt-2 d-flex">
                                 <a class="btn btn-link p-0" href="#">Read More <i class="fas fa-long-arrow-alt-right ps-2"></i></a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>

@@ -176,7 +176,7 @@
                             <!--end::Table head-->
                             <!--begin::Table body-->
                             <tbody>
-                            @forelse($postDetail as $detail)
+                            @forelse($post as $detail)
                                 <tr>
                                     <td>
                                         <div class="form-check form-check-sm form-check-custom form-check-solid">
@@ -187,10 +187,10 @@
                                         <a href="#" class="text-dark fw-bolder text-hover-primary fs-6 postDetail-id" >{{$detail->id}}</a>
                                     </td>
                                     <td>
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{$detail->post->job_title}}</a>
+                                        <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{$detail->job_title}}</a>
                                     </td>
                                     <td>
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{$detail->post->user->first_name}}</a>
+                                        <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{$detail->user->first_name}}</a>
                                     </td>
                                     @if ($detail->approve==1)
                                         <td>

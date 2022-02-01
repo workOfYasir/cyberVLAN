@@ -87,7 +87,6 @@
     <script src="{{ asset('js/custom/modals/upgrade-plan.js')}}"></script>
     <script>
         var user_approve = "{{ route('users.approve') }}"; 
-        // var payment ='{{route("payment.make", ":payment_id") }}'; 
         var assign='{{route("assign", ":id") }}';
         var post_approve =  "{{ route('post.approve',':id') }}";</script>
     <script src="{{ asset('js/custom/backend.js')}}"></script>

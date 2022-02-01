@@ -49,13 +49,18 @@ $home = false;
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="{{ route('client.list') }}">Companies</a>
                     </li>
-                 
+                    <li>
+                        <a class="nav-link" href="{{ route('messanger') }}" >
+                            <i class="fas fa-comment-dots" style="font-size: 20px;"></i>
+                        </a>
+                    </li>
                 </ul>
             </div>
            
                 <div class="add-listing">
                     @auth
                     <div class="nav-item dropdown">
+                       
                         <a class="btn btn-white btn-md dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ Auth::user()->first_name.' '.Auth::user()->last_name }} <i class="fas fa-chevron-down fa-xs"></i>
                         </a>

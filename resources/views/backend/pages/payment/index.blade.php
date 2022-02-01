@@ -195,7 +195,7 @@
                                     @if ($proposal->status==1)
                                         <td>
                                             <a href="#" class="project-assigned" id="{{$proposal->id}}">   <span class="badge badge-light-success">Assigned</span> </a>
-                                            <a href="{{ route('payment.make',$proposal->id) }}"><span class="badge badge-light-success">Payment</span></a>
+                                            {{-- <a href="{{ route('payment.make',$proposal->id) }}"><span class="badge badge-light-success">Payment</span></a> --}}
                                         </td>
                                     @else
                                         <td>

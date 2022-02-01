@@ -14,10 +14,7 @@ class JobSearch extends Component
 
     public function changeFilter($param, $value)
     {
-        // dd($param);
-        // $this->resetPage();
         $this->$param = $value;
-        // dd($this->salery);
     }
 
     public function resetFilter()
@@ -33,12 +30,10 @@ class JobSearch extends Component
     }
     public function searchJob(){
         $user = auth()->user();
-        $permissions = $user->getAllPermissions();
-        $p_id = $permissions[0]->id;
-        // dd($p_id);
+        $p_id = $user->getAllPermissions()->pluck('id');
         $query = Post::whereHas('postDetail', function($q) use($p_id){
-                $q->where('job_timeline_id',  $p_id);
-        });
+                $q->whereIn('job_timeline_id',  $p_id);
+        })->where('approve',1);
 
         $query->when(! empty($this->types), function (Builder $q) {
             $q->whereHas('postDetail', function (Builder $q) {

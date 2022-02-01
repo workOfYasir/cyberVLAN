@@ -47,6 +47,7 @@ class PostProposalController extends Controller
     public function bidDetail($id)
     {
         $bidDetail = PostProposal::where('post_id',$id)->with('user')->with('post')->first();
+
         return view('frontend.posts.bid-details',compact('bidDetail'));
     }
 }

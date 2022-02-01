@@ -36,7 +36,7 @@ use App\Http\Controllers\Freelancer\FreelancerProjectController;
 
 
 // Chat
-Route::view('chat','chat.messages');
+Route::view('chat','chat.messages')->name('messanger');
 
 // Front End Routes
 Route::get('/', [PostDetailController::class, 'show'])->name('home');
@@ -46,11 +46,11 @@ Route::get('/referral', [UsersController::class, 'referral'])->name('referral');
 Route::get('/public_profile/{uuid}', [UsersController::class, 'public_profile'])->name('public_profile');
 
 
-Route::middleware(['auth', 'verified', 'two_factor'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/profile/{uuid}', [UsersController::class, 'profile'])->name('profile');
 }); 
 
-Route::middleware(['auth', 'verified', 'two_factor','approveStatus'])->group(function () {
+Route::middleware(['auth','approveStatus'])->group(function () {
     
  
     Route::prefix('freelancer')->name('freelancer.')->group(function () {
