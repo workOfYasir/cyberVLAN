@@ -43,6 +43,7 @@ class ServiceController extends Controller
         $service->name = $request->get('service_title');
         $service->category_id = $request->get('service_category');
         $service->status = $request->get('service_status');
+        $service->description = $request->get('service_description');
 
         $service->save();
 
@@ -56,6 +57,13 @@ class ServiceController extends Controller
         $category = Category::Where('parent_category', '=', '')->orWhere('parent_category', '=', 0)->with('subCategory')->get();
    
         return view('backend.pages.service.index', ['service' => $service, 'category' => $category, 'user' => $user]);
+    }
+    public function allServices()
+    {
+        $user = Auth::user();
+        $service = Service::with('category')->get();
+        $category = Category::Where('parent_category', '=', '')->orWhere('parent_category', '=', 0)->with('subCategory')->get();
+        return view('frontend.services', ['service' => $service, 'category' => $category, 'user' => $user]);
     }
 
 

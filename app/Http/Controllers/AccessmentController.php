@@ -73,12 +73,11 @@ class AccessmentController extends Controller
     //to fetch assessment from db for submisson pass the parmeter assessment id 
     public function fetchAssessment($id){
 
-        $assessment =  Accessment::where('assessment_id', $id)->inRandomOrder()->limit(2)->get();
+        $assessment =  Accessment::where('assessment_id', $id)->inRandomOrder()->limit(15)->get();
         $assessment_detail = AssessmentDetail::where('id',$id)->with('freelancerSkill')->first();
         return view('frontend.posts.assessment-submit',['assessment'=>$assessment,'assessment_detail'=>$assessment_detail]);
     }
     public function answereStore(Request $request){
-
         $submittedAnswere=[];$correctAnswere=[];$score=0;
         foreach($request->id as $key=>$item){
             $var='answere'.$key;

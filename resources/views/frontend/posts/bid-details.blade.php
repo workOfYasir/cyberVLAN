@@ -122,7 +122,7 @@ banner -->
             {{ $bidDetail->post->job_requirment }}
           </div>
           <hr>
-          @role('freelancer')
+
             <div class="my-4 my-lg-5">
                 <div class="login-register">
                     <div class="section-title">
@@ -168,14 +168,246 @@ banner -->
                             </div>
                             </div>
                         </div>
+                        
                     </div>
-                </div>
-            </div>
-          @endrole
-        </div>
-        <!--================================= Signin -->
+                    <div class="job-list border d-block p-4 mt-4 mt-lg-5">
+                      <div class="job-list-details">
+                        <div class="job-list-info">
+                        <div class="job-list-title">
+                            <h4>Milestones</h4>
+                          
+                        </div>
+                        </div>
+                    </div>
 
-   
+                    @if(@$postDeliverable!=null)
+                      @if(count($postDeliverable)>=1)
+                      <form action="{{ route('milestoneComment') }}" class="form-horizontal poststars" method="post">
+                      @csrf
+                      <input type="hidden" name="job_candidate" value="{{ $bidDetail->user->id }}">
+                      <input type="hidden" name="job_poster" value="{{ $bidDetail->post->user->id }}">
+                      
+                      
+                        @foreach($postDeliverable as $key => $deliverable)
+                        {{ $key+1 }}
+                        <div class="job-list-details mt-4">
+                         
+                          <div class="job-list-info">
+                            <input type="hidden" name="proposal_id" value="{{ $deliverable->proposal_id }}">
+                          <div class="job-list-title">
+                              <h5>Project Milestone  <small class="text-muted">{{ $deliverable->deliverable_title }}</small></h5>
+                              <h5>Project Duration <small class="text-muted">{{ $deliverable->deliverable_duration }}</small></h5>
+                            @if($deliverable->deliverable_description==null)
+                              <input type="hidden" value="{{ $deliverable->id }}" name="deliverable_id[]" />
+                              <input type="text" class="form-control" placeholder="Comment" name="milestone_comment[]"/>
+                            @else
+                            <br />
+                              @role('freelancer')
+                              <input type="hidden" value="{{ $deliverable->id }}" name="deliverable_id[]" />
+                              <input type="text" class="form-control"  placeholder="Milestone Title" name="milestone[]"/>
+                              <input type="text" class="form-control"  placeholder="Milestone Duration" name="duration[]"/>
+                              @endrole
+                              <br />
+                              <input type="hidden" disabled class="form-control" placeholder="Comment" name="milestone_comment"/>
+                              <h5>
+                                @role('freelancer')
+                                Comments From Job Poster 
+                                @endrole
+                                <small class="text-muted">{{ $deliverable->deliverable_description }}</small></h5>
+                            @endif
+                          </div>
+                          </div>
+                      </div>
+                      <hr />
+                        @endforeach
+                        @role('superAdmin')
+                        <input type="submit" value="send for review">
+                        @endrole
+                        @role('client')
+                        <input type="submit" value="send for review">
+                        @endrole
+                        @role('freelancer')
+                        <input type="submit" value="change milestone">
+                        @endrole
+                        
+                      </form>
+                      @endif
+                    @endif
+                </div>
+              </div>
+            </div>
+            <div class="my-4 my-lg-5">
+          @if(@$review!=null)
+            
+          
+              @if(count($review)>=1)
+              @if(!$rating)
+              <h6>Reviews</h6>
+  
+              <div class="d-flex flex-row">
+                  <div class="stars"> 
+                      <div id="rateYo" data-rateyo-rating="{{ $bidDetail->user->averageRating}}"> </div>
+                      <form class="form-horizontal poststars" action="{{route('productStar', $bidDetail->user->id)}}" id="addStar" method="POST">
+                          {{ csrf_field() }}
+                            <input type="hidden" name="post_id" value="{{ $bidDetail->post }}">
+
+                            <div class="form-group required">
+                                  <div class="col-sm-12">
+                                      @if($bidDetail->user->averageRating>0.0000 && $bidDetail->user->averageRating<=0.5555)
+                                      <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                      <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                      <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                      <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                      <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                      <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
+                                      <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                      <label class="star star-2" for="star-2"><i class="far fa-star"></i></label>
+                                      <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                      <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star-half-stroke"></i></label>
+                                    
+                                      @elseif($bidDetail->user->averageRating>=0.5555 && $bidDetail->user->averageRating<=1.0000)
+                                      <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                      <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                      <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                      <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                      <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                      <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
+                                      <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                      <label class="star star-2" for="star-2"><i class="far fa-star"></i></label>
+                                      <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                      <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                      @elseif($bidDetail->user->averageRating>=1.0000 && $bidDetail->user->averageRating<=1.5555)
+                                      <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                      <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                      <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                      <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                      <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                      <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
+                                      <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                      <label class="star star-2" for="star-2" ><i class="fa-solid fa-star-half-stroke"></i></label>
+                                      <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                      <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                      @elseif($bidDetail->user->averageRating>=1.5555 && $bidDetail->user->averageRating<=2.0000)
+                                      <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                      <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                      <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                      <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                      <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                      <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
+                                      <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                      <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                      <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                      @elseif($bidDetail->user->averageRating>=2.0000 && $bidDetail->user->averageRating<=2.5555)
+                                      <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                      <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                      <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                      <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                      <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                      <label class="star star-3" for="star-3" ><i class="fa-solid fa-star-half-stroke"></i></label>
+                                      <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                      <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                      <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                      @elseif($bidDetail->user->averageRating>=2.5555 && $bidDetail->user->averageRating<=3.0000)
+                                      <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                      <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                      <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                      <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                      <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                      <label class="star star-3" for="star-3" ><i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                      <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                      <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                      @elseif($bidDetail->user->averageRating>=3.0000 && $bidDetail->user->averageRating<=3.5555)
+                                      <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                      <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                      <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                      <label class="star star-4" for="star-4"><i class="fa-solid fa-star-half-stroke"></i></label>
+                                      <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                      <label class="star star-3" for="star-3" ><i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                      <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                      <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                      @elseif($bidDetail->user->averageRating>=3.5555 && $bidDetail->user->averageRating<=4.0000)
+                                      <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                      <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                      <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                      <label class="star star-4" for="star-4"> <i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                      <label class="star star-3" for="star-3" > <i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                      <label class="star star-2" for="star-2" > <i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                      <label class="star star-1"  for="star-1" > <i class="fa-solid fa-star"></i></label>
+                                      @elseif($bidDetail->user->averageRating>=4.0000 && $bidDetail->user->averageRating<4.5555)
+                                      <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                      <label class="star star-5" for="star-5"><i class="fa-solid fa-star-half-stroke"></i></label>
+                                      <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                      <label class="star star-4" for="star-4"  ><i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                      <label class="star star-3" for="star-3" ><i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                      <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                      <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                      @elseif($bidDetail->user->averageRating>=4.5555 && $bidDetail->user->averageRating<5.0000)
+                                      <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                      <label class="star star-5" for="star-5"><i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                      <label class="star star-4" for="star-4"  ><i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                      <label class="star star-3" for="star-3" ><i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                      <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                      <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                      <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                      @else
+                                      <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                      <label class="star star-5" for="star-5">
+                                          <i class="far fa-star"></i>
+                                      </label>
+                                      <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                      <label class="star star-4" for="star-4">
+                                          <i class="far fa-star"></i>
+                                      </label>
+                                      <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                      <label class="star star-3" for="star-3">
+                                          <i class="far fa-star"></i>
+                                      </label>
+                                      <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                      <label class="star star-2" for="star-2">
+                                          <i class="far fa-star"></i>
+                                      </label>
+                                         
+                                      <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                      <label class="star star-1" for="star-1">
+                                          <i class="far fa-star"></i>
+                                      </label>
+                                      @endif
+                                 
+                                   </div>
+                                </div>
+                                <input type="text" class="form-control"  name="comment"/>
+                                <input value="ok" id="comment" type="submit"  />
+                        </form>
+                  </div>  
+                  <span class="ml-1 font-weight-bold"> {{  number_format($bidDetail->user->averageRating,1,'.','') }}</span>
+              </div>
+              @endif
+              {{-- <form action="{{ route('review_store') }}" method="post">
+                @csrf
+                <input type="text" class="form-control" name="review"/>
+                <input value="olk" id="comment" type="submit"  />
+              </form> --}}
+              @endif
+              @endif
+            </div>
+        
+          </div>
+        <!--================================= Signin -->
       
   
       </div>

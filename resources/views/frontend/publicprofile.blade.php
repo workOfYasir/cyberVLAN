@@ -15,6 +15,7 @@
                             <div class="candidate-list-title">
                                 <h5 class="mb-0">{{ $user->first_name.' '.$user->last_name }}</h5>
                             </div>
+                            
                             <div class="candidate-list-option">
                                 <ul class="list-unstyled">
                                    
@@ -26,7 +27,158 @@
                             </div>
                         </div>
                     </div>
-                    <div class="widget ms-auto mb-0">
+                    <div class="stars col"> 
+                        <div id="rateYo" data-rateyo-rating="{{ $user->averageRating}}"> </div>
+                        {{-- <form class="form-horizontal poststars" action="{{route('productStar', $user->id)}}" id="addStar" method="POST"> --}}
+                            {{ csrf_field() }}
+                                  <div class="form-group required text-end">
+                                    <h6 class="ml-1 font-weight-bold"> {{  number_format($user->averageRating,1,'.','') }}</h6>
+                                    <div class="col-sm-12">
+
+                                        @if($user->averageRating>0.0000 && $user->averageRating<=0.5555)
+                                        <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                        <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                        <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                        <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                        <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                        <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
+                                        <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                        <label class="star star-2" for="star-2"><i class="far fa-star"></i></label>
+                                        <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                        <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star-half-stroke"></i></label>
+                                      
+                                        @elseif($user->averageRating>=0.5555 && $user->averageRating<=1.0000)
+                                        <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                        <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                        <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                        <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                        <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                        <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
+                                        <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                        <label class="star star-2" for="star-2"><i class="far fa-star"></i></label>
+                                        <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                        <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                        @elseif($user->averageRating>=1.0000 && $user->averageRating<=1.5555)
+                                        <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                        <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                        <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                        <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                        <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                        <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
+                                        <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                        <label class="star star-2" for="star-2" ><i class="fa-solid fa-star-half-stroke"></i></label>
+                                        <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                        <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                        @elseif($user->averageRating>=1.5555 && $user->averageRating<=2.0000)
+                                        <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                        <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                        <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                        <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                        <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                        <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
+                                        <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                        <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                        <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                        @elseif($user->averageRating>=2.0000 && $user->averageRating<=2.5555)
+                                        <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                        <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                        <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                        <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                        <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                        <label class="star star-3" for="star-3" ><i class="fa-solid fa-star-half-stroke"></i></label>
+                                        <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                        <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                        <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                        @elseif($user->averageRating>=2.5555 && $user->averageRating<=3.0000)
+                                        <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                        <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                        <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                        <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                        <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                        <label class="star star-3" for="star-3" ><i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                        <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                        <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                        @elseif($user->averageRating>=3.0000 && $user->averageRating<=3.5555)
+                                        <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                        <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                        <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                        <label class="star star-4" for="star-4"><i class="fa-solid fa-star-half-stroke"></i></label>
+                                        <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                        <label class="star star-3" for="star-3" ><i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                        <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                        <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                        @elseif($user->averageRating>=3.5555 && $user->averageRating<=4.0000)
+                                        <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                        <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                        <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                        <label class="star star-4" for="star-4"> <i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                        <label class="star star-3" for="star-3" > <i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                        <label class="star star-2" for="star-2" > <i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                        <label class="star star-1"  for="star-1" > <i class="fa-solid fa-star"></i></label>
+                                        @elseif($user->averageRating>=4.0000 && $user->averageRating<4.5555)
+                                        <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                        <label class="star star-5" for="star-5"><i class="fa-solid fa-star-half-stroke"></i></label>
+                                        <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                        <label class="star star-4" for="star-4"  ><i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                        <label class="star star-3" for="star-3" ><i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                        <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                        <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                        @elseif($user->averageRating>=4.5555 && $user->averageRating<5.0000)
+                                        <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                        <label class="star star-5" for="star-5"><i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                        <label class="star star-4" for="star-4"  ><i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                        <label class="star star-3" for="star-3" ><i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                        <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                        <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                        <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                        @else
+                                        <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                        <label class="star star-5" for="star-5">
+                                            <i class="far fa-star"></i>
+                                        </label>
+                                        <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                        <label class="star star-4" for="star-4">
+                                            <i class="far fa-star"></i>
+                                        </label>
+                                        <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                        <label class="star star-3" for="star-3">
+                                            <i class="far fa-star"></i>
+                                        </label>
+                                        <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                        <label class="star star-2" for="star-2">
+                                            <i class="far fa-star"></i>
+                                        </label>
+                                           
+                                        <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                        <label class="star star-1" for="star-1">
+                                            <i class="far fa-star"></i>
+                                        </label>
+                                        @endif
+                                       
+                                     </div>
+                                    
+                                  </div>
+{{--                                                      
+                                  <input type="text" class="form-control" value="{{ $comment[0]->comment }}" name="comment"/>
+                                  <input value="ok" id="comment" type="submit"  /> --}}
+                          {{-- </form> --}}
+                    </div> 
+                    {{-- <div class="widget ms-auto mb-0">
                         <div class="company-detail-meta ms-auto">
                             <ul class="list-unstyled mt-3 mb-0 ms-2 ms-sm-0">
                                 <li>
@@ -57,7 +209,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -96,6 +248,7 @@
                                             <label class="mb-0">Name:</label>
                                             <span class="d-block fw-bold text-dark">{{ $user->first_name.' '.$user->last_name }}</span>
                                         </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-sm-6 mb-4">
@@ -303,6 +456,98 @@
                         </p>
                     </div>
                     <hr class="my-4 my-md-5" />
+                    <h6>Reviews</h6>
+                    @foreach ($user->jobCandidate as $candidate)
+                        @foreach ($candidate->post->ratingOn as $rating)
+                        <div class="stars"> 
+                            <div id="rateYo" data-rateyo-rating="{{ $rating->rating}}"> </div>
+                        
+                                {{ csrf_field() }}
+                                      <div class="form-group required">
+                                        <div class="col-sm-12">
+                                            @if($rating->rating>0 && $rating->rating<=1)
+                                            <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                            <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                            <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                            <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                            <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                            <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
+                                            <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                            <label class="star star-2" for="star-2"><i class="far fa-star"></i></label>
+                                            <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                            <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                            @elseif($rating->rating>=1 && $rating->rating<=2)
+                                            <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                            <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                            <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                            <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                            <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                            <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
+                                            <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                            <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                            <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                            <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                            @elseif($rating->rating>=2 && $rating->rating<=3)
+                                            <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                            <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                            <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                            <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                            <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                            <label class="star star-3" for="star-3" ><i class="fa-solid fa-star"></i></label>
+                                            <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                            <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                            <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                            <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                            @elseif($rating->rating>=3 && $rating->rating<=4)
+                                            <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                            <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                            <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                            <label class="star star-4" for="star-4"> <i class="fa-solid fa-star"></i></label>
+                                            <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                            <label class="star star-3" for="star-3" > <i class="fa-solid fa-star"></i></label>
+                                            <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                            <label class="star star-2" for="star-2" > <i class="fa-solid fa-star"></i></label>
+                                            <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                            <label class="star star-1"  for="star-1" > <i class="fa-solid fa-star"></i></label>
+                                            @elseif($rating->rating>=4 && $rating->rating<5)
+                                            <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                            <label class="star star-5" for="star-5"><i class="fa-solid fa-star"></i></label>
+                                            <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                            <label class="star star-4" for="star-4"  ><i class="fa-solid fa-star"></i></label>
+                                            <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                            <label class="star star-3" for="star-3" ><i class="fa-solid fa-star"></i></label>
+                                            <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                            <label class="star star-2" for="star-2" ><i class="fa-solid fa-star"></i></label>
+                                            <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                            <label class="star star-1"  for="star-1" ><i class="fa-solid fa-star"></i></label>
+                                            @else
+                                            <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                            <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                                            <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                            <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                                            <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                            <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
+                                            <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                            <label class="star star-2" for="star-2"><i class="far fa-star"></i></label>   
+                                            <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                            <label class="star star-1" for="star-1"><i class="far fa-star"></i></label>
+                                            @endif
+                                       
+                                         </div>
+                                      </div>
+                             
+                        </div> 
+                        <span class="ml-1 font-weight-bold"> {{  $rating->user->first_name . ' ' . $rating->user->last_name }}</span>
+                         <div id="portfolio" class="popup-gallery">
+                            <input class="form-control" disabled type="text" value="{{ $rating->comment }}" />
+                        </div>
+                        @endforeach
+                       @endforeach
+                    {{-- </div> --}}
+                  {{-- </div> --}}
+                    </div>
+                    <div class="d-flex flex-row">
+                        
                 </div>
             </div>
             <!--================================= sidebar -->
@@ -412,3 +657,6 @@
 </section>
 <!--================================= feature -->
 @endsection
+@push('frontscripts')
+
+@endpush

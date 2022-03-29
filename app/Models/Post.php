@@ -18,8 +18,14 @@ class Post extends Model
     {
         return $this->hasMany('App\Models\PostDetail')->with('service')->with('jobTimeline');
     }
+    
     public function bid()
     {
         return $this->hasMany('App\Models\PostProposal');
     }
+    public function ratingOn()
+    {
+        return $this->hasMany(Rating::class)->with('user')->with('rateable');
+    }
+   
 }

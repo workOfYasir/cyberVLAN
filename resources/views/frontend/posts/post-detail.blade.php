@@ -136,6 +136,7 @@ banner -->
             {{ $postDetail[0]->job_requirment }}
           </div>
           <hr>
+         
           @role('freelancer')
             <div class="my-4 my-lg-5">
                 <div class="login-register">
@@ -158,7 +159,10 @@ banner -->
                                         <label class="form-label" for="job-budget">Job Budget</label>
                                         <input class="form-control" type="text" name="job-budget" autocomplete="off" />
                                     </div>
-                                    
+                                    More Links: <i class="fa fa-plus add" ></i> <input type="hidden" name="deliverable" id="deliverable">
+                                    <div class="mb-3 col-12 appending_div">
+                                      
+                                    </div>
                                 </div>
                                 <div class="row">
                                   <div class="col-md-6 offset-md-4">
@@ -215,7 +219,7 @@ banner -->
                 </div>     
                 @endforeach
                         
-                
+              
               </div>
             </div> 
           </div>
@@ -283,3 +287,28 @@ banner -->
   feature -->
 
   @endsection
+  @push('frontscripts')
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js" integrity="sha512-yFjZbTYRCJodnuyGlsKamNE/LlEaEAxSUDe5+u61mV8zzqJVFOH7TnULE2/PP/l5vKWpUNnF4VGVkXh3MjgLsg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+  //   $('#addStar').change('.star', function(e) {     
+  //     $(this).submit();
+  //     e.preventDefault();
+  // });
+  $("#comment").click(function () { 
+    $(this).submit();
+    e.preventDefault();
+  })
+ 
+
+    $(document).ready(function() {
+        var i = 1;
+        $('.add').on('click', function() {
+          $("#deliverable").val(1)
+            var field = '<br><div>milestone '+i+': <input type="text" name="title[]" class="form-control"> &nbsp;  Days '+i+':  <input type="text" name="days[]" class="form-control"></div>';
+            $('.appending_div').append(field);
+            i = i+1;
+        })
+    })
+</script>
+  @endpush

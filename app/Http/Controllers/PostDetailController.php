@@ -6,9 +6,12 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Service;
 use App\Models\PostDetail;
+use App\Models\PostProposal;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
+// use willvincent\Rateable\Tests\models\Rating;
 
 class PostDetailController extends Controller
 {
@@ -59,6 +62,38 @@ class PostDetailController extends Controller
         
         return view('frontend.posts.post-detail',['postDetail'=>$postDetail,'postDetailList'=>$postDetailList]);
     }
+    public function allPostDetail($id)
+    {
+        $postDetail = Post::where('id',$id)->with('postDetail')->with('user')->get();
+        $user = auth()->user();
+        $p_id = $user->getAllPermissions()->pluck('id');
+        $postDetailList = Post::whereHas('postDetail', function($q) use($p_id){
+                $q->whereIn('job_timeline_id', $p_id);
+        })->with('postDetail')->with('user')->get();
+        
+        return view('frontend.posts.post-detail',['postDetail'=>$postDetail,'postDetailList'=>$postDetailList]);
+    }
+    // public function reviewDetail($id)
+    // {
+    //     $review= PostProposal::where('post_id',$id)->where('status',2)->get();
+    //     $rating = Rating::where('post_id',$id)->exists();
+    //     // dd($rating);
+    //     $candidate_id = PostProposal::where('id',$id)->where('status',2)->pluck('candidate_id');
+    //     // $reviewedTo = User::where('unni_id',$candidate_id)->with(['jobCandidate' => function ($query) use($candidate_id,$id) {
+    //     //     $query->where('candidate_id',$candidate_id)->where('post_id',$id)->with('post');
+    //     // }])->get();
+    //     $user = User::where('unni_id',$candidate_id)->get();
+    //     // dd($review);
+    //     $postDetail = Post::where('id',$id)->with('postDetail')->with('user')->get();
+    //     $user = auth()->user();
+    //     $p_id = $user->getAllPermissions()->pluck('id');
+    //     $postDetailList = Post::whereHas('postDetail', function($q) use($p_id){
+    //             $q->whereIn('job_timeline_id', $p_id)->where('approve', 1);
+    //     })->with('postDetail')->with('user')->get();
+    //     // $comment = Rating::where('rateable_id',$reviewedTo[0]->id)->get();
+    //     // dd($comment);
+    //     return view('frontend.posts.post-detail',['postDetail'=>$postDetail,'postDetailList'=>$postDetailList,'review'=>$review,'user'=>$user,'rating'=>$rating]);
+    // }
    
     public function approve($id)
     {

@@ -2,16 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Rating;
+use willvincent\Rateable\Rateable;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+// use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-// use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use  HasFactory, HasRoles, Notifiable;
+    use  HasFactory, HasRoles, Rateable, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -63,6 +65,22 @@ class User extends Authenticatable implements MustVerifyEmail
     public function userReferences()
     {
         return $this->hasMany('App\Models\UserReference','user_id','unni_id');
+    }
+    public function jobCandidate()
+    {
+        return $this->hasMany('App\Models\PostProposal','candidate_id','unni_id');
+    }
+    public function jobPoster()
+    {
+        return $this->hasMany('App\Models\PostProposal','job_poster_id','unni_id');
+    }
+    public function ratingTo()
+    {
+        return $this->hasMany(Rating::class,'rateable_id','id');
+    }
+    public function ratingBy()
+    {
+        return $this->hasMany(Rating::class,'user_id','id');
     }
   
 }

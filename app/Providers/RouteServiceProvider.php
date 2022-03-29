@@ -21,6 +21,7 @@ class RouteServiceProvider extends ServiceProvider
     public const EMAIL_VARIFY = '/verify-email';
     public const AFTER_EMAIL_VARIFY = '/verify';
     public const OTP ='/2fa';
+    public const ROLE = '/role';
     /**
      * The controller namespace for the application.
      *

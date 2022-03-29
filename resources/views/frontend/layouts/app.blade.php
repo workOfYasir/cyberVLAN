@@ -14,6 +14,7 @@
 
     <!-- CSS Global Compulsory (Do not remove)-->
     <link rel="stylesheet" href="{{asset('css/font-awesome/all.min.css')}}" />
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
     <link rel="stylesheet" href="{{asset('css/flaticon/flaticon.css')}}" />
     <link rel="stylesheet" href="{{asset('css/bootstrap/bootstrap.min.css')}}" />
     <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
@@ -25,7 +26,7 @@
     <!-- Page CSS Implementing Plugins (Remove the plugin CSS here if site does not use that feature)-->
     <link rel="stylesheet" href="{{asset('css/owl-carousel/owl.carousel.min.css')}}" />
     <link rel="stylesheet" href="{{asset('css/magnific-popup/magnific-popup.css')}}" />
-  
+    <link rel="stylesheet" href="{{asset('css/rating.css')}}" />
     <!-- Template Style -->
     <link rel="stylesheet" href="{{asset('css/style.css')}}" />
 
@@ -51,6 +52,7 @@
     <script src="{{asset('js/bootstrap/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/profile.js')}}"></script>
     <script src="{{ asset('js/jobs/job_search.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js" integrity="sha512-yFjZbTYRCJodnuyGlsKamNE/LlEaEAxSUDe5+u61mV8zzqJVFOH7TnULE2/PP/l5vKWpUNnF4VGVkXh3MjgLsg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @livewireScripts
     <!-- Page JS Implementing Plugins (Remove the plugin script here if site does not use that feature)-->
     <script src="{{asset('js/jquery.appear.js')}}"></script>

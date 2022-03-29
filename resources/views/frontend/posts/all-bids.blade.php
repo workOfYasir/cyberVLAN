@@ -38,6 +38,7 @@
                             <li><a target="_blank" href="{{ route('public_profile',Auth::user()->unni_id) }}">Public Profile</a></li>
                             <li><a href="{{ route('accessments.show')}}" class="{{ Request::routeIs('accessments.show') ? 'active' : '' }}" >Assessments</a></li> 
                             <li><a href="{{ route('post.my',Auth::user()->unni_id) }}" class="{{ Request::routeIs('post.my',Auth::user()->unni_id) ? 'active' : '' }} {{ Request::routeIs('post.bids',Auth::user()->unni_id) ? 'active' : '' }}" >My Jobs</a></li>
+                            {{-- <li><a href="{{ route('review.list',Auth::user()->unni_id) }}" class="{{ Request::routeIs('review.list',Auth::user()->unni_id) ? 'active' : '' }}">Reviews</a></li> --}}
                             {{-- <li><a href="#">Manage Jobs</a></li>
                             <li><a href="#">Saved Jobs</a></li> --}}
                         </ul>
@@ -77,7 +78,31 @@
                         </li>
                         <li><a class="freelance" href="#"><i class="fas fa-suitcase pe-1"></i>{{ $bid->post->postDetail[0]->jobTimeline->name }}</a></li>
                       </ul>
-                      <a class="btn btn-primary m-3" href="{{ route('processTransaction',$bid->job_budget) }}">Pay ${{ $bid->job_budget }}</a>
+
+
+                      <!-- Button to Open the Modal -->
+                      @if ($bid->deliverable==1)
+                      <div class="login d-inline-block me-4">
+                        <a href="#" data-bs-toggle="modal" class="btn btn-info" data-bs-target="#exampleModalCenter2">Pay  <i class="fab fa-paypal" aria-hidden="true"></i></a>
+                      </div>
+                      @else
+                      <div class="login d-inline-block me-4">
+                        <a href="#" data-bs-toggle="modal" class="btn btn-info" data-bs-target="#exampleModalCenter">Pay with <i class="fab fa-paypal" aria-hidden="true"></i></a>
+                      </div>
+                      @endif
+                     
+  
+                      {{-- <a class="btn btn-primary m-3" href="{{ route('processTransaction',$bid->job_budget) }}">Pay ${{ $bid->job_budget }}</a> --}}
+                      @if($bid->status==0)
+                      <a class="btn btn-primary m-3" href="{{ route('ProjectAssign',$bid->id) }}"> Start Project </a>
+                      @else
+                       <a class="btn btn-primary m-3" href="#">Project Started</a>
+                     @endif
+                     @if($bid->status==1)
+                        <a class="btn btn-primary m-3"  href="{{ route('completeProject',$bid->id) }}"> Complete Task </a>
+                     @elseif($bid->status==2)
+                        <a class="btn btn-primary m-3" href="{{  route('post.review_detail',['bid_id'=>$bid->id,'post_id'=>$bid->post->id]) }}">Task Completed </a>
+                     @endif
                       @if(\Session::has('error'))
                           <div class="alert alert-danger">{{ \Session::get('error') }}</div>
                           {{ \Session::forget('error') }}
@@ -101,7 +126,182 @@
 </section>
 <!--================================= Body -->
 
+ <!-- The Modal payment 3 -->
+ <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header p-4">
+        <h4 class="mb-0 text-center">Payment Form</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <div class="login-register">
+          
+          <div class="tab-content">
+            <div class="tab-pane active" id="candidate" role="tabpanel">
+              <form class="mt-4" action="{{ route('processTransaction',$bid->job_budget) }}">
+                <input type="hidden" name="reciever" value="{{ $bid->candidate_id }}">
+                <input type="hidden" name="post_id" value="{{ $bid->post->id }}" >
+                <input type="hidden" name="sender" value="{{ $bid->job_poster_id }}">
+                <table class="table table-borderless">
+                  <thead>
+                    <tr>
+                      <th>
+                        <div class="mb-3 col-12">
+                          <label class="form-label" for="Email2">Name</label>
+                          
+                        </div>
+                      </th>
+                      <th>
+                        <div class="mb-3 col-12">
+                          <label class="form-label" for="Email2">Days</label>
+                          
+                        </div>
+                      </th>
+                      <th>
+                        <div class="mb-3 col-12">
+                          <label class="form-label" for="Email2">Price</label>
+                          
+                        </div>
+                      </th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($postDeliverables as $key => $postDeliverable)
+                    <tr>
+                      <td>
+                        <div class="mb-3 col-12">
+                          <input type="text" class="form-control" value="{{ $postDeliverable->deliverable_title }}" name="title" id="title">  
+                        </div>
+                      </td>
+                      <td>
+                        <div class="mb-3 col-12">
+                          <input type="text" class="form-control" value="{{ $postDeliverable->deliverable_duration }}" name="days" id="days">  
+                        </div>
+                      </td>
+                      <td>
+                        <div class="mb-3 col-12">
+                          <input type="text" class="form-control" value="{{ $bid->job_budget/$deliverableCount }}" name="price" id="price">  
+                        </div>
+                      </td>
+                      <td>
+                        <input class="btn btn-primary d-grid" type="submit" />
+                      </td>
+                    </tr>
+                    @endforeach
+                  
+                  </tbody>
+                </table>
+
+                </div>
+              </form>
+            </div>
+            
+          </div>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- The Modal payment 1 & 2 -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header p-4">
+          <h4 class="mb-0 text-center">Payment Form</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <div class="login-register">
+            
+            <div class="tab-content">
+              <div class="tab-pane active" id="candidate" role="tabpanel">
+                <form class="mt-4" action="{{ route('processTransaction',$bid->job_budget) }}">
+                  <input type="hidden" name="reciever" value="{{ $bid->candidate_id }}">
+                  <input type="hidden" name="post_id" value="{{ $bid->post->id }}" >
+                  <input type="hidden" name="sender" value="{{ $bid->job_poster_id }}">
+                    <div class="row">
+                    <div class="mb-3 col-12">
+                      <label class="form-label" for="Email2">Bank Email</label>
+                      <input type="hidden" class="form-control" value="sb-sfzid13867679@personal.example.com" name="email" id="email">
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-12">
+                          <label class="form-label" for="Email2">Project Price</label>
+                          <input type="hidden" class="form-control" name="price" value="{{ $bid->job_budget }}" id="price"> 
+                          <input type="text" disabled class="form-control" name="price" value="{{ $bid->job_budget }}" id="price">
+                        </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="mb-3 col-12">
+                      <label class="form-label" for="Email2">Remaining Price</label>
+                      <span id="remaining" data-amount="{{ $bid->job_budget }}">{{ $bid->job_budget }}</span>
+                    </div>    
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <input class="btn btn-primary d-grid" type="submit" />
+                    </div>
+                   
+                  </div>
+                </form>
+              </div>
+              {{-- <div class="tab-pane fade" id="employer" role="tabpanel">
+                <form class="mt-4" action="{{ route('public_profile', $bid->user->unni_id ) }}">
+                    <div class="row">
+                      <div class="mb-3 col-12">
+                        <label class="form-label" for="Email2">Bank Email</label>
+                        <input type="text" class="form-control" name="email" id="email">
+                      </div>
+                      <div class="row">
+                          <div class="mb-3 col-12">
+                            <label class="form-label" for="Email2">Project Price</label>
+                            <input type="text" class="form-control" name="price" id="price">
+                          </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="mb-3 col-12">
+                        <label class="form-label" for="Email2">Remaining Price</label>
+                        <span id="remaining" data-amount="{{ $bid->job_budget }}">{{ $bid->job_budget }}</span>
+                      </div>    
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <input class="btn btn-primary d-grid" type="submit" />Sign In
+                      </div>
+                     
+                    </div>
+                  </form>
+              </div> --}}
+            </div>
+        
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 @push('frontscripts')
 <script src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_SANDBOX_CLIENT_ID') }}"></script>
+<script>
+$(document).ready(function (){
+        var remaining_amount = $('#remaining').attr("data-amount");
+        remaining_amount = parseInt(remaining_amount);
+        
+    $('#price').change(function(){
+         var price = $('#price').val();
+         price = parseInt(price);
+        
+         var newPrice = remaining_amount - price
+         
+         $('#remaining').text(newPrice);
+    })
+})
+   
+</script>
 @endpush

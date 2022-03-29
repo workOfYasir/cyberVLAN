@@ -16,9 +16,13 @@
         "laravelcollective/html": "^6.2",
         "larswiegers/laravel-maps": "^0.7.0",
         "livewire/livewire": "^2.8",
+        "paypal/adaptivepayments-sdk-php": "^3.9",
+        "paypal/paypal-checkout-sdk": "^1.0",
+        "pragmarx/countries-laravel": "^0.7.0",
         "spatie/laravel-permission": "^5.1",
-        "srmklive/paypal": "~1.0",
-        "stevebauman/location": "^6.2"
+        "srmklive/paypal": "^3.0",
+        "stevebauman/location": "^6.2",
+        "willvincent/laravel-rateable": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

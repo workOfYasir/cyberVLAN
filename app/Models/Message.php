@@ -13,4 +13,8 @@ class Message extends Model
     {
     	return $this->belongsTo(User::class);
     }
+    public function reciever()
+    {
+    	return $this->belongsTo(User::class,'receiver_id','id');
+    }
 }

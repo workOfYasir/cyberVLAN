@@ -8171,6 +8171,10 @@ iframe {
         border-left: 1px solid #eeeeee !important;
     }
 }
+.modal-backdrop.show {
+opacity: 0 !important;
+}
+.sticky-top{
+    z-index: 0 !important;
+}
 
-
-/*# sourceMappingURL=../css/style.css.map */

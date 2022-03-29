@@ -50,9 +50,11 @@
                 </div>
                 <div class="job-list-option">
                   <ul class="list-unstyled">
+                    
                     <li> <span>via</span> <a href="{{ route('public_profile', $post->user->unni_id ) }}">{{ $post->user->first_name.' '.$post->user->last_name }}</a> </li>
                     <li><i class="fas fa-map-marker-alt pe-1"></i>{{ $post->user->userDetails[0]->user_address_country.', '.$post->user->userDetails[0]->user_address_city }}</li>
                     <li><i class="fas fa-filter pe-1"></i>
+                      
                       @foreach ($post->postDetail as $detail)
                           {{ $detail->service->name }},
                       @endforeach

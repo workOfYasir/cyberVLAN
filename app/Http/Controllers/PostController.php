@@ -6,10 +6,11 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Service;
 use App\Models\PostDetail;
-use App\Models\PostProposal;
 use App\Models\UserDetails;
 use Illuminate\Support\Str;
+use App\Models\PostProposal;
 use Illuminate\Http\Request;
+use App\Models\PostDeliverable;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 
@@ -21,6 +22,13 @@ class PostController extends Controller
         $permissions = Permission::all();
         $services = Service::orderBy('name')->get();
         return view('frontend.posts.create-post', compact('permissions', 'user','services'));
+    }
+    public function fetchPosts()
+    {
+        $user = Auth::user();
+        $post = Post::with('postDetail')->with('bid')->get();
+        // dd($post);
+        return view('backend.pages.postDetail.index',compact('post','user'));
     }
     public function store(Request $request)
     {
@@ -108,9 +116,11 @@ class PostController extends Controller
             })->where('user_id',Auth::user()->id)->with('postDetail')->get();
             $services = Service::orderBy('name')->get();
             $timelines = Permission::where('id',$permissions[0]->id)->get();
-            $bids = PostProposal::where('job_poster_id','=',$uuid)->whereIn('post_id',$post_id)->with('user')->with('post')->get();
-
-            return view('frontend.posts.all-bids', compact('user', 'user_details', 'bids','services','postTimeline','postDetail','timelines','uuid'));
+            $bids = PostProposal::where('job_poster_id','=',$uuid)->whereIn('post_id',$post_id)->with('user')->with('post')->with('deliverables')->get();
+          
+            $postDeliverables = PostDeliverable::whereIn('proposal_id',[$bids[0]->id])->get();
+            $deliverableCount = count($postDeliverables);
+            return view('frontend.posts.all-bids', compact('user', 'user_details', 'bids','services','postTimeline','postDetail','timelines','postDeliverables','deliverableCount','uuid'));
         } else {
             return redirect()->route('home')
                 ->with('error', 'Something went wrong. Try again...');

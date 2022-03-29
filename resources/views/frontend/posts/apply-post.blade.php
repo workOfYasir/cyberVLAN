@@ -40,7 +40,10 @@
                                         <label class="form-label" for="job-budget">Job Budget</label>
                                         <input class="form-control" type="text" name="job-budget" autocomplete="off" />
                                     </div>
-                                    
+                                    More Links: <span class="fa fa-plus add"></span>
+                                    <div class="mb-3 col-12 appending_div">
+                                      
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -59,3 +62,14 @@
 </section>
 
 @endsection
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var i = 1;
+        $('.add').on('click', function() {
+            var field = '<br><div>Link URL '+i+': <input type="text" name="blog_linku_one[]"> &nbsp; Link Name '+i+':  <input type="text" name="blog_linkn_one[]"></div>';
+            $('.appending_div').append(field);
+            i = i+1;
+        })
+    })
+</script>

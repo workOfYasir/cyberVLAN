@@ -169,6 +169,7 @@
                                 <th class="min-w-150px">Sr#</th>
                                 <th class="min-w-140px">Title</th>
                                 <th class="min-w-120px">Category</th>
+                                <th class="min-w-120px">Description</th>
                                 <th class="min-w-120px">Status</th>
                                 <th class="min-w-100px text-end">Actions</th>
                             </tr>
@@ -191,6 +192,9 @@
                                     </td>
                                     <td>
                                         <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{$item->category->category_name}}</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{$item->description}}</a>
                                     </td>
                                     @if ($item->status==1)
                                         <td>

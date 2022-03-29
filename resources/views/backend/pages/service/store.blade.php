@@ -59,16 +59,28 @@
                             <select name="service_category" class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Month">
                                 <option hidden selected disabled>Select Category</option>
                                 @foreach($category as $main)
-                                <option disabled>-----{{$main->category_name}}-----</option>
-                                @foreach($main->subCategory as $child)
-                                <option value="{{$child->id}}">{{$child->category_name}}</option>
-                                @endforeach
+                                    <option disabled>-----{{$main->category_name}}-----</option>
+                                    @if(count($main->subCategory)>0)
+                                        <option value="{{$main->id}}">{{$main->category_name}}</option>
+                                    @endif
+                                    @foreach($main->subCategory as $child)
+                                        <option value="{{$child->id}}">{{$child->category_name}}</option>
+                                    @endforeach
                                 @endforeach
                             </select>
                         </div>
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                            <span class="required">Service Description</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Short description for future usage and reference"></i>
+                        </label>
+                        <!--end::Label-->
+                        <textarea class="form-control form-control-solid" placeholder="Enter Description Title" name="service_description" ></textarea>
+                    </div>
                     <!--begin::Input group-->
                     <div class="d-flex flex-stack mb-8">
                         <!--begin::Label-->

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Service;
 use App\Models\UserDetails;
@@ -14,10 +15,13 @@ use App\Models\FreelancerSkill;
 use App\Models\freelancerProject;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use App\Models\PostProposal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
+use PragmaRX\Countries\Package\Countries;
 use Stevebauman\Location\Facades\Location;
+use willvincent\Rateable\Rating;
 
 class UsersController extends Controller
 {
@@ -107,7 +111,29 @@ class UsersController extends Controller
             ->with('success', 'User Created Successfully');
     }
 
-
+    public function roles()
+    {
+        $authUser = Auth::user()->roles->pluck('name');
+        if(count($authUser)==0){
+           
+            return view('frontend.roles');
+        }else{
+           
+            return redirect(RouteServiceProvider::OTP);
+        }
+       
+    }
+    public function roleStore(Request $request)
+    {
+        $authUser = Auth::user();
+        $user = User::find($authUser->id);
+        if ($request->role == 1) {
+            $user->assignRole('freelancer');
+        } else  if ($request->role == 2) {
+            $user->assignRole('client');
+        }
+        return redirect('/');
+    }
 
     public function show($id)
     {
@@ -358,9 +384,13 @@ class UsersController extends Controller
         $isUuid = Str::isUuid($uuid);
         if ($isUuid) {
             $user = User::where('unni_id', $uuid)->first();
-            $user_role=User::role('freelancer')->where('unni_id',$uuid)->first();
+            $reviewedTo = User::where('unni_id',$uuid)->with(['jobCandidate' => function ($query) use($uuid) {
+                $query->where('candidate_id', $uuid)->where('status',2)->with('post');
+            }])->get();
+            // dd($reviewedTo);
+            $user_role = User::role('freelancer')->where('unni_id',$uuid)->first();
             $user_details = UserDetails::with('freelancerWork')->with('freelancerSkill')->where('user_id', $uuid)->first();
-           
+            $jobPosterId = Auth::user()->unni_id;
             return view('frontend.publicprofile', compact('user', 'user_role','user_details'));
         } else {
             return redirect()->route('home')
@@ -387,4 +417,40 @@ class UsersController extends Controller
         $timelines = Permission::all();
         return view('frontend.client-list',['userDetail'=>$userDetail,'services'=>$services,'timelines'=>$timelines]);
     }
+
+    public function country(Request $request)
+    {
+        $ip = $request->ip();
+        $position = Location::get($ip);
+        $nextFlag = Countries::where('cca2', 'AF');
+        dd($position);
+    }
+ 
+    public function postStar(Request $request,$id) {
+   
+        $id =(int)$id;
+        $rating = new Rating;
+        $rating->user_id = Auth::user()->id;
+        $rating->rating = $request->input('star');
+        $rating->rateable_type = 'App\Models\User';
+        $rating->rateable_id = $id;
+        $rating->post_id = $request->input('post_id');
+        $rating->comment = $request->input('comment');
+        $rating->save();
+        
+        return redirect()->back();
+  }
+  public function postComment(Request $request, User $user,$id) {
+   
+    $id =(int)$id;
+    $rating = new Rating;
+    $rating->comment = $request->input('star');
+    Post::where('id',$id)->update([
+        'approve'=>0
+    ]);
+    $rating->save();
+    
+    return redirect()->back();
+}
+
 }

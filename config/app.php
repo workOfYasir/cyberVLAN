@@ -178,7 +178,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        Stevebauman\Location\LocationServiceProvider::class
+        Stevebauman\Location\LocationServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class,
+        willvincent\Rateable\RateableServiceProvider::class,
     ],
 
     /*

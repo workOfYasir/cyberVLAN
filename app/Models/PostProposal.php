@@ -12,10 +12,17 @@ class PostProposal extends Model
     {
         return $this->belongsTo('App\Models\User','candidate_id','unni_id')->with('userDetails');
     }
+    public function deliverables()
+    {
+        return $this->hasMany('App\Models\PostDeliverable','proposal_id','id');
+    }
     public function post()
     {
-        return $this->belongsTo('App\Models\Post','post_id')->with('postDetail');
+        return $this->belongsTo('App\Models\Post','post_id')->with('postDetail')->with('ratingOn')->with('bid');
+    }
+    public function poster()
+    {
+        return $this->belongsTo('App\Models\User','job_poster_id','unni_id');
     }
     
-
 }

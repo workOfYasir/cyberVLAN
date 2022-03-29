@@ -38,6 +38,7 @@
                             <li><a target="_blank" href="{{ route('public_profile',Auth::user()->unni_id) }}">Public Profile</a></li>
                             <li><a href="{{ route('accessments.show')}}" class="{{ Request::routeIs('accessments.show') ? 'active' : '' }}" >Assessments</a></li> 
                             <li><a href="{{ route('post.my',Auth::user()->unni_id) }}" class="{{ Request::routeIs('post.my',Auth::user()->unni_id) ? 'active' : '' }}" >My Jobs</a></li>
+                            {{-- <li><a href="{{ route('review.list',Auth::user()->unni_id) }}" class="{{ Request::routeIs('review.list',Auth::user()->unni_id) ? 'active' : '' }}">Reviews</a></li> --}}
                             {{-- <li><a href="#">Manage Jobs</a></li>
                             <li><a href="#">Saved Jobs</a></li> --}}
                         </ul>
@@ -80,7 +81,7 @@
                     </div>
                    
                   </div>
-                  @if($post->postDetail[0]->approve==0)
+                  @if($post->approve==0)
                   <span class="btn btn-warning btn-sm btn-disabled">Not Approved</span>
                 @else
                   <span class="btn btn-warning btn-sm btn-disabled">Approved</span>
