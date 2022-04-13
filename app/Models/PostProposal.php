@@ -16,6 +16,14 @@ class PostProposal extends Model
     {
         return $this->hasMany('App\Models\PostDeliverable','proposal_id','id');
     }
+    public function proposalHistory()
+    {
+        return $this->hasMany('App\Models\DeliverableHistory','proposal_id','id');
+    }
+    public function userHistory()
+    {
+        return $this->hasMany('App\Models\DeliverableHistory','user_id','id');
+    }
     public function post()
     {
         return $this->belongsTo('App\Models\Post','post_id')->with('postDetail')->with('ratingOn')->with('bid');

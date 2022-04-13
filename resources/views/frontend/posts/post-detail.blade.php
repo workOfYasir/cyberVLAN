@@ -159,7 +159,8 @@ banner -->
                                         <label class="form-label" for="job-budget">Job Budget</label>
                                         <input class="form-control" type="text" name="job-budget" autocomplete="off" />
                                     </div>
-                                    More Links: <i class="fa fa-plus add" ></i> <input type="hidden" name="deliverable" id="deliverable">
+                                   Add More Milestones: <i class="fa fa-plus add" ></i> <input type="hidden" name="deliverable" id="deliverable" value="1">
+                                    <br><div>milestone 1: <input type="text" name="title[]" class="form-control"> &nbsp;  Days 1:  <input type="text" name="days[]" class="form-control"></div>
                                     <div class="mb-3 col-12 appending_div">
                                       
                                     </div>
@@ -302,9 +303,9 @@ banner -->
  
 
     $(document).ready(function() {
-        var i = 1;
+        var i = 2;
         $('.add').on('click', function() {
-          $("#deliverable").val(1)
+          // $("#deliverable").val(1)
             var field = '<br><div>milestone '+i+': <input type="text" name="title[]" class="form-control"> &nbsp;  Days '+i+':  <input type="text" name="days[]" class="form-control"></div>';
             $('.appending_div').append(field);
             i = i+1;

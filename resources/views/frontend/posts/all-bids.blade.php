@@ -83,6 +83,10 @@
                       <!-- Button to Open the Modal -->
                       @if ($bid->deliverable==1)
                       <div class="login d-inline-block me-4">
+                        <a href="#" data-bs-toggle="modal" class="btn btn-info" data-bs-target="#exampleModalCenter">Pay  <i class="fab fa-paypal" aria-hidden="true"></i></a>
+                      </div>
+                      @if ($bid->deliverable>1)
+                      <div class="login d-inline-block me-4">
                         <a href="#" data-bs-toggle="modal" class="btn btn-info" data-bs-target="#exampleModalCenter2">Pay  <i class="fab fa-paypal" aria-hidden="true"></i></a>
                       </div>
                       @else
@@ -245,8 +249,7 @@
                   <div class="row">
                     <div class="col-md-6">
                       <input class="btn btn-primary d-grid" type="submit" />
-                    </div>
-                   
+                    </div>                   
                   </div>
                 </form>
               </div>

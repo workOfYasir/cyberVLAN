@@ -181,7 +181,8 @@ banner -->
                     </div>
 
                     @if(@$postDeliverable!=null)
-                      @if(count($postDeliverable)>=1)
+                     
+                   
                       <form action="{{ route('milestoneComment') }}" class="form-horizontal poststars" method="post">
                       @csrf
                       <input type="hidden" name="job_candidate" value="{{ $bidDetail->user->id }}">
@@ -189,7 +190,7 @@ banner -->
                       
                       
                         @foreach($postDeliverable as $key => $deliverable)
-                        {{ $key+1 }}
+                        {{-- {{ $key+1 }} --}}
                         <div class="job-list-details mt-4">
                          
                           <div class="job-list-info">
@@ -197,24 +198,34 @@ banner -->
                           <div class="job-list-title">
                               <h5>Project Milestone  <small class="text-muted">{{ $deliverable->deliverable_title }}</small></h5>
                               <h5>Project Duration <small class="text-muted">{{ $deliverable->deliverable_duration }}</small></h5>
-                            @if($deliverable->deliverable_description==null)
+                              @if($bidDetail->count<=3)
+                              @role('client')
+                        
                               <input type="hidden" value="{{ $deliverable->id }}" name="deliverable_id[]" />
                               <input type="text" class="form-control" placeholder="Comment" name="milestone_comment[]"/>
-                            @else
+                              @endrole
+                              @role('superAdmin')
+                        
+                              <input type="hidden" value="{{ $deliverable->id }}" name="deliverable_id[]" />
+                              <input type="text" class="form-control" placeholder="Comment" name="milestone_comment[]"/>
+                             
+                              @endrole
                             <br />
                               @role('freelancer')
                               <input type="hidden" value="{{ $deliverable->id }}" name="deliverable_id[]" />
                               <input type="text" class="form-control"  placeholder="Milestone Title" name="milestone[]"/>
                               <input type="text" class="form-control"  placeholder="Milestone Duration" name="duration[]"/>
-                              @endrole
+                              
                               <br />
                               <input type="hidden" disabled class="form-control" placeholder="Comment" name="milestone_comment"/>
                               <h5>
-                                @role('freelancer')
-                                Comments From Job Poster 
+                                @endif
+                              
                                 @endrole
-                                <small class="text-muted">{{ $deliverable->deliverable_description }}</small></h5>
-                            @endif
+                             
+                                <h5>Comment <small class="text-muted">{{ $deliverable->deliverable_description }}</small></h5>
+
+                               
                           </div>
                           </div>
                       </div>
@@ -231,7 +242,7 @@ banner -->
                         @endrole
                         
                       </form>
-                      @endif
+                      
                     @endif
                 </div>
               </div>

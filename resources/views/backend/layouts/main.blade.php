@@ -19,6 +19,7 @@
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
+    <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
     <!--begin::Page Vendor Stylesheets(used by this page)-->
     <link href="{{ asset('plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css" />
     <!--end::Page Vendor Stylesheets-->
@@ -88,7 +89,8 @@
     <script>
         var user_approve = "{{ route('users.approve') }}"; 
         var assign='{{route("assign", ":id") }}';
-        var post_approve =  "{{ route('post.approve',':id') }}";</script>
+        var post_approve =  "{{ route('post.approve',':id') }}";
+        var dynamicId = "{{ route('msg.dynamicId',':id') }}";</script>
     <script src="{{ asset('js/custom/backend.js')}}"></script>
 
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>

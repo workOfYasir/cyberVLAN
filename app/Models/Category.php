@@ -20,7 +20,7 @@ class Category extends Model
     }
     public function mainCategory()
     {
-        return $this->hasOne('App\Models\Category', 'id','parent_category');
+        return $this->hasOne('App\Models\Category','parent_category', 'id');
     }
     public function subCategory()
     {

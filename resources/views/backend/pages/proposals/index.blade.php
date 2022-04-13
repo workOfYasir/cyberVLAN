@@ -8,7 +8,7 @@
             <!--begin::Page title-->
             <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Payment</h1>
+                <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Proposals</h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-200 border-start mx-4"></span>
@@ -27,7 +27,7 @@
                     <!--end::Item-->
 
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-dark">Payment</li>
+                    <li class="breadcrumb-item text-dark">Proposals</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -147,7 +147,7 @@
                 <!--begin::Header-->
                 <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bolder fs-3 mb-1">Payment Module(All Proposals)</span>
+                        <span class="card-label fw-bolder fs-3 mb-1">Proposals Module(All Proposals)</span>
                     </h3>
 
                 </div>
@@ -195,7 +195,7 @@
                                     @if ($proposal->status==1)
                                         <td>
                                             <a href="#" class="project-assigned" id="{{$proposal->id}}">   <span class="badge badge-light-success">Assigned</span> </a>
-                                            {{-- <a href="{{ route('payment.make',$proposal->id) }}"><span class="badge badge-light-success">Payment</span></a> --}}
+                                            {{-- <a href="{{ route('Proposals.make',$proposal->id) }}"><span class="badge badge-light-success">Proposals</span></a> --}}
                                         </td>
                                     @else
                                         <td>
@@ -240,7 +240,7 @@
                                 </tr>
                             @empty
                                 <h4 class="card-title text-center flex-column">
-                                    <span class="card-label fw-bolder fs-3 mb-1">Payment Not Found</span>
+                                    <span class="card-label fw-bolder fs-3 mb-1">Proposals Not Found</span>
                                 </h4>
                             @endforelse
                             </tbody>
@@ -274,7 +274,7 @@
 
 $('.project-assigned').click(function (e){
         id = $(this).attr('id');
-
+console.log('id',id);
         assignUrl = assign.replace(':id', id);     
 
         

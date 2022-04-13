@@ -26,6 +26,7 @@ class PostDetailController extends Controller
             }else{
                 $approve=1;
                 $services = Service::with('category')->get();
+                // dd($services);
                 $service_ids = Service::pluck('id');
                 $open_jobs = PostDetail::whereIn('service_id',$service_ids)->where('approve',1)->count();
                 $postDetail = Post::whereHas('postDetail', function($q) use($approve){

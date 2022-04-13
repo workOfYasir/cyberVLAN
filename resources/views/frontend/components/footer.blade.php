@@ -4,40 +4,17 @@
         <div class="row">
             <div class="col-lg-3 col-md-6">
                 <div class="footer-link">
-                    <h5 class="text-dark mb-4">For Candidates</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Browse Jobs</a></li>
-                        <li><a href="#">Browse Categories</a></li>
-                        <li><a href="#">Submit Resume</a></li>
-                        <li><a href="#">Candidate Dashboard</a></li>
-                        <li><a href="#">Job Alerts</a></li>
-                        <li><a href="#">My Bookmarks</a></li>
-                    </ul>
+                    <h5 class="text-dark mb-4"><a href="{{ route('about') }}">About Us</a></h5>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mt-4 mt-md-0">
                 <div class="footer-link">
-                    <h5 class="text-dark mb-4">For Employers</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Browse Candidates</a></li>
-                        <li><a href="#">Browse Categories</a></li>
-                        <li><a href="#">Employer Dashboard</a></li>
-                        <li><a href="#">Add Job</a></li>
-                        <li><a href="#">Job Packages</a></li>
-                    </ul>
+                    <h5 class="text-dark mb-4"><a href="{{ route('tnc') }}">Terms N Conditions</a></h5>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mt-4 mt-lg-0">
                 <div class="footer-link">
-                    <h5 class="text-dark mb-4">Partner Sites</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Shortcodes</a></li>
-                        <li><a href="#">Job Page</a></li>
-                        <li><a href="#">Job Page Alternative </a></li>
-                        <li><a href="#">Resume Page</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="contact-us.html">Contact</a></li>
-                    </ul>
+                    <h5 class="text-dark mb-4"><a href="{{ route('all-services') }}">Services</a></h5>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mt-4 mt-lg-0">
@@ -46,7 +23,7 @@
                     <ul class="list-unstyled mb-0">
                         <li> <i class="fas fa-map-marker-alt text-primary"></i><span>214 West Arnold St. New York, NY 10002</span> </li>
                         <li> <i class="fas fa-mobile-alt text-primary"></i><span>+(123) 345-6789</span> </li>
-                        <li> <i class="far fa-envelope text-primary"></i><span>support@jobber.demo</span> </li>
+                        <li> <i class="far fa-envelope text-primary"></i><span>support@cybervlan.com</span> </li>
                     </ul>
                 </div>
             </div>

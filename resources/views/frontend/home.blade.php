@@ -51,14 +51,7 @@
                         </form>
                     </div>
                 </div>
-                {{-- <div class="job-tag mt-4">
-                    <ul class="justify-content-center">
-                        <li class="text-primary">Trending Keywords :</li>
-                        <li><a href="#">Automotive,</a></li>
-                        <li><a href="#">Education,</a></li>
-                        <li><a href="#">Health and Care Engineering</a></li>
-                    </ul>
-                </div> --}}
+               
             </div>
         </div>
     </div>
@@ -71,7 +64,7 @@
         <div class="row align-items-center">
             <div class="col-lg-3 mb-4 mb-lg-0">
                 <div class="section-title">
-                    <h2 class="title">Choose your sector</h2>
+                    <h2 class="title">Services</h2>
                     <p class="mb-0">I truly believe Augustine’s words are true and if you look at history you know it is true.</p>
                 </div>
                 <a class="btn btn-outline btn-lg" href="#">View More Jobs</a>
@@ -79,14 +72,44 @@
             <div class="col-lg-9 mt-0 mt-md-3 mt-lg-0">
                 <div class="category-style text-center">
                     @forelse ($services as $skill)
-                        <a href="#" class="category-item">
+                        <a href="#" data-bs-toggle="modal"  data-bs-target="#exampleModalCenter2" class="category-item">
                             {{-- <div class="category-icon mb-4">
                                 <i class="flaticon-account"></i>
                             </div> --}}
                             <h6>{{ $skill->category->category_name }}</h6>
                             <h4>{{ $skill->name }}</h4>
                             <span class="mb-0">{{ $open_jobs }} Open Position </span>
-                        </a>  
+                        </a>
+                        <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header p-4">
+                                  <h4 class="mb-0 text-center">Service Detail</h4>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    @if(@$skill->category->maincategory->category_name!='')
+                                  
+                                    Main Category:
+                                    {{@$skill->category->maincategory->category_name }}
+                                    @endif
+                                    <hr>
+                                    @if(@$skill->category->category_name!='')
+                                  
+                                    Sub Category:
+                                    {{ @$skill->category->category_name }}
+                                    @endif
+                                    <hr>
+                                    Name:
+                                    {{ $skill->name }}
+                                    @if(@$skill->description!='')
+                                    Description:
+                                    {{ @$skill->description }}
+                                    @endif
+                                </div>
+                            </div>
+                        </div>  
+                    </div>  
                     @empty
                         
                     @endforelse
@@ -644,3 +667,8 @@
 </section>
 <!-- End  Blog and Career Advice -->
 @endsection
+<script>
+    $('#exampleModalCenter2').on('hide', function() {
+window.location.reload();
+});
+</script>

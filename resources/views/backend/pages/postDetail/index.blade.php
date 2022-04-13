@@ -96,9 +96,11 @@
                                         <a href="#" class="text-dark fw-bolder text-hover-primary fs-6 postDetail-id">{{$posts->id}}</a>
                                     </td>
                                     <td>
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{$posts->job_title}}</a>
+                                        <a href="{{ route('post.detail',$posts->id) }}" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{$posts->job_title}}</a>
                                         @if($posts->approve==0)
-                                        <span class="badge badge-danger">Not Appdoved</span>
+                                        <span class="badge badge-danger">Not Approved</span>
+                                        @elseif($posts->approve==1)
+                                        <span class="badge badge-success">Approved</span>
                                         @endif
                                     </td>
                                     <td>
@@ -112,12 +114,7 @@
                                     <td colspan="2">
                                     @forelse($posts->bid as $key => $bid)
                                         <a href="/post/bid_detail/{{ $bid->id }}" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">{{($key+1).': '.$bid->job_proposal}}</a>
-                                        @if($bid->status==1)
-                                            <span class="badge badge-primary">Assigned</span>
-                                        @elseif($bid->status==2)
-                                            <span class="badge badge-success">Payment Released</span>
-                                        
-                                        @endif
+                                     
                                         <hr />
                                     @empty
                                         No Proposal
@@ -126,16 +123,24 @@
                                     <td colspan="2">
                                         @forelse($posts->bid as $key => $bid)
                                         <a href="{{route('public_profile',$bid->user->unni_id)}}" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6"  >{{($key+1).': '.$bid->user->first_name}}</a>
-                                        @if($bid->status==1)
-                                            <span class="badge badge-primary">Assigned</span>
-                                        @elseif($bid->status==2)
-                                            <span class="badge badge-success">Payment Released</span>
-                                        
-                                        @endif
+                                      
                                         <hr />
                                         @empty
                                             No Proposal
                                         @endforelse
+                                    </td>
+                                    <td>
+                                        @if($bid->status==1)
+                                        <span class="badge badge-primary">Assigned</span>
+                                        <a href="{{ route('jobHistory',$posts->id) }}" class="badge badge-secondary">History</a>
+                                        
+                                    @elseif($bid->status==2)
+                                        <span class="badge badge-success">Payment Released</span>
+                                        <a href="{{ route('jobHistory',$posts->id) }}" class="badge badge-secondary">History</a>
+                                        @else
+                                        <span class="badge badge-warning">Not Assigned</span>
+                                        <a href="{{ route('jobHistory',$posts->id) }}" class="badge badge-secondary">History</a>
+                                    @endif
                                     </td>
                                     <td>
                                         

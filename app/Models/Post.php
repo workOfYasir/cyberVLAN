@@ -18,10 +18,9 @@ class Post extends Model
     {
         return $this->hasMany('App\Models\PostDetail')->with('service')->with('jobTimeline');
     }
-    
     public function bid()
     {
-        return $this->hasMany('App\Models\PostProposal');
+        return $this->hasMany('App\Models\PostProposal')->with('deliverables')->with('user')->with('proposalHistory');
     }
     public function ratingOn()
     {

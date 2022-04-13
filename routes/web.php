@@ -8,6 +8,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Middleware\TwoFactorVerify;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PaypalController;
+use App\Http\Controllers\JobHistoryController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TwoFactorController;
@@ -56,7 +57,10 @@ Route::get('/public_profile/{uuid}', [UsersController::class, 'public_profile'])
 Route::post('/rating/{uuid}', [UsersController::class,'postStar'])->name('productStar');
 Route::get('about',function(){
     return view('frontend.about');
-});
+})->name('about');
+Route::get('tnc',function(){
+    return view('frontend.terms-and-conditions');
+})->name('tnc');
 Route::get('services',[ServiceController::class,'allServices'])->name('all-services');
 
 Route::middleware(['auth'])->group(function () {
@@ -143,6 +147,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
     Route::get('msg/index', [MessageController::class, 'index'])->name('msg.index');
+    Route::get('msg/dynamicId/{id}', [MessageController::class, 'dynamicId'])->name('msg.dynamicId');
 
 
     Route::prefix('users')->name('users.')->group(function () {
@@ -156,6 +161,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('accessments')->name('accessments.')->group(function () {
         Route::get('add', [AccessmentController::class, 'index'])->name('index');
+        Route::get('public', [AccessmentController::class, 'public'])->name('public');
         Route::get('show', [AccessmentController::class, 'show'])->name('show');
         Route::get('store', [AccessmentController::class, 'store'])->name('store');
         Route::get('fetch/{id}', [AccessmentController::class, 'fetchAssessment'])->name('fetch');
@@ -172,14 +178,15 @@ Route::middleware(['auth'])->group(function () {
     //     Route::get('handle-payment/{id}', [PayPalPaymentController::class, 'handlePayment'])->name('make');
     //     Route::get('cancel-payment', [PayPalPaymentController::class, 'paymentCancel'])->name('cancel');
     //     Route::get('payment-success', [PayPalPaymentController::class, 'paymentSuccess'])->name('success');
-        Route::get('all',[PaymentController::class,'projectDetail'])->name('all');
+        Route::get('all',[PostProposalController::class,'projectDetail'])->name('all');
         Route::get('assign/{id}',[PostDetailController::class,'projectAssigned'])->name('assign');
     // });
         Route::get('payment',[PaypalController::class,'newCustomers']);
         Route::prefix('project')->name('project.')->group(function () {
-        Route::get('posts',[PostController::class,'fetchPosts'])->name('posts');
-
+            Route::get('posts',[PostController::class,'fetchPosts'])->name('posts');
         });
+        Route::get('payments',[PaymentController::class,'projectDetail'])->name('payments');
+        Route::get('jobHistory/{id}',[JobHistoryController::class,'index'])->name('jobHistory');
 });
 // End Back End Routes
 

@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Models\Rating;
+use App\Http\Models\Messages;
 use willvincent\Rateable\Rateable;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
 // use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -81,6 +82,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function ratingBy()
     {
         return $this->hasMany(Rating::class,'user_id','id');
+    }
+    public function sender()
+    {
+    	return $this->hasMany('App\Models\Message'::class,'user_id','id');
+    }
+    public function reciever()
+    {
+    	return $this->hasMany('App\Models\Message'::class,'receiver_id','id');
     }
   
 }

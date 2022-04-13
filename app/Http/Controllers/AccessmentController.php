@@ -42,6 +42,28 @@ class AccessmentController extends Controller
         $existed = AssessmentDetail::whereIn('service_id',$service_ids)->whereIn('id',$assessment_ids)->with('score')->with('freelancerSkill')->get();
         $pending = AssessmentDetail::whereIn('service_id',$service_ids)->whereNotIn('id',$assessment_ids)->get();
 
+        return view('frontend.assessments-public',compact('assessment_detail','user_details','user','existed','results','pending'));
+    }
+     public function public()
+    {
+        $user = Auth::user();
+        $service_ids = [];
+        $isUuid = Str::isUuid($user->unni_id);
+        $user_details = UserDetails::where('user_id', $user->unni_id)->with('freelancerSkill')->first();
+      
+        foreach ($user_details->freelancerSkill as $key => $service) {      
+            array_push($service_ids,$service->freelancer_skill_id);
+        }
+        
+        $assessment_detail_query = AssessmentDetail::whereIn('service_id',$service_ids)->get();
+        $assessment_detail = $assessment_detail_query->unique('service_id');
+        $assessment_detail->values()->all();
+        
+        $assessment_ids = Result::where('user_id',$user->id)->pluck('assessment_id');
+        $results = Result::where('user_id',$user->id)->get();
+        $existed = AssessmentDetail::whereIn('service_id',$service_ids)->whereIn('id',$assessment_ids)->with('score')->with('freelancerSkill')->get();
+        $pending = AssessmentDetail::whereIn('service_id',$service_ids)->whereNotIn('id',$assessment_ids)->get();
+
         return view('frontend.assessments-tab',compact('assessment_detail','user_details','user','existed','results','pending'));
     }
     public function store(Request $request)
@@ -68,7 +90,7 @@ class AccessmentController extends Controller
 
 
         }
-        return redirect()->back();
+        return route('accessments.show');
     }
     //to fetch assessment from db for submisson pass the parmeter assessment id 
     public function fetchAssessment($id){

@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Models\PostDeliverable;
 use App\Models\DeliverableHistory;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\Console\Input\Input;
 
 class PostProposalController extends Controller
 {
@@ -72,6 +73,14 @@ class PostProposalController extends Controller
         ]);
       return redirect()->back();
     }
+    public function projectDetail()
+    {
+        $user= Auth::user();
+        
+        $jobsDetail = PostProposal::with('user')->with('post')->get();
+    //    dd($jobsDetail);
+        return view('backend.pages.proposals.index',['jobsDetail'=>$jobsDetail,'user'=>$user],);
+    }
     public function complete($id)
     {
       
@@ -109,13 +118,49 @@ class PostProposalController extends Controller
     public function milestoneComment(Request $request)
     {
 
-        if(count($request->milestone)!=0){
+        if($request->has('milestone_comment')){
+        
+            foreach($request->milestone_comment as $key => $comment)
+            {     
+                // $count =PostDeliverable::where('id',$request->deliverable_id[$key])->pluck('count');
+                PostDeliverable::where('id',$request->deliverable_id[$key])->update([
+                    'deliverable_description'=>$comment,
+                    
+                ]);
+                // $count = PostProposal::where('id',$request->proposal_id)->pluck('count');
+                PostProposal::where('id',$request->proposal_id)->increment('count');
+                $deliverableHistory = new DeliverableHistory;
+                $deliverableHistory->user_id = Auth::user()->id;
+                $deliverableHistory->proposal_id = $request->proposal_id;
+                $deliverableHistory->deliverable_description = $comment;
+                $deliverableHistory->action = 'updated';
+                $deliverableHistory->save();
+                    
+            }       
+            $reciever_id = $request->job_candidate;
+            $user_id = $request->job_poster;
+            $link = request()->getSchemeAndHttpHost().'/post/bid_detail/'.$request->proposal_id;
+        
+            $messaage='link='.$link.'&msg=MileStone Need to be Update Comments Added';
+            $data=new Message;
+            $data->message=$messaage;
+            $data->user_id=$user_id;
+            $data->receiver_id=$reciever_id;
+
+            $data->save();
+                // print_r($request->deliverable_id[$key]);
+            
+        }else{
             foreach($request->milestone as $key => $milestone)
             {
+                // $count =PostDeliverable::where('id',$request->deliverable_id[$key])->pluck('count');
                 PostDeliverable::where('id',$request->deliverable_id[$key])->update([
                     'deliverable_title'=>$milestone,
                     'deliverable_duration'=>$request->duration[$key],
+                    // 'count'=> $count[0]+1,
                 ]);
+                // $count = PostProposal::where('id',$request->proposal_id)->pluck('count');
+                PostProposal::where('id',$request->proposal_id)->increment('count');
                 $deliverableHistory = new DeliverableHistory;
                 $deliverableHistory->user_id = Auth::user()->id;
                 $deliverableHistory->proposal_id = $request->proposal_id;
@@ -138,34 +183,6 @@ class PostProposalController extends Controller
 
             $data->save();
     
-        }else{
-        
-            foreach($request->milestone_comment as $key => $comment)
-            {     
-                PostDeliverable::where('id',$request->deliverable_id[$key])->update([
-                    'deliverable_description'=>$comment
-                ]);
-                $deliverableHistory = new DeliverableHistory;
-                $deliverableHistory->user_id = Auth::user()->id;
-                $deliverableHistory->proposal_id = $request->proposal_id;
-                $deliverableHistory->deliverable_description = $comment;
-                $deliverableHistory->action = 'updated';
-                $deliverableHistory->save();
-                    
-            }       
-            $reciever_id = $request->job_candidate;
-            $user_id = $request->job_poster;
-            $link = request()->getSchemeAndHttpHost().'/post/bid_detail/'.$request->proposal_id;
-        
-            $messaage='link='.$link.'&msg=MileStone Need to be Update Comments Added';
-            $data=new Message;
-            $data->message=$messaage;
-            $data->user_id=$user_id;
-            $data->receiver_id=$reciever_id;
-
-            $data->save();
-                // print_r($request->deliverable_id[$key]);
-            
         }
         return redirect()->back();
 
@@ -173,7 +190,8 @@ class PostProposalController extends Controller
     public function bidDetail($id)
     {
         $bidDetail = PostProposal::where('id',$id)->with('user')->with('post')->first();
-        $postDeliverable = PostDeliverable::where('proposal_id',$id)->get();
+        $postDeliverable = PostDeliverable::where('proposal_id',$id)->get();    
+ 
         return view('frontend.posts.bid-details',compact('bidDetail','postDeliverable'));
     }
     public function reviewDetail($bid_id,$post_id)

@@ -85,25 +85,7 @@
                             <!--end::Input-->
                         </div>
                     </div> --}}
-              <form action="{{ route('msg.index') }}">
-                <div class="form-group">
-                    <label for="exampleSelect">Example label</label>
-                    <select class="form-control" id="exampleSelect" name="sender">
-                       @foreach ($users as $item)
-                       <option value="{{ $item->id }}">{{ $item->first_name }}</option>
-                       @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="exampleSelect">Example label</label>
-                    <select class="form-control" id="exampleSelect" name="reciver">
-                        @foreach ($users as $item)
-                       <option value="{{ $item->id }}">{{ $item->first_name }}</option>
-                       @endforeach
-                    </select>
-                </div>
-                <input type="submit" />
-              </form>
+            
            
         </div>
         
@@ -130,20 +112,46 @@
                     </h3>
 
                 </div>
+               <div class="container">
+                <form class="row justify-content-center text-center" action="{{ route('msg.index') }}">
+
+                    <div class="col-6">
+                    <div class="form-group">
+                        <label for="exampleSelect">Select Sender</label>
+                        <select class="form-control" id="sender" name="sender">
+                           @foreach ($users as $item)
+                           <option value="{{ $item->id }}">{{ $item->first_name }}</option>
+                           @endforeach
+                        </select>
+                    </div>
+                </div>
+                 <div class="col-6">
+                    <div class="form-group">
+                        <label for="exampleSelect">Select Reciever</label>
+                        <select class="form-control" id="reciver" name="reciver">
+                            {{-- @foreach ($users as $item)
+                           <option value="{{ $item->id }}">{{ $item->first_name }}</option>
+                           @endforeach --}}
+                        </select>
+                    </div>
+                </div>
+                    <input type="submit" class="col-2 btn btn-primary m-3" />
+                  </form>
+                </div>
                 <!--end::Header-->
                 <!--begin::Body-->
                 <div class="card-body py-3 col-12 d-flex">
-                    @if(isset($msgSender) &&isset($msgReciever))
+                    @if(isset($allmessages) )
 
-<div class="col-6 ">
+<div class="col-12 ">
 
 @php
     $i = 0;
     $r = 0;
 @endphp
-                        @foreach ($msgSender as $key => $item)
-                       
-                        <div class="bg-primary sender-{{ $key }} p-3" style="border:1px solid white; border-radius:10px">
+                        @foreach ($allmessages as $key => $item)
+                   
+                        <div class="single-message  @if($item->user_id == $sender) sent @else received @endif sender-{{ $key }} p-3" style="border:1px solid white; border-radius:10px">
 
                             @php
                                 parse_str($item->message,$extracted);
@@ -153,7 +161,7 @@
                                 }else{
                                   
                                     
-                                        echo '<a class="text-light" href="'.$extracted['link'].'">'.$extracted['link'].'</a> '.$extracted['msg'];
+                                        echo '<a class="text-dark text-decoration-underline" href="'.$extracted['link'].'">'.$extracted['link'].'</a> '.$extracted['msg'];
                                   
                                 }
                                 $i++;
@@ -161,29 +169,10 @@
                             </div>
                             
                         @endforeach
-                        <div class="sender-loop">{{ $i }}</div>
+                       
                     </div>
                  
-                    <div class="col-6">
-                        @foreach ($msgReciever as $key => $item)
-                        <div class="bg-success reciever-{{ $key }} p-3" style="border:1px solid white; border-radius:10px">
-                        @php
-                            parse_str($item->message,$extracted);
-                            if($extracted['link']==null)
-                            {
-                                echo $extracted['link'].$extracted['msg'];
-                            }else{
-                               
-                                    echo '<a class="text-light" href="'.$extracted['link'].'">'.$extracted['link'].'</a> '.$extracted['msg'];
-                                    
-                            }
-                            $r++;
-                        @endphp
-                         </div>
-
-                    @endforeach
-                    <div class="reciever-loop">{{ $r }}</div>
-                </div>
+                   
                     @endif
                     <!--begin::Table container-->
                     {{-- <div class="table-responsive">
@@ -250,6 +239,28 @@
        $('.reciever-'+index).css('height',height[0]+'px')
    }
    console.log(height);
+   $('#sender').change(function(){
+     var sender_id = $('#sender').val();
+     sender_id_route = dynamicId.replace(':id', sender_id);  
+    $.ajax({
+            type: 'GET',
+            url: sender_id_route,
+        
+            success: function(data) {
+           
+            var options;
+               $.each( data, function( key, value ) {
+console.log(value);
+  options = options + '<option value="'+value.receiver_id+'">'+value.reciever.first_name+'</option>';
+});
+$('#reciver').append(options)
+
+      
+                
+           
+            }
+        })
+   })
 </script>
 @endpush
 

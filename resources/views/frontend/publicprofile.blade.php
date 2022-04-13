@@ -225,10 +225,10 @@
                     <div class="secondary-menu">
                         <ul>
                             <li><a href="#about"> About </a></li>
-                            {{-- <li><a href="#experience"> Work Experience </a></li>
+                            <li><a href="#experience"> Work Experience </a></li>
                             <li><a href="#portfolio"> Portfolio </a></li>
-                            <li><a href="#skill"> professional Skill </a></li> --}}
-                            {{-- <li><a href="#awards"> Awards </a></li>--}}
+                            <li><a href="#skill"> professional Skill </a></li> 
+                            <li><a href="{{ route('accessment.public') }}"> Assessments </a></li>
                         </ul>
                     </div>
                 </div>

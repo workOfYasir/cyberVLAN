@@ -17,11 +17,11 @@ class PaypalController extends Controller
 {
     public function custome(Request $request)
     {
-        
+      /**
+       * Send all money of new user to admin
+       */  
         $userProject = PostProposal::where('status',2)->where('candidate_id',$request->reciever)->exists();
         if($userProject){
-            // dd('ok');
-            // $this->adminPayment($input);
             $email = $request->email;
             $price = $request->price;
             $admin = User::whereHas(
@@ -78,7 +78,7 @@ class PaypalController extends Controller
             $payment =new Payment;
         
              $payment->payment_method='paypal';
-             $payment->payment_type='2';
+             $payment->payment_type='1';
              $payment->post_id=$request->post_id;
              $payment->paid=$request->price;
              $payment->sender_unni_id=$request->sender;
@@ -94,7 +94,9 @@ class PaypalController extends Controller
 
         }else{
        
-            // $this->adminAndUserPayment($input);
+          /**
+           * Send Money in deliverables
+           */
             $email = $request->email;
             $price = $request->price;
             $admin = User::whereHas(
@@ -185,7 +187,7 @@ class PaypalController extends Controller
  public function newCustomers()
  {
     $payment = Payment::where('payment_type',2)->with('payment')->with('post')->with('user')->get();
-    dd($payment);
+    // dd($payment);
   
     return view('backend.pages.transections',compact('payment'));
  }
