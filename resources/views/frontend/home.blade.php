@@ -1,9 +1,9 @@
-
 @extends('frontend.layouts.app')
 
 @section('content')
 <!-- Start Banner -->
-<section class="banner bg-holder bg-overlay-black-30 text-white" style="background-image: url({{asset('images/bg/banner-01.jpg')}});">
+<section class="banner bg-holder bg-overlay-black-30 text-white"
+    style="background-image: url({{asset('images/bg/banner-01.jpg')}});">
     <div class="container">
         <div class="row">
             <div class="col-12 text-center position-relative">
@@ -11,47 +11,18 @@
                 <div class="job-search-field">
                     <div class="job-search-item">
                         <form class="form row ">
-                            {{-- <div class="col-lg-5">
-                                <div class="form-group mb-3">
-                                    <div class="d-flex">
-                                        <label class="form-label">What</label>
-                                        <span class="ms-auto">e.g. job, company, title</span>
-                                    </div>
-                                    <div class="position-relative left-icon">
-                                        <input type="text" class="form-control" name="job_title" placeholder="Job title, skill or company">
-                                        <i class="fas fa-search"></i>
-                                    </div>
-                                </div>
-                            </div> --}}
-                            {{-- <div class="col-lg-5">
-                                <div class="form-group mb-3">
-                                    <div class="d-flex">
-                                        <label class="form-label">Where</label>
-                                        <span class="ms-auto">e.g. city, county or postcode</span>
-                                    </div>
-                                    <div class="position-relative left-icon">
-                                        <input type="text" class="form-control location-input" name="job_title" placeholder="Town, city or postcode">
-                                        <i class="far fa-compass"></i>
-                                        <a href="#">
-                                            <div class="detect">
-                                                <span class="d-none d-sm-block">Detect</span>
-                                                <i class="fas fa-crosshairs"></i>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div> --}}
                             <div class="col-12 text-center">
-                               
+
                                 <div class="form-group mb-3 form-action">
-                                    <button type="submit" class="btn btn-primary btn-lg"><i class="fas fa-search"></i> Find Jobs</button>
+                                    <button type="submit" class="btn btn-primary btn-lg"><i class="fas fa-search"></i>
+                                        Find Jobs</button>
                                 </div>
-                               
+
                             </div>
                         </form>
                     </div>
                 </div>
-               
+
             </div>
         </div>
     </div>
@@ -65,37 +36,39 @@
             <div class="col-lg-3 mb-4 mb-lg-0">
                 <div class="section-title">
                     <h2 class="title">Services</h2>
-                    <p class="mb-0">I truly believe Augustine’s words are true and if you look at history you know it is true.</p>
+                    <p class="mb-0">I truly believe Augustine’s words are true and if you look at history you know it is
+                        true.</p>
                 </div>
                 <a class="btn btn-outline btn-lg" href="#">View More Jobs</a>
             </div>
             <div class="col-lg-9 mt-0 mt-md-3 mt-lg-0">
                 <div class="category-style text-center">
                     @forelse ($services as $skill)
-                        <a href="#" data-bs-toggle="modal"  data-bs-target="#exampleModalCenter2" class="category-item">
-                            {{-- <div class="category-icon mb-4">
-                                <i class="flaticon-account"></i>
-                            </div> --}}
-                            <h6>{{ $skill->category->category_name }}</h6>
-                            <h4>{{ $skill->name }}</h4>
-                            <span class="mb-0">{{ $open_jobs }} Open Position </span>
-                        </a>
-                        <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                              <div class="modal-content">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalCenter2" class="category-item">
+                        {{-- <div class="category-icon mb-4">
+                            <i class="flaticon-account"></i>
+                        </div> --}}
+                        <h6>{{ $skill->category->category_name }}</h6>
+                        <h4>{{ $skill->name }}</h4>
+                        <span class="mb-0">{{ $open_jobs }} Open Position </span>
+                    </a>
+                    <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
                                 <div class="modal-header p-4">
-                                  <h4 class="mb-0 text-center">Service Detail</h4>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <h4 class="mb-0 text-center">Service Detail</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     @if(@$skill->category->maincategory->category_name!='')
-                                  
+
                                     Main Category:
                                     {{@$skill->category->maincategory->category_name }}
                                     @endif
                                     <hr>
                                     @if(@$skill->category->category_name!='')
-                                  
+
                                     Sub Category:
                                     {{ @$skill->category->category_name }}
                                     @endif
@@ -108,68 +81,81 @@
                                     @endif
                                 </div>
                             </div>
-                        </div>  
-                    </div>  
+                        </div>
+                    </div>
                     @empty
-                        
+
                     @endforelse
-                    
-                    {{-- <a href="#" class="category-item">
-                        <div class="category-icon mb-4">
-                            <i class="flaticon-conversation"></i>
-                        </div>
-                        <h6>Apprenticeships</h6>
-                        <span class="mb-0">287 Open Position </span>
-                    </a>
-                    <a href="#" class="category-item">
-                        <div class="category-icon mb-4">
-                            <i class="flaticon-money"></i>
-                        </div>
-                        <h6>Banking</h6>
-                        <span class="mb-0">542 Open Position </span>
-                    </a>
-                    <a href="#" class="category-item">
-                        <div class="category-icon mb-4">
-                            <i class="flaticon-mortarboard"></i>
-                        </div>
-                        <h6>Education</h6>
-                        <span class="mb-0">785 Open Position </span>
-                    </a>
-                    <a href="#" class="category-item">
-                        <div class="category-icon mb-4">
-                            <i class="flaticon-worker"></i>
-                        </div>
-                        <h6>Engineering</h6>
-                        <span class="mb-0">862 Open Position </span>
-                    </a>
-                    <a href="#" class="category-item">
-                        <div class="category-icon mb-4">
-                            <i class="flaticon-businessman"></i>
-                        </div>
-                        <h6>Estate Agency</h6>
-                        <span class="mb-0">423 Open Position </span>
-                    </a>
-                    <a href="#" class="category-item">
-                        <div class="category-icon mb-4">
-                            <i class="flaticon-coding"></i>
-                        </div>
-                        <h6>IT & Telecoms</h6>
-                        <span class="mb-0">253 Open Position </span>
-                    </a>
-                    <a href="#" class="category-item">
-                        <div class="category-icon mb-4">
-                            <i class="flaticon-balance"></i>
-                        </div>
-                        <h6>Legal</h6>
-                        <span class="mb-0">689 Open Position </span>
-                    </a> --}}
+
+
                 </div>
             </div>
         </div>
     </div>
 </section>
 <!-- End Category-styl -->
+<section class="space-ptb">
+    <div class="container">
+        <div class="row">
 
+            <div class="col-md-12">
+                <div class="section-title-02 mt-4 mt-md-0">
+                    <h2>Tabs Style 02</h2>
+                </div>
+                <div class="browse-job d-flex">
+                    <div class="justify-content-start">
+                        <ul class="nav nav-tabs nav-tabs-02" role="tablist">
+                            <?php $i=6; ?>
+                            @foreach($parent_categories as $key => $main_category)
+                            <?php $i++?>
+                            <li class="nav-item">
+                                <a class="nav-link " id="tab-0{{ $i }}" data-bs-toggle="tab" href="#tab-{{ $key+1 }}"
+                                    role="tab" aria-controls="tab-06"
+                                    aria-selected="false">{{$main_category->category_name }}</a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <?php $a=6; ?>
+                    @foreach($parent_categories as $key => $main_category)
+                    <?php $a++?>
+                    <div class="tab-pane fade" id="tab-{{ $key+1 }}" role="tabpanel" aria-labelledby="tab-0{{ $a }}">
+
+                        @foreach($main_category->subCategory as $key => $category)
+                        <div class="col-lg-9 mt-0 mt-md-3 mt-lg-0">
+                            <div class="category-style text-center">
+                                <div class="category-item">
+                        <h4>
+                            {{ $category->category_name}}
+                        </h4>
+                        @foreach($category->services as $key => $service)
+                        
+                                    <h6>
+                                        {{ $service->name}}
+                                    </h6>
+                                    <p>
+                                        {{ $service->description }}
+                                    </p>
+                                
+                        @endforeach
+                    </div>
+                                
+                </div>
+            </div>
+                        @endforeach
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="space-ptb">
+    <div class="container">
+        <div class="row">
+</section>
 <!-- Start Divider -->
 <div class="container ">
     <div class="row">
@@ -180,7 +166,7 @@
 </div>
 <!-- End Divider -->
 @if(auth()->check())
-    
+
 
 <!-- Start Jobs-listing -->
 <section class="space-ptb">
@@ -196,7 +182,8 @@
                     <div class="mb-4 mb-md-0">
                         <ul class="nav nav-tabs justify-content-center d-flex" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Recent Jobs</a>
+                                <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile"
+                                    role="tab" aria-controls="profile" aria-selected="false">Recent Jobs</a>
                             </li>
                         </ul>
                     </div>
@@ -206,59 +193,67 @@
                     </div>
                 </div>
                 <div class="tab-content" id="myTabContent">
-                     
+
                     <!-- Recent jobs -->
-                     <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="row mt-4">
-@foreach ($postDetail as $post)
+                            @foreach ($postDetail as $post)
 
-<div class="col-lg-6 mb-4 mb-sm-0">
-    <!-- Freelance -->
-    <div class="job-list">
-        <div class="job-list-logo">
-            <img class="img-fluid" src="{{asset('images/profiles/'.$post->user->userDetails[0]->user_profile)}}" alt="">
-        </div>
-        <div class="job-list-details">
-            <div class="job-list-info">
-                <div class="job-list-title">
-                    <h5 class="mb-0"><a href="{{ route('post.detail',$post->id) }}">{{ $post->job_title }}</a></h5>
-                </div>
-                <div class="job-list-option">
-                    <ul class="list-unstyled">
-                        <li>
-                            <span>via</span>
-                            <a href="{{ route('public_profile', $post->user->unni_id ) }}">{{ $post->user->first_name.' '.$post->user->last_name }}</a>
-                        </li>
-                        <br>
-                        
-                        <li><i class="fas fa-filter pe-1"></i>
-                            @foreach ( $post->postDetail  as $detail)
-                                {{ $detail->service->name.', ' }}
+                            <div class="col-lg-6 mb-4 mb-sm-0">
+                                <!-- Freelance -->
+                                <div class="job-list">
+                                    <div class="job-list-logo">
+                                        <img class="img-fluid"
+                                            src="{{asset('images/profiles/'.$post->user->userDetails[0]->user_profile)}}"
+                                            alt="">
+                                    </div>
+                                    <div class="job-list-details">
+                                        <div class="job-list-info">
+                                            <div class="job-list-title">
+                                                <h5 class="mb-0"><a href="{{ route('post.detail',$post->id) }}">{{
+                                                        $post->job_title }}</a></h5>
+                                            </div>
+                                            <div class="job-list-option">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <span>via</span>
+                                                        <a href="{{ route('public_profile', $post->user->unni_id ) }}">{{
+                                                            $post->user->first_name.' '.$post->user->last_name }}</a>
+                                                    </li>
+                                                    <br>
+
+                                                    <li><i class="fas fa-filter pe-1"></i>
+                                                        @foreach ( $post->postDetail as $detail)
+                                                        {{ $detail->service->name.', ' }}
+                                                        @endforeach
+                                                    </li>
+                                                    <li><i class="fas fa-funnel-dollar pe-1"></i>{{ $post->job_budget }}
+                                                    </li>
+                                                    @if($post->postDetail[0]->job_timeline_id!=0 ||
+                                                    $post->postDetail[0]->job_timeline_id!=null)
+                                                    <li><a class="freelance" href="#"><i
+                                                                class="fas fa-suitcase pe-1"></i>
+                                                            {{ $post->postDetail[0]->jobTimeline->name }}
+                                                        </a></li>
+                                                    @endif
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="job-list-favourite-time">
+                                        <a class="job-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
+                                        <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>1H
+                                            ago</span>
+                                    </div>
+                                </div>
+                            </div>
                             @endforeach
-                        </li>
-                        <li><i class="fas fa-funnel-dollar pe-1"></i>{{ $post->job_budget }}</li>
-                        @if($post->postDetail[0]->job_timeline_id!=0 || $post->postDetail[0]->job_timeline_id!=null)
-                        <li><a class="freelance" href="#"><i class="fas fa-suitcase pe-1"></i>  
-                                {{ $post->postDetail[0]->jobTimeline->name }}
-                        </a></li>
-                        @endif
-                           
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="job-list-favourite-time">
-            <a class="job-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-            <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>1H ago</span>
-        </div>
-    </div>
-</div>
-@endforeach
 
-                
+
                         </div>
                     </div>
-                 
+
                 </div>
             </div>
             <div class="col-12 justify-content-center d-flex mt-md-5 mt-4">
@@ -282,20 +277,24 @@
                 @foreach ($freelancerDetail as $user)
                 <div class="candidate-list">
                     <div class="candidate-list-image">
-                        <img class="img-fluid" src="{{asset('images/profiles/'.$user->userDetails[0]->user_profile)}}" alt="">
+                        <img class="img-fluid" src="{{asset('images/profiles/'.$user->userDetails[0]->user_profile)}}"
+                            alt="">
                     </div>
                     <div class="candidate-list-details">
                         <div class="candidate-list-info">
                             <div class="candidate-list-title">
-                                <h5 class="mb-0"><a href="{{ route('public_profile', $user->unni_id ) }}">{{ $user->first_name.' '.$user->last_name }}</a></h5>
+                                <h5 class="mb-0"><a href="{{ route('public_profile', $user->unni_id ) }}">{{
+                                        $user->first_name.' '.$user->last_name }}</a></h5>
                             </div>
                             <div class="candidate-list-option">
                                 <ul class="list-unstyled">
-                                    <li><i class="fas fa-filter pe-1"></i> 
+                                    <li><i class="fas fa-filter pe-1"></i>
                                         @foreach ( $user->skills as $service)
-                                            {{ $service->service->name.', ' }}
+                                        {{ $service->service->name.', ' }}
                                         @endforeach</li>
-                                    <li><i class="fas fa-map-marker-alt pe-1"></i> {{ $user->userDetails[0]->user_address_country.', '. $user->userDetails[0]->user_address_city }}</li>
+                                    <li><i class="fas fa-map-marker-alt pe-1"></i> {{
+                                        $user->userDetails[0]->user_address_country.', '.
+                                        $user->userDetails[0]->user_address_city }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -304,13 +303,13 @@
                         <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
                         <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>3D ago</span>
                     </div>
-                </div> 
+                </div>
                 @endforeach
-             
-               
 
 
-             
+
+
+
             </div>
             <div class="col-lg-1"></div>
             <!-- Top Companies -->
@@ -318,24 +317,30 @@
                 <div class="section-title">
                     <h2 class="title">Top Companies</h2>
                     <p>Here are some tips and methods for motivating yourself:
-                       
+
                     </p>
                 </div>
-                <div class="owl-carousel owl-nav-bottom-center" data-nav-arrow="false" data-nav-dots="true" data-items="1" data-md-items="1" data-sm-items="2" data-xs-items="1" data-xx-items="1" data-space="15" data-autoheight="true">
+                <div class="owl-carousel owl-nav-bottom-center" data-nav-arrow="false" data-nav-dots="true"
+                    data-items="1" data-md-items="1" data-sm-items="2" data-xs-items="1" data-xx-items="1"
+                    data-space="15" data-autoheight="true">
                     @foreach ($userDetail as $user)
                     <div class="item">
                         <div class="employers-grid">
                             <div class="employers-list-logo">
-                                <img class="img-fluid" src="{{asset('images/profiles/'.$user->userDetails[0]->user_profile)}}" alt="">
+                                <img class="img-fluid"
+                                    src="{{asset('images/profiles/'.$user->userDetails[0]->user_profile)}}" alt="">
                             </div>
                             <div class="employers-list-details">
                                 <div class="employers-list-info">
                                     <div class="employers-list-title">
-                                        <h5 class="mb-0"><a href="employer-detail.html">{{ $user->first_name.' '.$user->last_name }}</a></h5>
+                                        <h5 class="mb-0"><a href="employer-detail.html">{{ $user->first_name.'
+                                                '.$user->last_name }}</a></h5>
                                     </div>
                                     <div class="employers-list-option">
                                         <ul class="list-unstyled">
-                                            <li><i class="fas fa-map-marker-alt pe-1"></i>{{ $user->userDetails[0]->user_address_country.', '.$user->userDetails[0]->user_address_city }}</li>
+                                            <li><i class="fas fa-map-marker-alt pe-1"></i>{{
+                                                $user->userDetails[0]->user_address_country.',
+                                                '.$user->userDetails[0]->user_address_city }}</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -346,8 +351,8 @@
                         </div>
                     </div>
                     @endforeach
-                   
-                  
+
+
                 </div>
             </div>
         </div>
@@ -362,11 +367,13 @@
             <div class="col-lg-8 col-md-10">
                 <div class="section-title center">
                     <h2 class="title">Easiest Way to Use</h2>
-                    <p>Give yourself the power of responsibility. Remind yourself the only thing stopping you is yourself.</p>
+                    <p>Give yourself the power of responsibility. Remind yourself the only thing stopping you is
+                        yourself.</p>
                 </div>
             </div>
         </div>
-        <div class="row bg-holder-pattern mt-3 mt-md-4 me-md-0 ms-md-0" style="background-image: url('images/step/pattern-01.png');">
+        <div class="row bg-holder-pattern mt-3 mt-md-4 me-md-0 ms-md-0"
+            style="background-image: url('images/step/pattern-01.png');">
             <div class="col-md-4 mb-4 mb-md-0">
                 <div class="feature-step text-center">
                     <div class="feature-info-icon">
@@ -445,7 +452,8 @@
             <div class="col-lg-4 col-xl-3 mb-2 mb-md-4 mb-lg-0">
                 <div class="section-title">
                     <h2 class="title">Buy Our Plans and Packages</h2>
-                    <p>So, make the decision to move forward. Commit your decision to paper, just to bring it into focus. Then, go for it!</p>
+                    <p>So, make the decision to move forward. Commit your decision to paper, just to bring it into
+                        focus. Then, go for it!</p>
                 </div>
                 <a class="btn btn-outline btn-lg" href="#">Try 1 month free</a>
             </div>
@@ -514,7 +522,8 @@
                     <div class="col-sm-5 mt-sm-5 mt-4">
                         <img class="img-fluid mb-sm-2 w-100" src="images/about/02.png" alt="">
                         <div class=" mt-3">
-                            <a class="popup-icon popup-youtube bg-holder bg-overlay-black-80" href="https://www.youtube.com/watch?v=LgvseYYhqU0">
+                            <a class="popup-icon popup-youtube bg-holder bg-overlay-black-80"
+                                href="https://www.youtube.com/watch?v=LgvseYYhqU0">
                                 <i class="flaticon-play-button"></i>
                                 <img class="img-fluid w-100" src="images/about/03.png" alt="">
                             </a>
@@ -525,7 +534,9 @@
             <div class="col-lg-6 pt-2 pt-sm-3 pt-md-0">
                 <div class="section-title">
                     <h2 class="title">Why You Choose Job Among Other Job Site?</h2>
-                    <p>I truly believe Augustine’s words are true and if you look at history you know it is true. There are many people in the world with amazing talents. who realize only a small percentage of their potential. We all know people who
+                    <p>I truly believe Augustine’s words are true and if you look at history you know it is true. There
+                        are many people in the world with amazing talents. who realize only a small percentage of their
+                        potential. We all know people who
                         live this truth.</p>
                 </div>
                 <div class="row">
@@ -574,9 +585,10 @@
                             <div class="px-md-5 px-4 pt-5 pt-lg-0">
                                 <div class="section-title">
                                     <h2 class="title">Browse Hundreds of Jobs</h2>
-                                    <p class="lead">We are efficiently delivering tons of jobs straight to your pocket.</p>
+                                    <p class="lead">We are efficiently delivering tons of jobs straight to your pocket.
+                                    </p>
                                 </div>
-                            
+
                             </div>
                         </div>
                         <div class="col-lg-5 mt-4 mt-md-5 text-center">
@@ -609,15 +621,11 @@
                     </div>
                     <div class="blog-post-content">
                         <div class="blog-post-details pb-0">
-                            {{-- <div class="blog-post-time">
-                                <a href="#">February 4, 2019</a>
-                            </div> --}}
+
                             <div class="blog-post-title">
                                 <h5><a href="#">Sell yourself in a job interview</a></h5>
                             </div>
-                            {{-- <div class="justify-content-center mt-2 d-flex">
-                                <a class="btn btn-link p-0" href="#">Read More <i class="fas fa-long-arrow-alt-right ps-2"></i></a>
-                            </div> --}}
+
                         </div>
                     </div>
                 </div>
@@ -629,15 +637,11 @@
                     </div>
                     <div class="blog-post-content">
                         <div class="blog-post-details pb-0">
-                            {{-- <div class="blog-post-time">
-                                <a href="#">March 10, 2019</a>
-                            </div> --}}
+
                             <div class="blog-post-title">
                                 <h5><a href="#">Hype or Helpful to the Jobs Market.</a></h5>
                             </div>
-                            {{-- <div class="justify-content-center mt-2 d-flex">
-                                <a class="btn btn-link p-0" href="#">Read More <i class="fas fa-long-arrow-alt-right ps-2"></i></a>
-                            </div> --}}
+
                         </div>
                     </div>
                 </div>
@@ -649,15 +653,11 @@
                     </div>
                     <div class="blog-post-content">
                         <div class="blog-post-details pb-0">
-                            {{-- <div class="blog-post-time">
-                                <a href="#">May 15, 2020</a>
-                            </div> --}}
+
                             <div class="blog-post-title">
                                 <h5><a href="#">How to become an Account Manager</a></h5>
                             </div>
-                            {{-- <div class="justify-content-center mt-2 d-flex">
-                                <a class="btn btn-link p-0" href="#">Read More <i class="fas fa-long-arrow-alt-right ps-2"></i></a>
-                            </div> --}}
+
                         </div>
                     </div>
                 </div>

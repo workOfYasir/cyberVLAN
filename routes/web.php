@@ -66,7 +66,10 @@ Route::get('services',[ServiceController::class,'allServices'])->name('all-servi
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile/{uuid}', [UsersController::class, 'profile'])->name('profile');
 }); 
-
+ 
+Route::prefix('post')->name('post.')->group(function () {
+Route::get('list',[PostDetailController::class,'list'])->name('list');
+});
 Route::middleware(['auth','approveStatus'])->group(function () {
     
     
@@ -88,7 +91,6 @@ Route::middleware(['auth','approveStatus'])->group(function () {
         Route::get('create', [PostController::class, 'create'])->name('create');
         Route::post('store', [PostController::class, 'store'])->name('store');
         Route::get('detail/{id}', [PostDetailController::class, 'detail'])->name('detail');
-        Route::get('list',[PostDetailController::class,'list'])->name('list');
         Route::post('propsal',[PostProposalController::class,'propsal'])->name('propsal');
         Route::get('my/{uuid}',[PostController::class,'myPost'])->name('my');
         Route::get('bid/{uuid}',[PostController::class,'bid'])->name('bids');
@@ -185,7 +187,9 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('project')->name('project.')->group(function () {
             Route::get('posts',[PostController::class,'fetchPosts'])->name('posts');
         });
+        Route::post('adminToUser',[PaypalController::class,'adminToUser'])->name('adminToUser');
         Route::get('payments',[PaymentController::class,'projectDetail'])->name('payments');
+        Route::get('newUserPayment',[PaymentController::class,'newUserPayment'])->name('newUserPayment');
         Route::get('jobHistory/{id}',[JobHistoryController::class,'index'])->name('jobHistory');
 });
 // End Back End Routes

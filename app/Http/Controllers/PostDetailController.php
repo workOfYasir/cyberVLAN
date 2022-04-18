@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Rating;
 use App\Models\Service;
+use App\Models\Category;
 use App\Models\PostDetail;
 use App\Models\PostProposal;
-use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
@@ -26,16 +27,16 @@ class PostDetailController extends Controller
             }else{
                 $approve=1;
                 $services = Service::with('category')->get();
-                // dd($services);
                 $service_ids = Service::pluck('id');
                 $open_jobs = PostDetail::whereIn('service_id',$service_ids)->where('approve',1)->count();
                 $postDetail = Post::whereHas('postDetail', function($q) use($approve){
                         $q->where('approve',  $approve);
                 })->get();
-                       
+                $parent_categories = Category::Where('parent_category', '=', '')->orWhere('parent_category', '=', 0)->get();
+                    
                 $userDetail = User::role('client')->with('userDetails')->with('skills')->with('work')->paginate(5);
                 $freelancerDetail = User::role('freelancer')->with('userDetails')->with('skills')->with('work')->paginate(3);
-                return view('frontend.home',['postDetail'=>$postDetail,'services'=>$services,'open_jobs'=>$open_jobs,'userDetail'=>$userDetail,'freelancerDetail'=>$freelancerDetail]); 
+                return view('frontend.home',['parent_categories'=>$parent_categories,'postDetail'=>$postDetail,'services'=>$services,'open_jobs'=>$open_jobs,'userDetail'=>$userDetail,'freelancerDetail'=>$freelancerDetail]); 
             }
         }else{
             $approve=1;
@@ -45,10 +46,12 @@ class PostDetailController extends Controller
             $postDetail =  Post::whereHas('postDetail', function($q) use($approve){
                     $q->where('approve',  $approve);
             })->get();
-            
+           
+            $parent_categories = Category::Where('parent_category', '=', '')->orWhere('parent_category', '=', 0)->with('subCategory')->get();
+            // dd($parent_categories);
             $userDetail = User::role('client')->with('userDetails')->with('skills')->with('work')->paginate(5);
             $freelancerDetail = User::role('freelancer')->with('userDetails')->with('skills')->with('work')->paginate(3);
-            return view('frontend.home',['postDetail'=>$postDetail,'services'=>$services,'open_jobs'=>$open_jobs,'userDetail'=>$userDetail,'freelancerDetail'=>$freelancerDetail]);
+            return view('frontend.home',['parent_categories'=>$parent_categories,'postDetail'=>$postDetail,'services'=>$services,'open_jobs'=>$open_jobs,'userDetail'=>$userDetail,'freelancerDetail'=>$freelancerDetail]);
         }
         
     }
@@ -74,28 +77,6 @@ class PostDetailController extends Controller
         
         return view('frontend.posts.post-detail',['postDetail'=>$postDetail,'postDetailList'=>$postDetailList]);
     }
-    // public function reviewDetail($id)
-    // {
-    //     $review= PostProposal::where('post_id',$id)->where('status',2)->get();
-    //     $rating = Rating::where('post_id',$id)->exists();
-    //     // dd($rating);
-    //     $candidate_id = PostProposal::where('id',$id)->where('status',2)->pluck('candidate_id');
-    //     // $reviewedTo = User::where('unni_id',$candidate_id)->with(['jobCandidate' => function ($query) use($candidate_id,$id) {
-    //     //     $query->where('candidate_id',$candidate_id)->where('post_id',$id)->with('post');
-    //     // }])->get();
-    //     $user = User::where('unni_id',$candidate_id)->get();
-    //     // dd($review);
-    //     $postDetail = Post::where('id',$id)->with('postDetail')->with('user')->get();
-    //     $user = auth()->user();
-    //     $p_id = $user->getAllPermissions()->pluck('id');
-    //     $postDetailList = Post::whereHas('postDetail', function($q) use($p_id){
-    //             $q->whereIn('job_timeline_id', $p_id)->where('approve', 1);
-    //     })->with('postDetail')->with('user')->get();
-    //     // $comment = Rating::where('rateable_id',$reviewedTo[0]->id)->get();
-    //     // dd($comment);
-    //     return view('frontend.posts.post-detail',['postDetail'=>$postDetail,'postDetailList'=>$postDetailList,'review'=>$review,'user'=>$user,'rating'=>$rating]);
-    // }
-   
     public function approve($id)
     {
       
@@ -141,21 +122,22 @@ class PostDetailController extends Controller
     }
     public function list()
     {
+       
         // get logged-in user
-        $user = auth()->user();
-        $p_id = $user->getAllPermissions()->pluck('id');
-        $services = Service::all();
-       if(count($p_id)==0){
-           $noTimeline = 'No Timeline added in your profile';
-        return view('frontend.posts.post-listing',['services'=>$services ,'noTimeline'=>$noTimeline]);
-       }
-        // // $p_id = $permissions[0->id;
-        // $postDetail = Post::whereHas('postDetail', function($q) use($p_id){
-        //         $q->whereIn('job_timeline_id', $p_id)->where('approve',1);
-        // })->with('postDetail')->with('user')->get();
-        // // dd($postDetail);
-
-
+        if(Auth::check()){
+           
+            $user = auth()->user();
+            $p_id = $user->getAllPermissions()->pluck('id');
+            $services = Service::all();
+           if(count($p_id)==0){
+               $noTimeline = 'No Timeline added in your profile';
+            return view('frontend.posts.post-listing',['services'=>$services ,'noTimeline'=>$noTimeline]);
+           }
+        }else{
+           
+            $services = Service::all();
+        }
+       
         return view('frontend.posts.post-listing',['services'=>$services]);
     }
 

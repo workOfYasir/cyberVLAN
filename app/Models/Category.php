@@ -20,10 +20,10 @@ class Category extends Model
     }
     public function mainCategory()
     {
-        return $this->hasOne('App\Models\Category','parent_category', 'id');
+        return $this->belongsTo('App\Models\Category','parent_category', 'id');
     }
     public function subCategory()
     {
-        return $this->hasMany('App\Models\Category', 'parent_category', 'id');
+        return $this->hasMany('App\Models\Category', 'parent_category', 'id')->with('services');
     }
 }

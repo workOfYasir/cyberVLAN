@@ -87,29 +87,29 @@ Service -->
   <div class="container">
     <div class="row">
       @foreach($service as $key => $services)
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="feature-info feature-info-border text-center">
-          <div class="feature-info-content">
-            <h6 class="text-black">Service Type : {{ @$services->category->mainCategory->category_name }}</h6>
-            <h6 class="text-black">Service Type Category: {{ $services->category->category_name }}</h6>
-            <h5 class="text-black">{{ $services->name }}</h5>
-            <p class="mb-0">Focus is having the unwavering attention to complete what you set out to do. There are a million distractions in every facet of our lives.</p>
+      <a href="{{ route('post.list') }}">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="feature-info feature-info-border text-center">
+            <div class="feature-info-content">
+              <h6 class="text-black">Service Type : {{ @$services->category->mainCategory->category_name }}</h6>
+              <h6 class="text-black">Service Type Category: {{ $services->category->category_name }}</h6>
+              <h5 class="text-black">{{ $services->name }}</h5>
+              <p class="mb-0">Focus is having the unwavering attention to complete what you set out to do. There are a million distractions in every facet of our lives.</p>
+            </div>
           </div>
         </div>
-      </div>
+      </a>
       @endforeach
-
-      
-
-
+    </div>
+    <div class="row">
       <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
         <div class="feature-info feature-info-border text-center">
           <div class="feature-info-icon mb-3">
             <i class="flaticon-personal-profile"></i>
           </div>
           <div class="feature-info-content">
-            <h5 class="text-black">Advertise A Job</h5>
-            <p class="mb-0">Along with your plans, you should consider developing an action orientation that will keep you motivated to move forward at all times.</p>
+            <h5 class="text-black">Post A Job</h5>
+            <p class="mb-0">It’s free and easy to post a job. Simply fill in a title, description and budget and competitive bids come within minutes..</p>
           </div>
         </div>
       </div>
@@ -119,8 +119,8 @@ Service -->
             <i class="flaticon-resume"></i>
           </div>
           <div class="feature-info-content">
-            <h5 class="text-black">Recruiter Profiles</h5>
-            <p class="mb-0">I coach my clients to practice the 3 D’s – Defer, Delegate or Delete. Can the particular activity be done later? Defer it! Can it be</p>
+            <h5 class="text-black">Find Your dream job</h5>
+            <p class="mb-0">No job is too big or too small. We've got freelancers for jobs of any size or budget, No job is too complex. We can get it done!</p>
           </div>
         </div>
       </div>
@@ -130,8 +130,8 @@ Service -->
             <i class="flaticon-video-conference"></i>
           </div>
           <div class="feature-info-content">
-            <h5 class="text-black">Find Your dream job</h5>
-            <p class="mb-0">Telephones and e-mail, clients and managers, spouses and kids, TV, newspapers and radio – the distractions are everywhere and endless.</p>
+            <h5 class="text-black">Pay Save</h5>
+            <p class="mb-0">Only pay for work when it has been completed and you're 100% satisfied with the quality using our milestone payment system.</p>
           </div>
         </div>
       </div>
